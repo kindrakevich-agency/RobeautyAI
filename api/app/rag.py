@@ -157,11 +157,16 @@ def product_cards(chunks: list[dict], lang: str, limit: int = 3) -> list[dict]:
                 ProductI18n.status.in_(("approved", "source")))) or s.scalar(
                 select(ProductI18n).where(
                     ProductI18n.product_id == pid, ProductI18n.lang == "uk"))
+            d = p.details or {}
             cards.append({
                 "sku": p.sku, "title": t.title if t else p.sku,
                 "price": p.price, "old_price": p.old_price,
                 "volume": p.volume, "variant_label": p.variant_label,
-                "image": (p.images or [None])[0], "url": p.landing_url,
+                # Зображення — прямий лінк на CDN бренду, нічого не копіюємо
+                "image": (p.images or [None])[0],
+                "url": p.landing_url,          # у чаті ведемо на сайт бренду
+                # Перші три активи — рівно стільки, скільки читається в картці
+                "ingredients": (d.get("active_ingredients") or [])[:3],
             })
     return cards
 

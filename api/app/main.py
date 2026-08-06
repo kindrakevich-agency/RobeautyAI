@@ -287,6 +287,65 @@ def resolve_sync(log_id: int, body: SyncResolveIn,
     return {"ok": sync_agent.resolve(log_id, body.action)}
 
 
+# ---------- адмін: каталог товарів ----------
+
+@app.get("/api/admin/products")
+def admin_products(_: str = Depends(admin_auth), q: str | None = None) -> dict:
+    with db.get_session() as s:
+        query = select(Product).order_by(Product.id).limit(300)
+        rows = s.scalars(query).all()
+        titles = {r.product_id: r for r in s.scalars(
+            select(ProductI18n).where(ProductI18n.lang == "uk"))}
+        items = []
+        for p in rows:
+            title = titles[p.id].title if p.id in titles else p.sku
+            if q and q.lower() not in title.lower() and q.lower() not in p.sku.lower():
+                continue
+            d = p.details or {}
+            items.append({
+                "id": p.id, "sku": p.sku, "title": title,
+                "price": p.price, "old_price": p.old_price,
+                "volume": p.volume, "variant_label": p.variant_label,
+                "image": (p.images or [None])[0],
+                "landing_url": p.landing_url,
+                "ingredients": (d.get("active_ingredients") or [])[:3],
+                "skin_type": d.get("skin_type") or [],
+            })
+        return {"total": len(items), "items": items}
+
+
+@app.get("/api/admin/products/{product_id}")
+def admin_product(product_id: int, _: str = Depends(admin_auth)) -> dict:
+    """Сторінка товару в адмінці — саме сюди ведуть внутрішні посилання."""
+    with db.get_session() as s:
+        p = s.get(Product, product_id)
+        if p is None:
+            raise HTTPException(404)
+        i18n = {r.lang: r for r in s.scalars(select(ProductI18n).where(
+            ProductI18n.product_id == product_id))}
+        return {
+            "id": p.id, "sku": p.sku, "price": p.price,
+            "old_price": p.old_price, "upsell_price": p.upsell_price,
+            "volume": p.volume, "variant_label": p.variant_label,
+            "images": p.images or [], "category": p.category,
+            "landing_url": p.landing_url, "source": p.source,
+            "details": p.details or {},
+            "extraction_confidence": p.extraction_confidence,
+            "titles": {lang: {"title": r.title, "description": r.description,
+                              "status": r.status}
+                       for lang, r in i18n.items()},
+        }
+
+
+@app.get("/api/admin/products/by-sku/{sku}")
+def admin_product_by_sku(sku: str, _: str = Depends(admin_auth)) -> dict:
+    with db.get_session() as s:
+        p = s.scalar(select(Product).where(Product.sku == sku))
+        if p is None:
+            raise HTTPException(404)
+        return {"id": p.id}
+
+
 # ---------- адмін: локалізація (5.6) ----------
 
 @app.get("/api/admin/localization")

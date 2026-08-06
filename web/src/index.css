@@ -1,0 +1,9 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body { @apply font-sans antialiased text-ink-800; }
+
+/* Горизонтальний скролер карток: ховаємо смугу, лишаємо жест */
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
