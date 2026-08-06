@@ -126,20 +126,21 @@ export default function Home() {
         </section>
 
         {/* ---------- специфікація стенда ---------- */}
-        <section className="grid grid-cols-2 gap-px border-y border-ink-200 bg-ink-200
-                            sm:grid-cols-4 dark:border-ink-800 dark:bg-ink-800">
+        <section className="grid grid-cols-[repeat(2,minmax(0,1fr))] gap-px border-y border-ink-200
+                            bg-ink-200 sm:grid-cols-[repeat(4,minmax(0,1fr))]
+                            dark:border-ink-800 dark:bg-ink-800">
           {[
             ['catalog', num(h?.products)],
             ['chunks', num(h?.chunks)],
             ['langs', `UA · PL — ${num(h?.translated_pl)}`],
             ['sources', t('home.spec.sourcesValue')],
           ].map(([k, v]) => (
-            <div key={String(k)} className="bg-cream-100 px-4 py-5 dark:bg-ink-950">
+            <div key={String(k)} className="min-w-0 bg-cream-100 px-4 py-5 dark:bg-ink-950">
               <div className="text-[9px] font-bold tracking-[0.16em] text-ink-500 uppercase dark:text-ink-400">
                 {t(`home.spec.${k}`)}
               </div>
-              <div className="mt-2 font-display text-[17px] leading-tight font-bold tabular-nums
-                              text-ink-950 dark:text-cream-50">
+              <div className="mt-2 font-display text-[16px] leading-tight font-bold tabular-nums
+                              text-balance text-ink-950 dark:text-cream-50">
                 {v}
               </div>
             </div>

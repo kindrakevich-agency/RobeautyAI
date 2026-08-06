@@ -63,13 +63,20 @@ def showcase(lang: str = "uk", limit: int = 8) -> dict:
         rows = (s.query(Product)
                 .filter(Product.images != [], Product.price > 0)
                 .order_by(Product.price.desc())
-                .limit(limit * 3).all())
+                .limit(limit * 8).all())
     seen: set[str] = set()
+    seen_cat: set[str] = set()
     items = []
     for p_ in rows:
         img = (p_.images or [None])[0]
         if not img or img in seen:
             continue
+        # Не більше одного товару з категорії: інакше у смузі підряд стоять
+        # майже однакові набори.
+        cat = p_.category or "—"
+        if cat in seen_cat and len(seen_cat) > 1:
+            continue
+        seen_cat.add(cat)
         seen.add(img)
         title = p_.sku
         with db.get_session() as s:
