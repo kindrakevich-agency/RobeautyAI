@@ -80,12 +80,40 @@ class Chunk(Base):
 
 
 class Conversation(Base):
+    """Діалог будь-якого каналу. Ядро каналонезалежне: веб-чат пише сюди
+    напряму, соцмережі — через той самий інтерфейс (у демо — синтетика,
+    реальні конектори підключаються без зміни схеми)."""
     __tablename__ = "conversations"
     id: Mapped[int] = mapped_column(primary_key=True)
-    channel: Mapped[str] = mapped_column(Enum("web", name="conv_channel"), default="web")
+    channel: Mapped[str] = mapped_column(
+        Enum("web", "instagram", "telegram", "viber", "whatsapp",
+             name="conv_channel"), default="web")
+    external_handle: Mapped[str | None] = mapped_column(Text)  # @нік / номер у каналі
+    customer_id: Mapped[int | None] = mapped_column(
+        ForeignKey("customers.id", ondelete="SET NULL"))
     lang: Mapped[str] = mapped_column(Text, default="uk")
     started_at: Mapped[dt.datetime] = mapped_column(DateTime(timezone=True), default=now)
     escalated: Mapped[bool] = mapped_column(Boolean, default=False)
+    # LLM-аналіз діалогу: тема, намір, тональність, згадані товари,
+    # чи завершився продажем/ескалацією. Рахується агентом по факту розмови.
+    analysis: Mapped[dict | None] = mapped_column(JSONB)
+    analyzed_at: Mapped[dt.datetime | None] = mapped_column(DateTime(timezone=True))
+
+
+class CustomerIdentity(Base):
+    """Зв'язка акаунтів клієнта між каналами: один клієнт — багато ідентичностей
+    (веб, Instagram, Telegram…). Заповнюється вручну оператором або
+    агентом-матчером за збігом телефона/імені; зв'язок зберігає впевненість."""
+    __tablename__ = "customer_identities"
+    __table_args__ = (UniqueConstraint("channel", "handle"),)
+    id: Mapped[int] = mapped_column(primary_key=True)
+    customer_id: Mapped[int] = mapped_column(
+        ForeignKey("customers.id", ondelete="CASCADE"))
+    channel: Mapped[str] = mapped_column(Text)
+    handle: Mapped[str] = mapped_column(Text)
+    confidence: Mapped[str] = mapped_column(Text, default="manual")  # manual|matched
+    note: Mapped[str | None] = mapped_column(Text)
+    created_at: Mapped[dt.datetime] = mapped_column(DateTime(timezone=True), default=now)
 
 
 class Message(Base):

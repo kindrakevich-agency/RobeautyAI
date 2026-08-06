@@ -1,0 +1,441 @@
+"""HTTP-шар: публічний чат + адмін-API.
+
+Публічне: POST /api/chat, ескалація, лід. Адмінське — за basic auth (env).
+"""
+
+from __future__ import annotations
+
+import secrets
+
+from fastapi import Depends, FastAPI, HTTPException
+from fastapi.security import HTTPBasic, HTTPBasicCredentials
+from pydantic import BaseModel, Field
+from sqlalchemy import func, select, text as sql_text
+
+from . import config, db, rag
+from .agents import dialogs as dialogs_agent
+from .models import Conversation, Message, Ticket
+
+import os
+
+app = FastAPI(title="RoBeauty AI Operations", docs_url=None, redoc_url=None)
+security = HTTPBasic()
+
+
+def admin_auth(creds: HTTPBasicCredentials = Depends(security)) -> str:
+    ok_user = secrets.compare_digest(creds.username, os.environ.get("ADMIN_USER", "admin"))
+    ok_pass = secrets.compare_digest(
+        creds.password, os.environ.get("ADMIN_PASSWORD", "change-me"))
+    if not (ok_user and ok_pass):
+        raise HTTPException(401, "Unauthorized",
+                            headers={"WWW-Authenticate": "Basic"})
+    return creds.username
+
+
+@app.get("/api/health")
+def health() -> dict:
+    with db.engine.connect() as conn:
+        chunks = conn.exec_driver_sql("SELECT count(*) FROM chunks").scalar()
+    return {"status": "ok", "chunks": chunks,
+            "llm": bool(config.OPENAI_API_KEY)}
+
+
+# ---------- публічний чат ----------
+
+class ChatIn(BaseModel):
+    text: str = Field(min_length=1, max_length=2000)
+    conversation_id: int | None = None
+    lang: str | None = None  # явний перемикач у віджеті; інакше автодетект
+
+
+@app.post("/api/chat")
+def chat(body: ChatIn) -> dict:
+    lang = body.lang if body.lang in ("uk", "pl") else rag.detect_lang(body.text)
+    with db.get_session() as s:
+        conv = s.get(Conversation, body.conversation_id) if body.conversation_id else None
+        if conv is None:
+            conv = Conversation(channel="web", lang=lang)
+            s.add(conv)
+            s.flush()
+        history = [
+            {"role": "assistant" if m.role in ("assistant", "human_agent") else "user",
+             "content": m.content}
+            for m in s.scalars(select(Message).where(
+                Message.conversation_id == conv.id).order_by(Message.id)).all()
+        ]
+        s.add(Message(conversation_id=conv.id, role="user", content=body.text))
+        s.commit()
+        conv_id = conv.id
+
+    result = rag.answer(body.text, history, lang)
+
+    with db.get_session() as s:
+        s.add(Message(conversation_id=conv_id, role="assistant",
+                      content=result["reply"],
+                      product_refs=result.get("products"),
+                      source_refs=result.get("sources")))
+        if result.get("escalate"):
+            conv = s.get(Conversation, conv_id)
+            conv.escalated = True
+            s.add(Ticket(source="chat", category=result.get("reason"),
+                         lang=lang, status="new",
+                         payload={"conversation_id": conv_id,
+                                  "question": body.text[:500]}))
+        s.commit()
+
+    return {"conversation_id": conv_id, "lang": lang, **result}
+
+
+class EscalateIn(BaseModel):
+    conversation_id: int
+    phone: str | None = None
+    note: str | None = None
+
+
+@app.post("/api/chat/escalate")
+def escalate(body: EscalateIn) -> dict:
+    """Кнопка «Покликати людину» або м'який збір ліда."""
+    with db.get_session() as s:
+        conv = s.get(Conversation, body.conversation_id)
+        if conv is None:
+            raise HTTPException(404, "conversation not found")
+        conv.escalated = True
+        s.add(Ticket(source="chat" if not body.phone else "form",
+                     category="handoff" if not body.phone else "lead",
+                     lang=conv.lang, status="new",
+                     payload={"conversation_id": conv.id,
+                              "phone": body.phone, "note": body.note}))
+        s.commit()
+    return {"ok": True}
+
+
+# ---------- адмін: діалоги всіх каналів ----------
+
+@app.get("/api/admin/conversations")
+def admin_conversations(_: str = Depends(admin_auth), channel: str | None = None,
+                        escalated: bool | None = None) -> dict:
+    with db.get_session() as s:
+        q = select(Conversation).order_by(Conversation.started_at.desc()).limit(200)
+        if channel:
+            q = q.where(Conversation.channel == channel)
+        if escalated is not None:
+            q = q.where(Conversation.escalated == escalated)
+        rows = s.scalars(q).all()
+        counts = dict(s.execute(
+            select(Conversation.channel, func.count()).group_by(
+                Conversation.channel)).all())
+        return {"by_channel": counts, "items": [{
+            "id": c.id, "channel": c.channel, "lang": c.lang,
+            "handle": c.external_handle, "customer_id": c.customer_id,
+            "started_at": str(c.started_at), "escalated": c.escalated,
+            "analysis": c.analysis,
+        } for c in rows]}
+
+
+@app.get("/api/admin/conversations/{conv_id}")
+def admin_conversation(conv_id: int, _: str = Depends(admin_auth)) -> dict:
+    with db.get_session() as s:
+        conv = s.get(Conversation, conv_id)
+        if conv is None:
+            raise HTTPException(404)
+        msgs = s.scalars(select(Message).where(
+            Message.conversation_id == conv_id).order_by(Message.id)).all()
+        return {"id": conv.id, "channel": conv.channel, "lang": conv.lang,
+                "handle": conv.external_handle, "customer_id": conv.customer_id,
+                "escalated": conv.escalated, "analysis": conv.analysis,
+                "messages": [{"role": m.role, "content": m.content,
+                              "products": m.product_refs,
+                              "at": str(m.created_at)} for m in msgs]}
+
+
+class HumanReplyIn(BaseModel):
+    content: str = Field(min_length=1, max_length=4000)
+
+
+@app.post("/api/admin/conversations/{conv_id}/reply")
+def human_reply(conv_id: int, body: HumanReplyIn,
+                user: str = Depends(admin_auth)) -> dict:
+    """Handoff: людина відповідає в той самий діалог, віджет це побачить."""
+    with db.get_session() as s:
+        if s.get(Conversation, conv_id) is None:
+            raise HTTPException(404)
+        s.add(Message(conversation_id=conv_id, role="human_agent",
+                      content=body.content))
+        s.commit()
+    return {"ok": True}
+
+
+@app.post("/api/admin/dialogs/analyze")
+def run_dialog_analysis(_: str = Depends(admin_auth)) -> dict:
+    """Прогнати агента аналізу по всіх непроаналізованих розмовах."""
+    return {"analyzed": dialogs_agent.analyze_pending()}
+
+
+# ---------- адмін: агенти 1, 2, 4, 5, 7 ----------
+
+from .agents import analytics as analytics_agent  # noqa: E402
+from .agents import orders as orders_agent  # noqa: E402
+from .agents import shipments as shipments_agent  # noqa: E402
+from .agents import sync1c as sync_agent  # noqa: E402
+from .agents import tickets as tickets_agent  # noqa: E402
+from .models import (  # noqa: E402
+    ApiUsage, Customer, CustomerIdentity, EvalRun, Order, Product,
+    ProductI18n, Shipment, SyncLog, Unanswered,
+)
+
+
+@app.get("/api/admin/orders")
+def admin_orders(_: str = Depends(admin_auth)) -> dict:
+    with db.get_session() as s:
+        rows = s.execute(
+            select(Order, Customer).join(Customer, Customer.id == Order.customer_id)
+            .where(Customer.name != "__seed_marker__")
+            .order_by(Order.created_at.desc())).all()
+        auto = sum(1 for o, _ in rows if o.confirm_decision == "auto")
+        return {"auto_pct": round(auto / len(rows) * 100) if rows else 0,
+                "calls_saved_today": auto,
+                "items": [{
+                    "id": o.id, "number": o.number, "customer": c.name,
+                    "city": c.city, "total": o.total, "payment": o.payment,
+                    "status": o.status, "decision": o.confirm_decision,
+                    "reason": o.confirm_reason, "pickup_rate": c.pickup_rate,
+                    "orders_count": c.orders_count, "created_at": str(o.created_at),
+                } for o, c in rows]}
+
+
+@app.post("/api/admin/orders/run")
+def run_orders_agent(_: str = Depends(admin_auth)) -> dict:
+    return orders_agent.run()
+
+
+@app.get("/api/admin/shipments")
+def admin_shipments(_: str = Depends(admin_auth)) -> dict:
+    with db.get_session() as s:
+        rows = s.execute(
+            select(Shipment, Order, Customer)
+            .join(Order, Order.id == Shipment.order_id)
+            .join(Customer, Customer.id == Order.customer_id)
+            .order_by(Shipment.days_waiting.desc())).all()
+        at_risk = sum(o.total for sh, o, _ in rows
+                      if "відділен" in sh.np_status or "поштомат" in sh.np_status)
+        return {"uah_at_risk": round(at_risk),
+                "items": [{
+                    "id": sh.id, "order": o.number, "customer": c.name,
+                    "np_status": sh.np_status, "days_waiting": sh.days_waiting,
+                    "total": o.total, "reminders": sh.reminders or [],
+                } for sh, o, c in rows]}
+
+
+@app.post("/api/admin/shipments/run")
+def run_shipments_agent(_: str = Depends(admin_auth)) -> dict:
+    return shipments_agent.run()
+
+
+@app.get("/api/admin/tickets")
+def admin_tickets(_: str = Depends(admin_auth)) -> dict:
+    with db.get_session() as s:
+        rows = s.scalars(select(Ticket).order_by(Ticket.created_at.desc())
+                         .limit(100)).all()
+        return {"items": [{
+            "id": t.id, "source": t.source, "lang": t.lang,
+            "category": t.category, "sentiment": t.sentiment,
+            "priority": t.priority, "status": t.status,
+            "text": (t.payload or {}).get("text") or (t.payload or {}).get("question"),
+            "draft_reply": t.draft_reply, "created_at": str(t.created_at),
+        } for t in rows]}
+
+
+@app.post("/api/admin/tickets/generate")
+def gen_tickets(_: str = Depends(admin_auth)) -> dict:
+    return {"generated": tickets_agent.generate_inbox()}
+
+
+@app.post("/api/admin/tickets/run")
+def run_tickets_agent(_: str = Depends(admin_auth)) -> dict:
+    return tickets_agent.run()
+
+
+@app.get("/api/admin/tickets/digest")
+def tickets_digest(_: str = Depends(admin_auth)) -> dict:
+    return {"digest": tickets_agent.weekly_digest()}
+
+
+@app.get("/api/admin/sync")
+def admin_sync(_: str = Depends(admin_auth)) -> dict:
+    with db.get_session() as s:
+        rows = s.scalars(select(SyncLog).order_by(
+            SyncLog.created_at.desc()).limit(100)).all()
+        return {"items": [{
+            "id": r.id, "direction": r.direction, "sku": r.sku,
+            "action": r.action, "status": r.status, "detail": r.detail,
+            "resolution": r.resolution, "created_at": str(r.created_at),
+        } for r in rows]}
+
+
+@app.post("/api/admin/sync/explain")
+def run_sync_agent(_: str = Depends(admin_auth)) -> dict:
+    return {"explained": sync_agent.explain_conflicts()}
+
+
+class SyncResolveIn(BaseModel):
+    action: str = Field(pattern="^(create|ignore)$")
+
+
+@app.post("/api/admin/sync/{log_id}/resolve")
+def resolve_sync(log_id: int, body: SyncResolveIn,
+                 _: str = Depends(admin_auth)) -> dict:
+    return {"ok": sync_agent.resolve(log_id, body.action)}
+
+
+# ---------- адмін: локалізація (5.6) ----------
+
+@app.get("/api/admin/localization")
+def admin_localization(_: str = Depends(admin_auth)) -> dict:
+    with db.get_session() as s:
+        rows = s.execute(
+            select(Product, ProductI18n)
+            .join(ProductI18n, (ProductI18n.product_id == Product.id) &
+                  (ProductI18n.lang == "pl"))
+            .order_by(Product.id)).all()
+        uk = {r.product_id: r for r in s.scalars(
+            select(ProductI18n).where(ProductI18n.lang == "uk"))}
+        total = s.scalar(select(func.count()).select_from(Product))
+        return {"total": total, "translated": len(rows),
+                "approved": sum(1 for _, t in rows if t.status == "approved"),
+                "items": [{
+                    "id": t.id, "sku": p.sku, "status": t.status,
+                    "note": t.review_note,
+                    "uk_title": uk[p.id].title if p.id in uk else "",
+                    "pl_title": t.title,
+                    "uk_description": (uk[p.id].description if p.id in uk else "")[:600],
+                    "pl_description": (t.description or "")[:600],
+                } for p, t in rows]}
+
+
+class I18nActionIn(BaseModel):
+    action: str = Field(pattern="^(approve|reject)$")
+
+
+@app.post("/api/admin/localization/{i18n_id}")
+def localization_action(i18n_id: int, body: I18nActionIn,
+                        _: str = Depends(admin_auth)) -> dict:
+    with db.get_session() as s:
+        row = s.get(ProductI18n, i18n_id)
+        if row is None or row.lang != "pl":
+            raise HTTPException(404)
+        row.status = "approved" if body.action == "approve" else "draft"
+        if body.action == "reject":
+            row.review_note = (row.review_note or "") + " | відхилено оператором"
+        s.commit()
+    return {"ok": True}
+
+
+# ---------- адмін: аналітика (5.7), eval і прогалини (5.8), дашборд (5.9) ----------
+
+class AskIn(BaseModel):
+    question: str = Field(min_length=3, max_length=400)
+    lang: str = "uk"
+
+
+@app.post("/api/admin/analytics/ask")
+def analytics_ask(body: AskIn, _: str = Depends(admin_auth)) -> dict:
+    return analytics_agent.ask(body.question, body.lang)
+
+
+@app.get("/api/admin/eval")
+def admin_eval(_: str = Depends(admin_auth)) -> dict:
+    with db.get_session() as s:
+        runs = s.scalars(select(EvalRun).order_by(
+            EvalRun.started_at.desc()).limit(10)).all()
+        gaps = s.scalars(select(Unanswered).where(
+            Unanswered.resolved.is_(False)).order_by(
+            Unanswered.created_at.desc()).limit(50)).all()
+        return {"runs": [{
+            "at": str(r.started_at), "p_at_5": r.p_at_5, "mrr": r.mrr,
+            "judge_pass_rate": r.judge_pass_rate,
+        } for r in runs], "gaps": [{
+            "id": g.id, "question": g.question, "lang": g.lang,
+            "at": str(g.created_at),
+        } for g in gaps]}
+
+
+class GapFixIn(BaseModel):
+    answer_text: str = Field(min_length=10, max_length=4000)
+
+
+@app.post("/api/admin/eval/gaps/{gap_id}/fix")
+def fix_gap(gap_id: int, body: GapFixIn, _: str = Depends(admin_auth)) -> dict:
+    """Замкнутий цикл: прогалина → ручний чанк знань → питання закрите."""
+    from . import embeddings_client
+    from .models import Chunk, Page
+    with db.get_session() as s:
+        gap = s.get(Unanswered, gap_id)
+        if gap is None:
+            raise HTTPException(404)
+        page = Page(url=f"manual://gap-{gap_id}", title=f"Доповнення: {gap.question[:60]}",
+                    body_text=body.answer_text, lang=gap.lang)
+        s.add(page)
+        s.flush()
+        vec = embeddings_client.embed([gap.question + "\n" + body.answer_text])[0]
+        s.add(Chunk(ref_type="page", ref_id=page.id, lang=gap.lang,
+                    text=gap.question + "\n" + body.answer_text, embedding=vec))
+        gap.resolved = True
+        s.commit()
+        s.execute(sql_text(
+            "UPDATE chunks SET tsv_uk = to_tsvector('simple', unaccent(text)) "
+            "WHERE tsv_uk IS NULL AND lang = 'uk'"))
+        s.execute(sql_text(
+            "UPDATE chunks SET tsv_pl = to_tsvector('simple', unaccent(text)) "
+            "WHERE tsv_pl IS NULL AND lang = 'pl'"))
+        s.commit()
+    return {"ok": True}
+
+
+
+@app.get("/api/admin/dashboard")
+def admin_dashboard(_: str = Depends(admin_auth)) -> dict:
+    with db.get_session() as s:
+        orders_total = s.scalar(select(func.count()).select_from(Order))
+        auto = s.scalar(select(func.count()).where(
+            Order.confirm_decision == "auto"))
+        at_risk = s.scalar(select(func.coalesce(func.sum(Order.total), 0))
+                           .select_from(Shipment)
+                           .join(Order, Order.id == Shipment.order_id)) or 0
+        conv_by_channel = dict(s.execute(
+            select(Conversation.channel, func.count())
+            .group_by(Conversation.channel)).all())
+        escalated = s.scalar(select(func.count()).where(
+            Conversation.escalated.is_(True)))
+        pl_total = s.scalar(select(func.count()).where(ProductI18n.lang == "pl"))
+        pl_approved = s.scalar(select(func.count()).where(
+            ProductI18n.lang == "pl", ProductI18n.status == "approved"))
+        products_total = s.scalar(select(func.count()).select_from(Product))
+        last_eval = s.scalar(select(EvalRun).order_by(
+            EvalRun.started_at.desc()).limit(1))
+        usage = s.execute(select(
+            func.coalesce(func.sum(ApiUsage.cost_usd), 0),
+            func.coalesce(func.sum(ApiUsage.input_tokens +
+                                   ApiUsage.output_tokens), 0),
+            func.count())).one()
+        by_purpose = [
+            {"purpose": p, "cost": round(c, 4)}
+            for p, c in s.execute(
+                select(ApiUsage.purpose,
+                       func.sum(ApiUsage.cost_usd))
+                .group_by(ApiUsage.purpose)
+                .order_by(func.sum(ApiUsage.cost_usd).desc())).all()]
+        identities = s.scalar(select(func.count()).select_from(CustomerIdentity))
+    return {
+        "orders": {"total": orders_total, "auto_pct":
+                   round(auto / orders_total * 100) if orders_total else 0},
+        "uah_at_risk": round(at_risk),
+        "conversations": {"by_channel": conv_by_channel, "escalated": escalated},
+        "identities_linked": identities,
+        "localization": {"products": products_total, "translated": pl_total,
+                         "approved": pl_approved},
+        "eval": {"p_at_5": last_eval.p_at_5 if last_eval else None,
+                 "judge_pass_rate": last_eval.judge_pass_rate if last_eval else None},
+        "api_costs": {"total_usd": round(float(usage[0]), 4),
+                      "tokens": int(usage[1]), "calls": int(usage[2]),
+                      "by_purpose": by_purpose},
+    }

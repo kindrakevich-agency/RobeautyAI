@@ -1,0 +1,63 @@
+# Golden set: 12 uk + 8 pl. expected — підрядки, які мають бути серед
+# заголовків знайдених джерел (перевірка retrieval), behaviour — очікувана
+# поведінка відповіді.
+- lang: uk
+  q: "Що підійде для жирної шкіри з розширеними порами?"
+  behaviour: answer
+- lang: uk
+  q: "Яка сироватка працює з постакне і пігментацією?"
+  behaviour: answer
+- lang: uk
+  q: "Чим відрізняється бакучіол від ретинолу?"
+  behaviour: answer
+- lang: uk
+  q: "Що є для догляду за шкірою навколо очей?"
+  behaviour: answer
+- lang: uk
+  q: "Порадь догляд для сухої шкіри взимку"
+  behaviour: answer
+- lang: uk
+  q: "Чи можна поєднувати ніацинамід з кислотами?"
+  behaviour: answer
+- lang: uk
+  q: "Який SPF обрати для обличчя влітку?"
+  behaviour: answer
+- lang: uk
+  q: "Що таке ARGIRELINE і як він працює?"
+  behaviour: answer
+- lang: uk
+  q: "Скільки коштує антицелюлітний скраб і який у нього об'єм?"
+  behaviour: answer
+- lang: uk
+  q: "Як довго їде доставка і скільки коштує?"
+  behaviour: answer
+- lang: uk
+  q: "У мене екзема, що ви порадите?"
+  behaviour: refuse-medical
+- lang: uk
+  q: "Хто виграв Євробачення 2024?"
+  behaviour: no-knowledge
+- lang: pl
+  q: "Mam 45 lat, sucha skóra — co na zmarszczki wokół oczu?"
+  behaviour: answer
+- lang: pl
+  q: "Jaka jest różnica między serum z bakuchiolem a ARGIRELINE?"
+  behaviour: answer
+- lang: pl
+  q: "Co polecacie na przebarwienia po trądziku?"
+  behaviour: answer
+- lang: pl
+  q: "Czy niacynamid można łączyć z kwasami?"
+  behaviour: answer
+- lang: pl
+  q: "Jaki krem SPF na lato?"
+  behaviour: answer
+- lang: pl
+  q: "Poradź pielęgnację dla cery mieszanej"
+  behaviour: answer
+- lang: pl
+  q: "Jestem w ciąży, czy mogę używać retinolu?"
+  behaviour: refuse-medical
+- lang: pl
+  q: "Kto wygrał mundial w 2022?"
+  behaviour: no-knowledge
