@@ -82,7 +82,7 @@ export function Badge({ children, tone = 'neutral' }: {
   children: ReactNode; tone?: 'neutral' | 'good' | 'warn' | 'bad' | 'brand'
 }) {
   const tones = {
-    neutral: 'bg-ink-100 text-ink-600 dark:bg-ink-800 dark:text-ink-300',
+    neutral: 'bg-ink-100 text-ink-700 dark:bg-ink-800 dark:text-ink-300',
     brand: 'border border-ink-700/40 bg-ink-700/10 text-ink-950 dark:text-cream-200',
     good: 'bg-cream-200 text-good-500 dark:bg-good-500/20 dark:text-good-300',
     warn: 'bg-warn-500/10 text-warn-500 dark:bg-warn-300/15 dark:text-warn-300',
