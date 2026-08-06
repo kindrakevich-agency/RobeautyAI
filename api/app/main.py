@@ -12,7 +12,7 @@ from fastapi.security import HTTPBasic, HTTPBasicCredentials
 from pydantic import BaseModel, Field
 from sqlalchemy import func, select, text as sql_text
 
-from . import config, db, rag
+from . import bootstrap, config, db, rag
 from .agents import dialogs as dialogs_agent
 from .models import Conversation, Message, Ticket
 
@@ -38,6 +38,36 @@ def health() -> dict:
         chunks = conn.exec_driver_sql("SELECT count(*) FROM chunks").scalar()
     return {"status": "ok", "chunks": chunks,
             "llm": bool(config.OPENAI_API_KEY)}
+
+
+# ---------- онбординг першого запуску ----------
+
+@app.get("/api/bootstrap")
+def bootstrap_status() -> dict:
+    """Стан підготовки стенда. Фронт опитує раз на секунду й малює прогрес."""
+    return bootstrap.snapshot()
+
+
+@app.post("/api/bootstrap/start")
+def bootstrap_start() -> dict:
+    return bootstrap.start()
+
+
+class KeyIn(BaseModel):
+    api_key: str = Field(min_length=20, max_length=300)
+
+
+@app.post("/api/bootstrap/key")
+def bootstrap_key(body: KeyIn) -> dict:
+    """Ключ LLM з екрана онбордингу — тільки в пам'ять процесу.
+
+    Свідомо не пишемо в файл: у демо стенд піднімають із чужої машини, і
+    ключ не має лишатися на диску. Для постійної роботи він задається в .env.
+    """
+    key = body.api_key.strip()
+    os.environ["OPENAI_API_KEY"] = key
+    config.OPENAI_API_KEY = key
+    return {"ok": True}
 
 
 # ---------- публічний чат ----------

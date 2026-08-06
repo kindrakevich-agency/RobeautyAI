@@ -203,5 +203,43 @@
     "fixGap": "Dodaj odpowiedź",
     "fixPlaceholder": "Napisz odpowiedź, która stanie się częścią bazy wiedzy…",
     "noGaps": "Brak luk"
+  },
+  "boot": {
+    "title": "Stanowisko przygotowuje się do pierwszego uruchomienia",
+    "intro": "Katalog klienta świadomie nie jest przechowywany w repozytorium — po sklonowaniu go nie ma. System zbierze go teraz sam z publicznej strony i przygotuje wszystko, czego potrzebuje konsultant. Dzieje się to jednorazowo.",
+    "keyTitle": "Potrzebny klucz do LLM",
+    "keyHint": "Klucz służy do tłumaczeń, analizy rozmów i odpowiedzi konsultanta. Pozostaje wyłącznie w pamięci procesu i nie jest zapisywany na dysku — do stałej pracy ustaw go w .env.",
+    "keySave": "Zapisz klucz",
+    "start": "Rozpocznij przygotowanie",
+    "running": "Pracuję… nie trzeba czekać przy ekranie, postęp odświeża się sam",
+    "openDemo": "Otwórz demo",
+    "note": "Skraper odwiedza stronę z limitem jednego żądania na sekundę i uczciwym User-Agent, a surowe strony są buforowane — ponowne uruchomienie nie obciąża cudzej strony.",
+    "steps": {
+      "scrape": {
+        "title": "Zbieranie katalogu z robeauty.me",
+        "hint": "Store API oraz strony produktowe: ceny, warianty, zdjęcia, skład"
+      },
+      "load": {
+        "title": "Zapis do PostgreSQL",
+        "hint": "Produkty, strony i ustrukturyzowane cechy trafiają do bazy"
+      },
+      "translate": {
+        "title": "Lokalizacja polska",
+        "hint": "Tłumaczenie kart ze słownikiem marki i filtrem regulacyjnym UE"
+      },
+      "index": {
+        "title": "Embeddingi i indeks wyszukiwania",
+        "hint": "bge-m3 zamienia teksty na wektory — jedna przestrzeń dla ukraińskiego i polskiego"
+      },
+      "seed": {
+        "title": "Dane demonstracyjne",
+        "hint": "Syntetyczne zamówienia, klienci i rozmowy dla sekcji agentów"
+      }
+    },
+    "db": {
+      "products": "produktów",
+      "chunks": "fragmentów",
+      "pl": "tłumaczeń"
+    }
   }
 }

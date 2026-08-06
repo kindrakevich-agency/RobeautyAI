@@ -1,5 +1,11 @@
 #!/usr/bin/env bash
-# Повна стартова послідовність: із нуля до робочого стенда без ручних кроків.
+# Старт контейнера API.
+#
+# Підготовку даних (збір каталогу, локалізація, індексація) свідомо НЕ робимо
+# тут. Після клону репозиторію даних немає, а мовчазний контейнер, який 15
+# хвилин щось качає, — поганий досвід. Тому сервіс піднімається одразу, а
+# підготовку запускає користувач з екрана онбордингу, де видно кожен крок.
+# Якщо каталог уже зібраний локально — просто підхоплюємо його.
 set -e
 
 echo "→ чекаю на сервіс ембедінгів…"
@@ -8,32 +14,12 @@ until curl -sf "${EMBEDDINGS_URL:-http://tei:80}/info" >/dev/null 2>&1; do sleep
 echo "→ міграції бази"
 python -m alembic upgrade head
 
-# Каталог замовника НЕ зберігається в git — збирається скрапером при
-# першому старті й далі живе в PostgreSQL. data/ — лише локальний кеш.
-if [ ! -f /repo/data/catalog.json ]; then
-  echo "→ каталогу немає — збираю з robeauty.me (1 rps, ~10 хв)"
-  python -m app.scraper.run || echo "  скрапер завершився з помилкою, продовжую"
-fi
-python -m app.load_catalog || true
-
-CHUNKS=$(python - <<'PY'
-from app import db
-try:
-    with db.engine.connect() as c:
-        print(c.exec_driver_sql("SELECT count(*) FROM chunks").scalar())
-except Exception:
-    print(0)
-PY
-)
-if [ "${CHUNKS:-0}" -lt 10 ]; then
-  echo "→ індексація (чанків зараз: ${CHUNKS:-0})"
-  python -m app.indexer || echo "  індексація не вдалась, стартую без неї"
+if [ -f /repo/data/catalog.json ]; then
+  echo "→ знайдено локальний каталог, завантажую в базу"
+  python -m app.load_catalog || true
 else
-  echo "→ індекс на місці: $CHUNKS чанків"
+  echo "→ каталогу немає: підготовку запустить онбординг у веб-інтерфейсі"
 fi
-
-echo "→ демо-дані"
-python -m app.seed_demo || true
 
 echo "→ API на :8110"
 exec uvicorn app.main:app --host 0.0.0.0 --port 8110
