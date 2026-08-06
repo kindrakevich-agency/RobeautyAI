@@ -143,7 +143,7 @@ function Dashboard() {
             <div className="text-sm font-semibold text-ink-800 dark:text-cream-100">{t('dashboard.buyTitle')}</div>
             <p className="mt-1 text-xs leading-relaxed text-ink-600 dark:text-ink-300">{t('dashboard.buyItems')}</p>
           </div>
-          <div className="rounded-xl border border-ink-700 bg-cream-100 p-4">
+          <div className="rounded-xl border border-ink-700 bg-cream-100 p-4 dark:border-cream-200/40 dark:bg-ink-800">
             <div className="text-sm font-semibold text-ink-950 dark:text-cream-50">{t('dashboard.buildTitle')}</div>
             <p className="mt-1 text-xs leading-relaxed text-ink-600 dark:text-ink-300">{t('dashboard.buildItems')}</p>
           </div>
