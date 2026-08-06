@@ -50,7 +50,7 @@ export default function Home() {
               <span className="font-bold">RO</span><span className="font-normal">BEAUTY</span>
             </div>
             <div className="h-[15px] w-px bg-ink-300 dark:bg-ink-700" />
-            <div className="text-[8px] font-bold leading-[1.3] tracking-[0.16em] text-ink-700 uppercase dark:text-ink-400">
+            <div className="text-[8px] font-bold leading-[1.3] tracking-[0.16em] text-ink-700 uppercase dark:text-ink-300">
               AI<br />CONSULTANT
             </div>
           </div>
@@ -58,7 +58,7 @@ export default function Home() {
           <ThemeToggle />
           <Link to="/admin"
                 className="hidden text-[10px] font-bold tracking-display text-ink-700 uppercase
-                           hover:text-ink-950 sm:block dark:text-ink-400 dark:hover:text-cream-50">
+                           hover:text-ink-950 sm:block dark:text-ink-300 dark:hover:text-cream-50">
             {t('chat.openAdmin')}
           </Link>
         </div>
@@ -70,7 +70,7 @@ export default function Home() {
           <div className="animate-rise min-w-0">
             <div className="flex items-center gap-3">
               <span className="h-px w-8 bg-ink-900 dark:bg-cream-200" />
-              <span className="text-[10px] font-bold tracking-[0.2em] text-ink-700 uppercase dark:text-ink-400">
+              <span className="text-[10px] font-bold tracking-[0.2em] text-ink-700 uppercase dark:text-ink-300">
                 {t('home.eyebrow')}
               </span>
             </div>
@@ -91,11 +91,11 @@ export default function Home() {
                       className="group inline-flex items-center gap-3 rounded bg-ink-900 px-6 py-3.5
                                  text-[11px] font-bold tracking-display text-white uppercase
                                  transition-colors hover:bg-ink-950 active:scale-[.99]
-                                 dark:bg-cream-100 dark:text-ink-950 dark:hover:bg-white">
+                                 dark:bg-cream-100 dark:text-ink-950 dark:text-cream-50 dark:hover:bg-white">
                 {t('home.ctaButton')}
                 <span aria-hidden className="transition-transform group-hover:translate-x-1">→</span>
               </button>
-              <span className="text-[11px] leading-relaxed text-ink-600 dark:text-ink-400">
+              <span className="text-[11px] leading-relaxed text-ink-600 dark:text-ink-300">
                 {t('home.ctaHint')}
               </span>
             </div>
@@ -136,7 +136,7 @@ export default function Home() {
             ['sources', t('home.spec.sourcesValue')],
           ].map(([k, v]) => (
             <div key={String(k)} className="min-w-0 bg-cream-100 px-4 py-5 dark:bg-ink-950">
-              <div className="text-[9px] font-bold tracking-[0.16em] text-ink-700 uppercase dark:text-ink-400">
+              <div className="text-[9px] font-bold tracking-[0.16em] text-ink-700 uppercase dark:text-ink-300">
                 {t(`home.spec.${k}`)}
               </div>
               <div className="mt-2 font-display text-[16px] leading-tight font-bold tabular-nums
@@ -146,18 +146,18 @@ export default function Home() {
             </div>
           ))}
         </section>
-        <p className="pt-3 text-[10px] text-ink-600 dark:text-ink-400">{t('home.spec.note')}</p>
+        <p className="pt-3 text-[10px] text-ink-600 dark:text-ink-300">{t('home.spec.note')}</p>
 
         {/* ---------- склад ---------- */}
         <section className="border-t border-ink-200 py-14 dark:border-ink-800">
-          <h2 className="rb-display text-[11px] text-ink-600 dark:text-ink-400">
+          <h2 className="rb-display text-[11px] text-ink-600 dark:text-ink-300">
             {t('home.compositionTitle')}
           </h2>
 
           <div className="mt-7 divide-y divide-ink-200 border-y border-ink-200 dark:divide-ink-800 dark:border-ink-800">
             {points.map((k, i) => (
               <div key={k} className="grid gap-3 py-6 sm:grid-cols-[3rem_1fr_1.15fr] sm:gap-8">
-                <div className="font-display text-[13px] font-bold tabular-nums text-ink-300 dark:text-ink-600">
+                <div className="font-display text-[13px] font-bold tabular-nums text-ink-600 dark:text-ink-400">
                   {String(i + 1).padStart(2, '0')}
                 </div>
                 <h3 className="text-[13px] font-bold tracking-[0.02em] text-ink-950 uppercase dark:text-cream-50">
@@ -175,7 +175,7 @@ export default function Home() {
             Заразом це доказ, що стенд стоїть поверх реальних даних. */}
         {items.length > 1 && (
           <section className="border-t border-ink-200 py-14 dark:border-ink-800">
-            <h2 className="rb-display text-[11px] text-ink-600 dark:text-ink-400">
+            <h2 className="rb-display text-[11px] text-ink-600 dark:text-ink-300">
               {t('home.catalogTitle')}
             </h2>
             <div className="no-scrollbar -mx-5 mt-6 flex snap-x snap-mandatory gap-3
@@ -202,7 +202,7 @@ export default function Home() {
 
         {/* ---------- спробуйте самі ---------- */}
         <section className="pb-20">
-          <h2 className="rb-display text-[11px] text-ink-600 dark:text-ink-400">
+          <h2 className="rb-display text-[11px] text-ink-600 dark:text-ink-300">
             {t('home.tryTitle')}
           </h2>
           <div className="mt-5 grid gap-2.5 sm:grid-cols-3">
@@ -217,7 +217,7 @@ export default function Home() {
                   {t(`home.try.${k}`)}
                 </span>
                 <span className="mt-auto pt-3 block text-[10px] font-bold tracking-display text-ink-700
-                                 uppercase transition-colors group-hover:text-ink-900
+                                 uppercase transition-colors group-hover:text-ink-900 dark:text-cream-50
                                  dark:group-hover:text-cream-200">
                   {t('home.tryAsk')} →
                 </span>

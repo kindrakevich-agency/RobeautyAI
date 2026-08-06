@@ -74,7 +74,7 @@ export default function Bootstrap({ onReady }: { onReady: () => void }) {
         {needKey ? (
           <div className="mt-5 rounded-xl border border-ink-200 bg-cream-100 p-4 dark:border-ink-700/60 dark:bg-ink-800/50">
             <div className="text-sm font-semibold text-ink-800 dark:text-cream-100">{t('boot.keyTitle')}</div>
-            <p className="mt-1 text-xs leading-relaxed text-ink-600 dark:text-ink-400">{t('boot.keyHint')}</p>
+            <p className="mt-1 text-xs leading-relaxed text-ink-600 dark:text-ink-300">{t('boot.keyHint')}</p>
             <div className="mt-3 flex flex-wrap gap-2">
               <Input value={key} onChange={(e) => setKey(e.target.value)} type="password"
                      placeholder="sk-…" className="flex-1" />
@@ -88,8 +88,8 @@ export default function Bootstrap({ onReady }: { onReady: () => void }) {
             <li key={st.key} className="flex gap-3">
               <span className={`mt-0.5 text-sm ${
                 st.status === 'done' ? 'text-good-500'
-                  : st.status === 'running' ? 'animate-pulse text-ink-900'
-                  : st.status === 'failed' ? 'text-ink-900' : 'text-ink-600'}`}>
+                  : st.status === 'running' ? 'animate-pulse text-ink-900 dark:text-cream-50'
+                  : st.status === 'failed' ? 'text-ink-900 dark:text-cream-50' : 'text-ink-600'}`}>
                 {ICON[st.status]}
               </span>
               <div className="min-w-0">

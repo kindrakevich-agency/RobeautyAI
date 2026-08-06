@@ -91,7 +91,7 @@ function Cards({ items }: { items: ProductCard[] }) {
             <button key={d} onClick={() => rail.current?.scrollBy({ left: d * 180, behavior: 'smooth' })}
                     aria-label={d < 0 ? '←' : '→'}
                     className="rounded-full border border-ink-200 px-2 py-0.5 text-[10px] text-ink-600
-                               hover:border-ink-700 hover:text-ink-950 dark:border-ink-700">
+                               hover:border-ink-700 hover:text-ink-950 dark:text-cream-50 dark:border-ink-700">
               {d < 0 ? '←' : '→'}
             </button>
           ))}
@@ -117,7 +117,7 @@ function Sources({ items }: { items: Source[] }) {
             <li key={i} className="text-[10px] leading-relaxed">
               {s.url ? (
                 <a href={s.url} target="_blank" rel="noreferrer"
-                   className="text-ink-600 underline decoration-ink-200 hover:text-ink-950 dark:text-ink-400">
+                   className="text-ink-600 underline decoration-ink-200 hover:text-ink-950 dark:text-ink-300">
                   {s.title}
                 </a>
               ) : <span className="text-ink-600">{s.title}</span>}

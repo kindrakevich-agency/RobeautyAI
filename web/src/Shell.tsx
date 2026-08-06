@@ -56,7 +56,7 @@ function Sidebar({ onNavigate, onLogout }: { onNavigate?: () => void; onLogout: 
           <span className="font-bold">RO</span><span className="font-normal">BEAUTY</span>
         </div>
         <div className="h-[15px] w-px bg-ink-300 dark:bg-ink-700" />
-        <div className="text-[8px] font-bold leading-[1.3] tracking-[0.16em] text-ink-700 uppercase dark:text-ink-400">
+        <div className="text-[8px] font-bold leading-[1.3] tracking-[0.16em] text-ink-700 uppercase dark:text-ink-300">
           AI<br />OPERATIONS
         </div>
       </div>
@@ -64,7 +64,7 @@ function Sidebar({ onNavigate, onLogout }: { onNavigate?: () => void; onLogout: 
       <nav className="flex-1 space-y-5 px-3 pb-6">
         {groups.map((g) => (
           <div key={g.title}>
-            <div className="px-3 pb-1.5 text-[10px] font-bold tracking-[0.18em] text-ink-700 uppercase dark:text-ink-500">
+            <div className="px-3 pb-1.5 text-[10px] font-bold tracking-[0.18em] text-ink-700 uppercase dark:text-ink-300">
               {t(g.title)}
             </div>
             {g.items.map((it) => (
@@ -72,7 +72,7 @@ function Sidebar({ onNavigate, onLogout }: { onNavigate?: () => void; onLogout: 
                        className={({ isActive }) =>
                          `mb-0.5 flex items-center gap-3 rounded px-3 py-2 text-[12px] font-semibold tracking-[0.02em] transition-colors ${
                            isActive
-                             ? 'bg-ink-900 text-white dark:bg-cream-100 dark:text-ink-950'
+                             ? 'bg-ink-900 text-white dark:bg-cream-100 dark:text-ink-950 dark:text-cream-50'
                              : 'text-ink-600 hover:bg-cream-200 hover:text-ink-950 dark:text-ink-300 dark:hover:bg-ink-800 dark:hover:text-cream-50'
                          }`}>
                 <it.icon size={17} strokeWidth={2} />
@@ -83,7 +83,7 @@ function Sidebar({ onNavigate, onLogout }: { onNavigate?: () => void; onLogout: 
         ))}
       </nav>
 
-      <div className="border-t border-ink-200 px-6 py-4 text-[10px] leading-relaxed text-ink-600 dark:border-ink-700/60 dark:text-ink-500">
+      <div className="border-t border-ink-200 px-6 py-4 text-[10px] leading-relaxed text-ink-600 dark:border-ink-700/60 dark:text-ink-300">
         <button onClick={onLogout} className="font-semibold hover:text-ink-800 dark:hover:text-cream-100">
           {t('common.logout')}
         </button>

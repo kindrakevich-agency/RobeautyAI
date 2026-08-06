@@ -50,7 +50,7 @@ export function Stat({ label, value, hint, accent = false }: {
       <div className="mt-2 font-display text-3xl font-semibold tabular-nums text-ink-950 dark:text-cream-50">
         {value}
       </div>
-      {hint && <div className="mt-1 text-xs text-ink-600 dark:text-ink-400">{hint}</div>}
+      {hint && <div className="mt-1 text-xs text-ink-600 dark:text-ink-300">{hint}</div>}
     </Card>
   )
 }
@@ -69,7 +69,7 @@ export function Button({
     'active:scale-[.98] disabled:opacity-50'
   const style = variant === 'solid'
     ? 'bg-ink-900 text-white shadow-sm hover:bg-ink-950'
-    : 'border border-ink-200 text-ink-600 hover:border-ink-700 hover:text-ink-950 ' +
+    : 'border border-ink-200 text-ink-600 hover:border-ink-700 hover:text-ink-950 dark:text-cream-50 ' +
       'dark:border-ink-700 dark:text-ink-300 dark:hover:text-cream-200'
   return (
     <button type={type} onClick={onClick} disabled={disabled} className={`${base} ${style} ${className}`}>
@@ -116,7 +116,7 @@ export function PageHead({ title, subtitle, actions }: {
         <h1 className="font-display text-2xl font-semibold tracking-tight text-ink-950 dark:text-cream-50">
           {title}
         </h1>
-        {subtitle && <p className="mt-1 text-sm text-ink-600 dark:text-ink-400">{subtitle}</p>}
+        {subtitle && <p className="mt-1 text-sm text-ink-600 dark:text-ink-300">{subtitle}</p>}
       </div>
       {actions && <div className="flex flex-wrap gap-2">{actions}</div>}
     </div>
@@ -131,7 +131,7 @@ export function LangSwitch() {
         <button key={l} onClick={() => setLang(l)}
                 className={`min-h-[38px] min-w-[38px] px-3 uppercase transition-colors ${
                   i18n.language === l
-                    ? 'bg-ink-900 text-cream-50 dark:bg-cream-100 dark:text-ink-900'
+                    ? 'bg-ink-900 text-cream-50 dark:bg-cream-100 dark:text-ink-900 dark:text-cream-50'
                     : 'text-ink-600 hover:text-ink-900 dark:text-ink-300 dark:hover:text-cream-100'}`}>
           {l}
         </button>
@@ -309,7 +309,7 @@ export function Avatar({ name, size = 8 }: { name: string; size?: 8 | 9 | 10 }) 
 }
 
 export function Mono({ children }: { children: ReactNode }) {
-  return <span className="font-mono text-xs text-ink-600 dark:text-ink-400">{children}</span>
+  return <span className="font-mono text-xs text-ink-600 dark:text-ink-300">{children}</span>
 }
 
 export function Empty({ text }: { text: string }) {

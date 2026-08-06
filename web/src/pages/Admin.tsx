@@ -83,7 +83,7 @@ function Dashboard() {
       <div className="mb-4 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
         <Stat label={t('dashboard.autoConfirm')} value={`${d.orders.auto_pct}%`}
               hint={`${d.orders.total} ${t('common.total').toLowerCase()}`} />
-        <Stat label={t('dashboard.atRisk')} value={`${d.uah_at_risk.toLocaleString('uk')} ₴`} />
+        <Stat label={t('dashboard.atRisk')} value={`${d.uah_at_risk.toLocaleString('uk')} грн`} />
         <Stat label={t('dashboard.dialogsToday')} value={totalConv}
               hint={`${d.conversations.escalated} ${t('dashboard.escalated')}`} />
         <Stat label={t('dashboard.identities')} value={d.identities_linked}
@@ -144,7 +144,7 @@ function Dashboard() {
             <p className="mt-1 text-xs leading-relaxed text-ink-600">{t('dashboard.buyItems')}</p>
           </div>
           <div className="rounded-xl border border-ink-700 bg-cream-100 p-4">
-            <div className="text-sm font-semibold text-ink-950">{t('dashboard.buildTitle')}</div>
+            <div className="text-sm font-semibold text-ink-950 dark:text-cream-50">{t('dashboard.buildTitle')}</div>
             <p className="mt-1 text-xs leading-relaxed text-ink-600">{t('dashboard.buildItems')}</p>
           </div>
         </div>
@@ -178,7 +178,7 @@ function Products() {
                    className="mb-2 aspect-square w-full rounded-lg object-cover" />
             )}
             <div className="line-clamp-2 text-xs font-semibold leading-snug text-ink-800 dark:text-cream-100">{p.title}</div>
-            <div className="mt-1 text-sm font-semibold text-ink-950">{Math.round(p.price)} ₴</div>
+            <div className="mt-1 text-sm font-semibold text-ink-950 dark:text-cream-50">{Math.round(p.price)} грн</div>
             {p.ingredients?.length ? (
               <div className="mt-1 line-clamp-1 text-[11px] text-ink-600">
                 {p.ingredients.join(' · ')}
@@ -209,7 +209,7 @@ function ProductDetail() {
 
   return (
     <>
-      <Link to="/admin/products" className="text-xs font-semibold text-ink-900 hover:underline">
+      <Link to="/admin/products" className="text-xs font-semibold text-ink-900 dark:text-cream-50 hover:underline">
         ← {t('common.back')}
       </Link>
       <div className="mt-3 grid grid-cols-1 gap-5 lg:grid-cols-[280px_1fr]">
@@ -229,7 +229,7 @@ function ProductDetail() {
           {/* Єдиний зовнішній лінк в адмінці — на оригінал сторінки бренду */}
           {p.landing_url && (
             <a href={p.landing_url} target="_blank" rel="noreferrer"
-               className="mt-3 block text-xs font-semibold text-ink-900 hover:underline">
+               className="mt-3 block text-xs font-semibold text-ink-900 dark:text-cream-50 hover:underline">
               {t('common.openOnSite')} →
             </a>
           )}
@@ -240,9 +240,9 @@ function ProductDetail() {
             {p.titles?.uk?.title ?? p.sku}
           </h1>
           <div className="mt-2 flex flex-wrap items-baseline gap-3">
-            <span className="text-2xl font-semibold text-ink-950">{Math.round(p.price)} ₴</span>
+            <span className="text-2xl font-semibold text-ink-950 dark:text-cream-50">{Math.round(p.price)} грн</span>
             {p.old_price ? <span className="text-sm text-ink-600 line-through">
-              {Math.round(p.old_price)} ₴</span> : null}
+              {Math.round(p.old_price)} грн</span> : null}
             {p.volume && <Badge>{p.volume}</Badge>}
             {p.variant_label && <Badge>{p.variant_label}</Badge>}
           </div>
@@ -317,7 +317,7 @@ function Orders() {
                 {o.city} · {t('orders.pickupRate')} {Math.round(o.pickup_rate * 100)}%
               </div>
             </td>
-            <td className="px-4 py-3 tabular-nums">{Math.round(o.total)} ₴</td>
+            <td className="px-4 py-3 tabular-nums">{Math.round(o.total)} грн</td>
             <td className="px-4 py-3 text-xs">{o.payment === 'cod' ? t('orders.cod') : t('orders.card')}</td>
             <td className="px-4 py-3">
               {o.decision === 'auto' ? <Badge tone="good">{t('orders.auto')}</Badge>
@@ -348,13 +348,13 @@ function Shipments() {
                   setBusy(true); await api.admin.post('/api/admin/shipments/run'); await load(); setBusy(false)
                 }}>{busy ? t('common.running') : t('common.run')}</Button>} />
       <div className="mb-4"><Stat label={t('shipments.atRiskTitle')}
-                                  value={`${d.uah_at_risk.toLocaleString('uk')} ₴`} /></div>
+                                  value={`${d.uah_at_risk.toLocaleString('uk')} грн`} /></div>
       <div className="space-y-3">
         {d.items.slice(0, 25).map((s: any) => (
           <Card key={s.id}>
             <div className="flex flex-wrap items-baseline justify-between gap-2">
               <div className="text-sm font-semibold text-ink-800 dark:text-cream-100">
-                {s.customer} · {Math.round(s.total)} ₴
+                {s.customer} · {Math.round(s.total)} грн
               </div>
               <Badge tone={s.days_waiting >= 4 ? 'bad' : s.days_waiting >= 2 ? 'warn' : 'neutral'}>
                 {s.np_status} · {s.days_waiting} {t('shipments.daysWaiting').toLowerCase()}
@@ -364,7 +364,7 @@ function Shipments() {
               <ul className="mt-3 space-y-2 border-l-2 border-ink-200 pl-3">
                 {s.reminders.map((r: any, i: number) => (
                   <li key={i} className="text-xs leading-relaxed text-ink-600">
-                    <span className="font-semibold text-ink-900">#{r.day}</span> {r.text}
+                    <span className="font-semibold text-ink-900 dark:text-cream-50">#{r.day}</span> {r.text}
                   </li>
                 ))}
               </ul>
@@ -692,7 +692,7 @@ function Analytics() {
         <div className="mt-3 flex flex-wrap gap-2">
           {presets.map((p) => (
             <button key={p} onClick={() => { const x = t(`analytics.presets.${p}`); setQ(x); void ask(x) }}
-                    className="inline-flex min-h-[38px] items-center rounded border border-ink-200 px-3.5 text-left text-xs text-ink-600 transition-colors hover:border-ink-700 dark:border-ink-700/60 dark:text-ink-300 hover:text-ink-950">
+                    className="inline-flex min-h-[38px] items-center rounded border border-ink-200 px-3.5 text-left text-xs text-ink-600 transition-colors hover:border-ink-700 dark:border-ink-700/60 dark:text-ink-300 hover:text-ink-950 dark:text-cream-50">
               {t(`analytics.presets.${p}`)}
             </button>
           ))}
@@ -705,7 +705,7 @@ function Analytics() {
             <>
               <p className="text-base leading-relaxed text-ink-800 dark:text-cream-100">{res.answer}</p>
               <button onClick={() => setShowSql((v) => !v)}
-                      className="mt-3 text-xs font-semibold text-ink-900 hover:underline">
+                      className="mt-3 text-xs font-semibold text-ink-900 dark:text-cream-50 hover:underline">
                 {showSql ? '▾' : '▸'} {t('analytics.showSql')}
               </button>
               {showSql && (

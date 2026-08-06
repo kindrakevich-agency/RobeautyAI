@@ -64,7 +64,7 @@ export default function SystemInsights() {
                          hover:border-ink-700/40 sm:w-full sm:max-w-md sm:shrink sm:justify-start
                          sm:py-2 sm:pr-3 sm:pl-3.5 dark:bg-ink-800/70">
         <Sparkles size={15} className="shrink-0 text-ink-900 dark:text-cream-200" />
-        <span className="hidden min-w-0 flex-1 truncate text-ink-600 sm:block dark:text-ink-500">
+        <span className="hidden min-w-0 flex-1 truncate text-ink-600 sm:block dark:text-ink-300">
           {t('insights.trigger')}
         </span>
         <kbd className="hidden shrink-0 rounded border border-ink-200 px-1.5 py-0.5 font-mono
