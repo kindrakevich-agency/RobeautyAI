@@ -38,7 +38,11 @@
     "products": "Katalog",
     "analytics": "Analityka",
     "eval": "Jakość i luki",
-    "backToChat": "Do czatu"
+    "backToChat": "Do czatu",
+    "groupOverview": "Przegląd",
+    "groupOperations": "Operacje",
+    "groupContent": "Treści",
+    "groupInsights": "Analityka"
   },
   "common": {
     "run": "Uruchom agenta",

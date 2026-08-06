@@ -38,7 +38,11 @@
     "products": "Каталог",
     "analytics": "Аналітика",
     "eval": "Якість і прогалини",
-    "backToChat": "До чату"
+    "backToChat": "До чату",
+    "groupOverview": "Огляд",
+    "groupOperations": "Операції",
+    "groupContent": "Контент",
+    "groupInsights": "Аналітика"
   },
   "common": {
     "run": "Прогнати агента",

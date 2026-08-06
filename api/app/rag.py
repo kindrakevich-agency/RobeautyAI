@@ -73,29 +73,31 @@ def _fts_query(question: str) -> str | None:
 
 def retrieve(question: str, lang: str) -> list[dict]:
     qvec = embeddings_client.embed([question])[0]
-    tsv_col = "tsv_pl" if lang == "pl" else "tsv_uk"
+    # Мовний пул для векторного пошуку. Для польської шукаємо в ОБОХ мовах
+    # одразу: затверджених польських перекладів завжди менше, ніж українських
+    # карток, і обмеження лише своєю мовою відрізало б 98% каталогу. Один
+    # векторний простір bge-m3 — це і є причина, чому модель обрана саме така:
+    # польське питання знаходить український опис без перекладу на льоту.
+    langs = ["pl", "uk"] if lang == "pl" else ["uk"]
     with db.engine.connect() as conn:
         knn = conn.execute(sql(
             "SELECT id, ref_type, ref_id, lang, text, "
             "       1 - (embedding <=> CAST(:v AS vector)) AS sim "
-            "FROM chunks WHERE lang = :lang "
+            "FROM chunks WHERE lang = ANY(:langs) "
             "ORDER BY embedding <=> CAST(:v AS vector) LIMIT :n"),
-            {"v": str(qvec), "lang": lang, "n": CANDIDATES}).mappings().all()
+            {"v": str(qvec), "langs": langs, "n": CANDIDATES}).mappings().all()
 
-        # PL: якщо своїх чанків мало — доливаємо українські тим самим вектором
-        if lang == "pl" and len(knn) < TOP_K:
-            knn = list(knn) + list(conn.execute(sql(
-                "SELECT id, ref_type, ref_id, lang, text, "
-                "       1 - (embedding <=> CAST(:v AS vector)) AS sim "
-                "FROM chunks WHERE lang = 'uk' "
-                "ORDER BY embedding <=> CAST(:v AS vector) LIMIT :n"),
-                {"v": str(qvec), "n": CANDIDATES}).mappings().all())
-
+        # Лексична гілка: назви складників і брендів (ARGIRELINE, niacynamid)
+        # пишуться однаково обома мовами, тож шукаємо в обох tsvector-колонках.
         tsq = _fts_query(question)
         fts = conn.execute(sql(
-            f"SELECT id, ref_type, ref_id, lang, text, 0.0 AS sim "
-            f"FROM chunks WHERE {tsv_col} @@ to_tsquery('simple', :q) "
-            f"ORDER BY ts_rank({tsv_col}, to_tsquery('simple', :q)) DESC LIMIT :n"),
+            "SELECT id, ref_type, ref_id, lang, text, 0.0 AS sim, "
+            "       greatest(ts_rank(tsv_uk, to_tsquery('simple', :q)), "
+            "                ts_rank(tsv_pl, to_tsquery('simple', :q))) AS r "
+            "FROM chunks "
+            "WHERE tsv_uk @@ to_tsquery('simple', :q) "
+            "   OR tsv_pl @@ to_tsquery('simple', :q) "
+            "ORDER BY r DESC LIMIT :n"),
             {"q": tsq, "n": CANDIDATES}).mappings().all() if tsq else []
 
     scores: dict[int, float] = {}

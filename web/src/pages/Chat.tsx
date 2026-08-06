@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
 import { api, type ChatResponse, type ProductCard, type Source } from '../api'
-import { Badge, Button, Disclaimer, LangSwitch } from '../ui'
+import { Badge, Button, Card, Disclaimer, Input, LangSwitch, ThemeToggle } from '../ui'
 
 type Msg = {
   role: 'user' | 'assistant'
@@ -35,18 +35,18 @@ function ProductScroller({ items }: { items: ProductCard[] }) {
            className="no-scrollbar flex snap-x snap-mandatory gap-2.5 overflow-x-auto pb-1">
         {items.map((p) => (
           <div key={p.sku}
-               className="flex w-[220px] shrink-0 snap-start flex-col rounded-xl border border-sand-200 bg-white p-2.5">
+               className="flex w-[220px] shrink-0 snap-start flex-col rounded-xl border border-ink-200/60 bg-white p-2.5 shadow-card dark:border-ink-700/60 dark:bg-ink-900">
             {p.image && !broken[p.sku] && (
               <img src={p.image} alt="" loading="lazy" referrerPolicy="no-referrer"
                    onError={() => setBroken((b) => ({ ...b, [p.sku]: true }))}
                    className="mb-2 aspect-square w-full rounded-lg object-cover" />
             )}
-            <div className="line-clamp-2 min-h-[2.5rem] text-xs font-semibold leading-snug text-ink-800">
+            <div className="line-clamp-2 min-h-[2.5rem] text-xs font-semibold leading-snug text-ink-800 dark:text-cream-100">
               {p.title}
             </div>
 
             <div className="mt-1.5 flex flex-wrap items-baseline gap-1.5">
-              <span className="text-sm font-semibold text-clay-700">{Math.round(p.price)} ₴</span>
+              <span className="text-sm font-semibold text-rose-700 dark:text-rose-300">{Math.round(p.price)} ₴</span>
               {p.old_price ? (
                 <span className="text-[11px] text-ink-400 line-through">
                   {Math.round(p.old_price)} ₴
@@ -60,14 +60,14 @@ function ProductScroller({ items }: { items: ProductCard[] }) {
                 <div className="text-[10px] font-semibold uppercase tracking-wider text-ink-400">
                   {t('chat.ingredients')}
                 </div>
-                <div className="mt-0.5 line-clamp-2 text-[11px] leading-snug text-ink-600">
+                <div className="mt-0.5 line-clamp-2 text-[11px] leading-snug text-ink-600 dark:text-ink-300">
                   {p.ingredients.join(' · ')}
                 </div>
               </div>
             ) : null}
 
             <a href={p.url ?? '#'} target="_blank" rel="noreferrer"
-               className="mt-auto pt-2.5 text-[11px] font-semibold text-clay-600 hover:underline">
+               className="mt-auto pt-2.5 text-[11px] font-semibold text-rose-600 hover:underline dark:text-rose-300">
               {t('chat.more')} →
             </a>
           </div>
@@ -77,11 +77,11 @@ function ProductScroller({ items }: { items: ProductCard[] }) {
       {items.length > 1 && (
         <div className="mt-1.5 flex justify-end gap-1.5">
           <button onClick={() => scrollBy(-1)} aria-label="←"
-                  className="rounded-full border border-sand-200 px-2.5 py-1 text-xs text-ink-400 hover:border-clay-400 hover:text-clay-700">
+                  className="rounded-full border border-ink-200/60 px-2.5 py-1 text-xs text-ink-400 hover:border-rose-500 dark:border-ink-700/60 hover:text-rose-700">
             ←
           </button>
           <button onClick={() => scrollBy(1)} aria-label="→"
-                  className="rounded-full border border-sand-200 px-2.5 py-1 text-xs text-ink-400 hover:border-clay-400 hover:text-clay-700">
+                  className="rounded-full border border-ink-200/60 px-2.5 py-1 text-xs text-ink-400 hover:border-rose-500 dark:border-ink-700/60 hover:text-rose-700">
             →
           </button>
         </div>
@@ -97,16 +97,16 @@ function Sources({ items }: { items: Source[] }) {
   return (
     <div className="mt-2">
       <button onClick={() => setOpen((v) => !v)}
-              className="text-[11px] font-semibold text-clay-600 hover:underline">
+              className="text-[11px] font-semibold text-rose-600 hover:underline dark:text-rose-300">
         {open ? '▾' : '▸'} {t('chat.sources')} ({items.length})
       </button>
       {open && (
-        <ul className="mt-1.5 space-y-1 border-l-2 border-sand-200 pl-3">
+        <ul className="mt-1.5 space-y-1 border-l-2 border-ink-200 pl-3 dark:border-ink-700">
           {items.map((s, i) => (
             <li key={i} className="text-[11px] leading-relaxed">
               {s.url ? (
                 <a href={s.url} target="_blank" rel="noreferrer"
-                   className="text-ink-600 underline decoration-sand-200 hover:text-clay-700">
+                   className="text-ink-600 underline decoration-ink-200 dark:text-ink-300 hover:text-rose-700">
                   {s.title}
                 </a>
               ) : <span className="text-ink-600">{s.title}</span>}
@@ -181,18 +181,19 @@ export default function Chat() {
   const quick = ['care', 'delivery', 'compare', 'eyes'] as const
 
   return (
-    <div className="flex min-h-screen flex-col bg-sand-50">
-      <header className="sticky top-0 z-10 border-b border-sand-200 bg-sand-50/90 backdrop-blur">
+    <div className="flex min-h-screen flex-col bg-cream-100 dark:bg-ink-950">
+      <header className="sticky top-0 z-10 border-b border-ink-200/60 bg-cream-100/90 dark:border-ink-700/60 backdrop-blur dark:bg-ink-950/90">
         <div className="mx-auto flex max-w-3xl items-center gap-3 px-4 py-3">
           <div className="min-w-0 flex-1">
             <div className="flex items-center gap-2">
-              <h1 className="truncate text-base font-semibold text-ink-900">{t('chat.title')}</h1>
+              <h1 className="truncate text-base font-semibold text-ink-900 dark:text-cream-50">{t('chat.title')}</h1>
               <Badge>{t('demoBadge')}</Badge>
             </div>
             <p className="truncate text-xs text-ink-400">{t('chat.subtitle')}</p>
           </div>
           <LangSwitch />
-          <Link to="/admin" className="hidden shrink-0 text-xs font-semibold text-clay-600 hover:underline sm:block">
+          <ThemeToggle />
+          <Link to="/admin" className="hidden shrink-0 text-xs font-semibold text-rose-600 hover:underline sm:block dark:text-rose-300">
             {t('chat.openAdmin')}
           </Link>
         </div>
@@ -200,12 +201,12 @@ export default function Chat() {
 
       <main className="mx-auto w-full max-w-3xl flex-1 px-4 py-5">
         {!msgs.length && (
-          <div className="rounded-2xl border border-sand-200 bg-white p-5">
-            <p className="text-sm text-ink-600">{t('chat.sourcesHint')}</p>
+          <div className="rounded-2xl border border-ink-200/60 bg-white p-5 shadow-card dark:border-ink-700/60 dark:bg-ink-900">
+            <p className="text-sm text-ink-600 dark:text-ink-300">{t('chat.sourcesHint')}</p>
             <div className="mt-3 grid grid-cols-1 gap-2 sm:grid-cols-2">
               {quick.map((k) => (
                 <button key={k} onClick={() => ask(QUICK_TEXT[i18n.language]?.[k] ?? k)}
-                        className="rounded-xl border border-sand-200 px-3 py-2.5 text-left text-sm text-ink-600 transition-colors hover:border-clay-400 hover:text-clay-700">
+                        className="rounded-xl border border-ink-200/60 px-3 py-2.5 text-left text-sm text-ink-600 transition-colors hover:border-rose-500 dark:border-ink-700/60 dark:text-ink-300 hover:text-rose-700">
                   {t(`chat.quick.${k}`)}
                 </button>
               ))}
@@ -218,8 +219,8 @@ export default function Chat() {
             <div key={i} className={m.role === 'user' ? 'flex justify-end' : ''}>
               <div className={`min-w-0 max-w-full rounded-2xl px-4 py-3 ${
                 m.role === 'user'
-                  ? 'bg-clay-600 text-white'
-                  : 'border border-sand-200 bg-white text-ink-800'}`}>
+                  ? 'bg-rose-600 text-white'
+                  : 'border border-ink-200/60 bg-white text-ink-800 shadow-card dark:border-ink-700/60 dark:bg-ink-900 dark:text-cream-100'}`}>
                 <div className="whitespace-pre-wrap text-sm leading-relaxed">{m.text}</div>
                 {m.role === 'assistant' && (
                   <>
@@ -240,12 +241,12 @@ export default function Chat() {
         </div>
 
         {msgs.length >= 6 && !leadSent && convId && (
-          <div className="mt-5 rounded-2xl border border-sand-200 bg-white p-4">
-            <p className="text-sm text-ink-600">{t('chat.leadPrompt')}</p>
+          <div className="mt-5 rounded-2xl border border-ink-200/60 bg-white p-4 shadow-card dark:border-ink-700/60 dark:bg-ink-900">
+            <p className="text-sm text-ink-600 dark:text-ink-300">{t('chat.leadPrompt')}</p>
             <div className="mt-2 flex flex-wrap gap-2">
               <input value={phone} onChange={(e) => setPhone(e.target.value)}
                      placeholder={t('chat.leadPlaceholder')}
-                     className="min-w-0 flex-1 rounded-full border border-sand-200 px-4 py-2 text-sm outline-none focus:border-clay-400" />
+                     className="min-w-0 flex-1 rounded-full border border-ink-200 bg-white px-4 py-2 text-sm outline-none focus:border-rose-500 dark:border-ink-700 dark:bg-ink-800 dark:text-cream-100" />
               <Button onClick={sendLead}>{t('chat.leadSend')}</Button>
             </div>
           </div>
@@ -253,12 +254,12 @@ export default function Chat() {
         {leadSent && <p className="mt-4 text-sm text-emerald-700">{t('chat.leadThanks')}</p>}
       </main>
 
-      <div className="sticky bottom-0 border-t border-sand-200 bg-sand-50/95 backdrop-blur">
+      <div className="sticky bottom-0 border-t border-ink-200/60 bg-cream-100/95 dark:border-ink-700/60 backdrop-blur dark:bg-ink-950/95">
         <form onSubmit={(e) => { e.preventDefault(); void ask(input) }}
               className="mx-auto flex max-w-3xl items-center gap-2 px-4 py-3">
           <input value={input} onChange={(e) => setInput(e.target.value)}
                  placeholder={t('chat.placeholder')}
-                 className="min-w-0 flex-1 rounded-full border border-sand-200 bg-white px-4 py-2.5 text-sm outline-none focus:border-clay-400" />
+                 className="min-w-0 flex-1 rounded-full border border-ink-200 bg-white px-4 py-2.5 text-sm dark:bg-ink-900 dark:text-cream-100 outline-none focus:border-rose-500" />
           <Button type="submit" disabled={busy}>{t('chat.send')}</Button>
         </form>
         <p className="pb-2 text-center text-[11px] text-ink-400">{t('chat.aiNotice')}</p>

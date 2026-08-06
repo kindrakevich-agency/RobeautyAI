@@ -2,8 +2,17 @@
 @tailwind components;
 @tailwind utilities;
 
-body { @apply font-sans antialiased text-ink-800; }
+@layer base {
+  body {
+    @apply bg-cream-100 text-ink-900 font-sans antialiased dark:bg-ink-950 dark:text-cream-100;
+  }
+  ::selection { @apply bg-rose-400/30; }
+  * { scrollbar-width: thin; scrollbar-color: rgb(160 144 138 / .5) transparent; }
+}
 
 /* Горизонтальний скролер карток: ховаємо смугу, лишаємо жест */
 .no-scrollbar::-webkit-scrollbar { display: none; }
 .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+.animate-rise-1 { animation: rise .35s cubic-bezier(.22,1,.36,1) both; animation-delay: .05s; }
+.animate-rise-2 { animation: rise .35s cubic-bezier(.22,1,.36,1) both; animation-delay: .1s; }

@@ -2,7 +2,8 @@ import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Link, NavLink, Route, Routes, useNavigate, useParams } from 'react-router-dom'
 import { AUTH_FAILED, api, clearAdminCreds, hasAdminCreds, setAdminCreds } from '../api'
-import { Badge, Button, Card, Disclaimer, LangSwitch, PageHead, Stat, Table } from '../ui'
+import { Badge, Button, Card, Input, PageHead, SectionTitle, Stat, Table, Tr } from '../ui'
+import Shell from '../Shell'
 
 /* ---------- вхід ---------- */
 
@@ -10,16 +11,20 @@ function Login({ onDone }: { onDone: () => void }) {
   const [u, setU] = useState('admin')
   const [p, setP] = useState('')
   return (
-    <div className="flex min-h-screen items-center justify-center bg-sand-50 px-4">
-      <form onSubmit={(e) => { e.preventDefault(); setAdminCreds(u, p); onDone() }}
-            className="w-full max-w-sm space-y-3 rounded-2xl border border-sand-200 bg-white p-6">
-        <h1 className="text-lg font-semibold text-ink-900">RoBeauty AI Operations</h1>
-        <input value={u} onChange={(e) => setU(e.target.value)} placeholder="admin"
-               className="w-full rounded-xl border border-sand-200 px-3 py-2 text-sm outline-none focus:border-clay-400" />
-        <input value={p} onChange={(e) => setP(e.target.value)} type="password" placeholder="••••••"
-               className="w-full rounded-xl border border-sand-200 px-3 py-2 text-sm outline-none focus:border-clay-400" />
-        <Button type="submit" className="w-full">OK</Button>
-      </form>
+    <div className="flex min-h-screen items-center justify-center bg-cream-100 px-4 dark:bg-ink-950">
+      <Card className="w-full max-w-sm animate-rise">
+        <div className="font-display text-xl font-semibold tracking-wide text-ink-950 dark:text-cream-50">
+          RoBeauty
+        </div>
+        <div className="mt-1 mb-5 text-[10px] font-bold tracking-[0.2em] text-rose-600 uppercase dark:text-rose-300">
+          AI Operations
+        </div>
+        <form onSubmit={(e) => { e.preventDefault(); setAdminCreds(u, p); onDone() }} className="space-y-3">
+          <Input value={u} onChange={(e) => setU(e.target.value)} placeholder="admin" className="w-full" />
+          <Input value={p} onChange={(e) => setP(e.target.value)} type="password" placeholder="••••••" className="w-full" />
+          <Button type="submit" className="w-full">OK</Button>
+        </form>
+      </Card>
     </div>
   )
 }
@@ -45,8 +50,8 @@ function Loading({ error, onRetry }: { error: string | null; onRetry: () => void
   const { t } = useTranslation()
   if (!error) return <p className="text-sm text-ink-400">{t('common.loading')}</p>
   return (
-    <div className="rounded-2xl border border-rose-200 bg-rose-50 p-4">
-      <p className="text-sm text-rose-700">{t('common.loadError')}</p>
+    <div className="rounded-2xl border border-rose-300/50 bg-rose-50 p-4 dark:border-rose-400/30 dark:bg-rose-500/10">
+      <p className="text-sm text-rose-700 dark:text-rose-300">{t('common.loadError')}</p>
       <Button variant="ghost" className="mt-2" onClick={onRetry}>{t('common.retry')}</Button>
     </div>
   )
@@ -90,8 +95,8 @@ function Dashboard() {
           <div className="mt-2 text-2xl font-semibold text-ink-900">
             {d.localization.approved} / {d.localization.products}
           </div>
-          <div className="mt-3 h-2 overflow-hidden rounded-full bg-sand-100">
-            <div className="h-full bg-clay-500"
+          <div className="mt-3 h-2 overflow-hidden rounded-full bg-ink-100 dark:bg-ink-800">
+            <div className="h-full bg-rose-500"
                  style={{ width: `${(d.localization.approved / Math.max(1, d.localization.products)) * 100}%` }} />
           </div>
         </Card>
@@ -131,12 +136,12 @@ function Dashboard() {
           ))}
         </div>
         <div className="mt-5 grid grid-cols-1 gap-3 sm:grid-cols-2">
-          <div className="rounded-xl border border-sand-200 p-4">
+          <div className="rounded-xl border border-ink-200/60 p-4 dark:border-ink-700/60">
             <div className="text-sm font-semibold text-ink-800">{t('dashboard.buyTitle')}</div>
             <p className="mt-1 text-xs leading-relaxed text-ink-400">{t('dashboard.buyItems')}</p>
           </div>
-          <div className="rounded-xl border border-clay-400 bg-sand-50 p-4">
-            <div className="text-sm font-semibold text-clay-700">{t('dashboard.buildTitle')}</div>
+          <div className="rounded-xl border border-rose-500 bg-cream-100 p-4">
+            <div className="text-sm font-semibold text-rose-700">{t('dashboard.buildTitle')}</div>
             <p className="mt-1 text-xs leading-relaxed text-ink-600">{t('dashboard.buildItems')}</p>
           </div>
         </div>
@@ -159,18 +164,18 @@ function Products() {
     <>
       <PageHead title={t('products.title')} subtitle={t('products.subtitle')} />
       <input value={q} onChange={(e) => setQ(e.target.value)} placeholder={t('common.search')}
-             className="mb-4 w-full max-w-sm rounded-full border border-sand-200 px-4 py-2 text-sm outline-none focus:border-clay-400" />
+             className="mb-4 w-full max-w-sm rounded-full border border-ink-200 bg-white px-4 py-2 text-sm outline-none focus:border-rose-500 dark:border-ink-700 dark:bg-ink-800 dark:text-cream-100" />
       <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
         {items.map((p: any) => (
           // Всередині адмінки посилання ведуть на картку товару в адмінці
           <button key={p.id} onClick={() => nav(`/admin/products/${p.id}`)}
-                  className="min-w-0 rounded-2xl border border-sand-200 bg-white p-3 text-left transition-colors hover:border-clay-400">
+                  className="min-w-0 rounded-2xl border border-ink-200/60 bg-white p-3 text-left shadow-card transition-colors hover:border-rose-500 dark:border-ink-700/60 dark:bg-ink-900">
             {p.image && (
               <img src={p.image} alt="" loading="lazy" referrerPolicy="no-referrer"
                    className="mb-2 aspect-square w-full rounded-lg object-cover" />
             )}
             <div className="line-clamp-2 text-xs font-semibold leading-snug text-ink-800">{p.title}</div>
-            <div className="mt-1 text-sm font-semibold text-clay-700">{Math.round(p.price)} ₴</div>
+            <div className="mt-1 text-sm font-semibold text-rose-700">{Math.round(p.price)} ₴</div>
             {p.ingredients?.length ? (
               <div className="mt-1 line-clamp-1 text-[11px] text-ink-400">
                 {p.ingredients.join(' · ')}
@@ -191,7 +196,7 @@ function ProductDetail() {
   const d = p.details || {}
   const row = (label: string, value: any) => value && (
     Array.isArray(value) ? value.length > 0 : true) ? (
-      <div className="border-t border-sand-100 py-2.5">
+      <div className="border-t border-ink-100 py-2.5">
         <div className="text-[11px] font-semibold uppercase tracking-wider text-ink-400">{label}</div>
         <div className="mt-0.5 text-sm leading-relaxed text-ink-700">
           {Array.isArray(value) ? value.join(' · ') : value}
@@ -201,14 +206,14 @@ function ProductDetail() {
 
   return (
     <>
-      <Link to="/admin/products" className="text-xs font-semibold text-clay-600 hover:underline">
+      <Link to="/admin/products" className="text-xs font-semibold text-rose-600 hover:underline">
         ← {t('common.back')}
       </Link>
       <div className="mt-3 grid grid-cols-1 gap-5 lg:grid-cols-[280px_1fr]">
         <div className="min-w-0">
           {p.images?.[0] && (
             <img src={p.images[0]} alt="" referrerPolicy="no-referrer"
-                 className="w-full rounded-2xl border border-sand-200 object-cover" />
+                 className="w-full rounded-2xl border border-ink-200 object-cover" />
           )}
           <div className="mt-3 flex flex-wrap gap-2">
             <Badge>{p.sku}</Badge>
@@ -221,7 +226,7 @@ function ProductDetail() {
           {/* Єдиний зовнішній лінк в адмінці — на оригінал сторінки бренду */}
           {p.landing_url && (
             <a href={p.landing_url} target="_blank" rel="noreferrer"
-               className="mt-3 block text-xs font-semibold text-clay-600 hover:underline">
+               className="mt-3 block text-xs font-semibold text-rose-600 hover:underline">
               {t('common.openOnSite')} →
             </a>
           )}
@@ -232,7 +237,7 @@ function ProductDetail() {
             {p.titles?.uk?.title ?? p.sku}
           </h1>
           <div className="mt-2 flex flex-wrap items-baseline gap-3">
-            <span className="text-2xl font-semibold text-clay-700">{Math.round(p.price)} ₴</span>
+            <span className="text-2xl font-semibold text-rose-700">{Math.round(p.price)} ₴</span>
             {p.old_price ? <span className="text-sm text-ink-400 line-through">
               {Math.round(p.old_price)} ₴</span> : null}
             {p.volume && <Badge>{p.volume}</Badge>}
@@ -255,7 +260,7 @@ function ProductDetail() {
                 {t('products.descriptions')}
               </div>
               {Object.entries(p.titles).map(([lang, v]: any) => (
-                <div key={lang} className="mt-3 border-t border-sand-100 pt-3 first:border-0">
+                <div key={lang} className="mt-3 border-t border-ink-100 pt-3 first:border-0">
                   <div className="flex items-center gap-2">
                     <Badge>{lang}</Badge>
                     <Badge tone={v.status === 'approved' ? 'good' : 'neutral'}>{v.status}</Badge>
@@ -295,10 +300,10 @@ function Orders() {
       <Table head={[t('orders.number'), t('common.customer'), t('common.total'),
                     t('orders.payment'), t('orders.decision'), t('common.reason')]}>
         {d.items.slice(0, 40).map((o: any) => (
-          <tr key={o.id} className="border-b border-sand-100 align-top last:border-0">
+          <tr key={o.id} className="border-b border-ink-100 align-top last:border-0 dark:border-ink-800">
             <td className="px-4 py-3 font-mono text-xs">{o.number}</td>
             <td className="px-4 py-3">
-              <div className="text-sm text-ink-800">{o.customer}</div>
+              <div className="text-sm text-ink-800 dark:text-cream-100">{o.customer}</div>
               <div className="text-[11px] text-ink-400">
                 {o.city} · {t('orders.pickupRate')} {Math.round(o.pickup_rate * 100)}%
               </div>
@@ -347,10 +352,10 @@ function Shipments() {
               </Badge>
             </div>
             {s.reminders.length ? (
-              <ul className="mt-3 space-y-2 border-l-2 border-sand-200 pl-3">
+              <ul className="mt-3 space-y-2 border-l-2 border-ink-200 pl-3">
                 {s.reminders.map((r: any, i: number) => (
                   <li key={i} className="text-xs leading-relaxed text-ink-600">
-                    <span className="font-semibold text-clay-600">#{r.day}</span> {r.text}
+                    <span className="font-semibold text-rose-600">#{r.day}</span> {r.text}
                   </li>
                 ))}
               </ul>
@@ -394,13 +399,13 @@ function Dialogs() {
       <div className="mb-4 flex flex-wrap gap-2">
         <button onClick={() => setChannel('')}
                 className={`rounded-full px-3 py-1.5 text-xs font-semibold ${
-                  !channel ? 'bg-ink-900 text-white' : 'border border-sand-200 text-ink-400'}`}>
+                  !channel ? 'bg-ink-900 text-white' : 'border border-ink-200 text-ink-400'}`}>
           {t('dialogs.filterAll')}
         </button>
         {Object.entries(d.by_channel).map(([c, n]) => (
           <button key={c} onClick={() => setChannel(c)}
                   className={`rounded-full px-3 py-1.5 text-xs font-semibold ${
-                    channel === c ? 'bg-ink-900 text-white' : 'border border-sand-200 text-ink-400'}`}>
+                    channel === c ? 'bg-ink-900 text-white' : 'border border-ink-200 text-ink-400'}`}>
             {CHANNEL_LABEL[c] ?? c} · {n as number}
           </button>
         ))}
@@ -410,14 +415,14 @@ function Dialogs() {
         <div className="space-y-2">
           {d.items.map((c: any) => (
             <button key={c.id} onClick={() => open(c.id)}
-                    className="block w-full rounded-xl border border-sand-200 bg-white p-3 text-left transition-colors hover:border-clay-400">
+                    className="block w-full rounded-xl border border-ink-200/60 bg-white p-3 text-left shadow-card transition-colors hover:border-rose-500 dark:border-ink-700/60 dark:bg-ink-900">
               <div className="flex flex-wrap items-center gap-2">
                 <Badge>{CHANNEL_LABEL[c.channel] ?? c.channel}</Badge>
                 <span className="text-xs text-ink-400">{c.handle ?? '—'}</span>
                 {c.escalated && <Badge tone="warn">esc</Badge>}
                 {c.customer_id && <Badge tone="good">#{c.customer_id}</Badge>}
               </div>
-              <div className="mt-1.5 text-sm text-ink-800">
+              <div className="mt-1.5 text-sm text-ink-800 dark:text-cream-100">
                 {c.analysis?.topic ?? <span className="text-ink-400">{t('dialogs.analysisPending')}</span>}
               </div>
               {c.analysis && (
@@ -445,7 +450,7 @@ function Dialogs() {
                 </span>
               </div>
               {sel.analysis && (
-                <div className="mb-3 rounded-xl bg-sand-50 p-3 text-xs leading-relaxed text-ink-600">
+                <div className="mb-3 rounded-xl bg-cream-100 p-3 text-xs dark:bg-ink-800/60 leading-relaxed text-ink-600">
                   <b>{t('dialogs.summary')}:</b> {sel.analysis.summary}
                   {sel.analysis.satisfaction ? <> · {t('dialogs.satisfaction')}: {sel.analysis.satisfaction}/5</> : null}
                 </div>
@@ -453,9 +458,9 @@ function Dialogs() {
               <div className="max-h-96 space-y-2 overflow-y-auto">
                 {sel.messages.map((m: any, i: number) => (
                   <div key={i} className={`rounded-xl px-3 py-2 text-sm ${
-                    m.role === 'user' ? 'bg-sand-100 text-ink-800'
+                    m.role === 'user' ? 'bg-ink-100 text-ink-800 dark:bg-ink-800 dark:text-cream-100'
                       : m.role === 'human_agent' ? 'bg-emerald-50 text-emerald-900'
-                      : 'border border-sand-200 text-ink-600'}`}>
+                      : 'border border-ink-200/60 text-ink-600 dark:border-ink-700/60 dark:text-ink-300'}`}>
                     {m.content}
                   </div>
                 ))}
@@ -463,7 +468,7 @@ function Dialogs() {
               <div className="mt-3 flex gap-2">
                 <input value={reply} onChange={(e) => setReply(e.target.value)}
                        placeholder={t('dialogs.replyPlaceholder')}
-                       className="min-w-0 flex-1 rounded-full border border-sand-200 px-3 py-2 text-sm outline-none focus:border-clay-400" />
+                       className="min-w-0 flex-1 rounded-full border border-ink-200 bg-white px-3 py-2 text-sm outline-none focus:border-rose-500 dark:border-ink-700 dark:bg-ink-800 dark:text-cream-100" />
                 <Button onClick={async () => {
                   if (!reply.trim()) return
                   await api.admin.post(`/api/admin/conversations/${sel.id}/reply`, { content: reply })
@@ -518,9 +523,9 @@ function Tickets() {
                 {x.priority && <Badge tone={x.priority === 'high' ? 'warn' : 'neutral'}>{x.priority}</Badge>}
                 <Badge>{x.lang}</Badge>
               </div>
-              <p className="mt-2 text-sm text-ink-800">{x.text}</p>
+              <p className="mt-2 text-sm text-ink-800 dark:text-cream-100">{x.text}</p>
               {x.draft_reply && (
-                <div className="mt-2 rounded-xl bg-sand-50 p-3">
+                <div className="mt-2 rounded-xl bg-cream-100 p-3 dark:bg-ink-800/60">
                   <div className="text-[11px] font-semibold uppercase tracking-wider text-ink-400">
                     {t('tickets.draft')}
                   </div>
@@ -553,7 +558,7 @@ function Sync() {
       {!d ? <Loading error={err} onRetry={load} /> : (
         <Table head={[t('sync.direction'), 'SKU', t('sync.action'), t('common.status'), t('sync.detail'), '']}>
           {d.items.map((r: any) => (
-            <tr key={r.id} className="border-b border-sand-100 align-top last:border-0">
+            <tr key={r.id} className="border-b border-ink-100 align-top last:border-0 dark:border-ink-800">
               <td className="px-4 py-3 text-xs">{r.direction === 'tilda_to_1c' ? '→ 1С' : '← 1С'}</td>
               <td className="px-4 py-3 font-mono text-xs">{r.sku}</td>
               <td className="px-4 py-3 text-xs">{r.action}</td>
@@ -598,8 +603,8 @@ function Localization() {
         <div className="text-sm text-ink-600">
           {t('localization.progress')}: <b>{d.approved}</b> / {d.total}
         </div>
-        <div className="mt-2 h-2 overflow-hidden rounded-full bg-sand-100">
-          <div className="h-full bg-clay-500" style={{ width: `${(d.approved / Math.max(1, d.total)) * 100}%` }} />
+        <div className="mt-2 h-2 overflow-hidden rounded-full bg-ink-100 dark:bg-ink-800">
+          <div className="h-full bg-rose-500" style={{ width: `${(d.approved / Math.max(1, d.total)) * 100}%` }} />
         </div>
       </Card>
       <div className="space-y-3">
@@ -621,7 +626,7 @@ function Localization() {
                 <p className="mt-1 line-clamp-4 text-xs leading-relaxed text-ink-400">{x.uk_description}</p>
               </div>
               <div className="min-w-0">
-                <div className="text-[11px] font-semibold uppercase tracking-wider text-clay-600">
+                <div className="text-[11px] font-semibold uppercase tracking-wider text-rose-600">
                   {t('localization.targetPl')}
                 </div>
                 <div className="mt-1 text-sm font-medium text-ink-800">{x.pl_title}</div>
@@ -666,13 +671,13 @@ function Analytics() {
       <Card className="mb-4">
         <form onSubmit={(e) => { e.preventDefault(); void ask(q) }} className="flex flex-wrap gap-2">
           <input value={q} onChange={(e) => setQ(e.target.value)} placeholder={t('analytics.placeholder')}
-                 className="min-w-0 flex-1 rounded-full border border-sand-200 px-4 py-2 text-sm outline-none focus:border-clay-400" />
+                 className="min-w-0 flex-1 rounded-full border border-ink-200 bg-white px-4 py-2 text-sm outline-none focus:border-rose-500 dark:border-ink-700 dark:bg-ink-800 dark:text-cream-100" />
           <Button type="submit" disabled={busy}>{busy ? t('common.running') : t('analytics.ask')}</Button>
         </form>
         <div className="mt-3 flex flex-wrap gap-2">
           {presets.map((p) => (
             <button key={p} onClick={() => { const x = t(`analytics.presets.${p}`); setQ(x); void ask(x) }}
-                    className="rounded-full border border-sand-200 px-3 py-1.5 text-xs text-ink-600 transition-colors hover:border-clay-400 hover:text-clay-700">
+                    className="rounded-full border border-ink-200/60 px-3 py-1.5 text-xs text-ink-600 transition-colors hover:border-rose-500 dark:border-ink-700/60 dark:text-ink-300 hover:text-rose-700">
               {t(`analytics.presets.${p}`)}
             </button>
           ))}
@@ -681,15 +686,15 @@ function Analytics() {
 
       {res && (
         <Card>
-          {res.error ? <p className="text-sm text-rose-700">{res.error}</p> : (
+          {res.error ? <p className="text-sm text-rose-700 dark:text-rose-300">{res.error}</p> : (
             <>
               <p className="text-base leading-relaxed text-ink-800">{res.answer}</p>
               <button onClick={() => setShowSql((v) => !v)}
-                      className="mt-3 text-xs font-semibold text-clay-600 hover:underline">
+                      className="mt-3 text-xs font-semibold text-rose-600 hover:underline">
                 {showSql ? '▾' : '▸'} {t('analytics.showSql')}
               </button>
               {showSql && (
-                <pre className="mt-2 overflow-x-auto rounded-xl bg-ink-900 p-3 text-[11px] leading-relaxed text-sand-100">
+                <pre className="mt-2 overflow-x-auto rounded-xl bg-ink-900 p-3 text-[11px] leading-relaxed text-ink-100">
                   {res.sql}
                 </pre>
               )}
@@ -723,7 +728,7 @@ function EvalPage() {
           <div className="mt-3">
             <Table head={[t('common.created'), t('evalPage.pAt5'), t('evalPage.mrr'), t('evalPage.judge')]}>
               {d.runs.map((r: any, i: number) => (
-                <tr key={i} className="border-b border-sand-100 last:border-0">
+                <tr key={i} className="border-b border-ink-100 last:border-0 dark:border-ink-800">
                   <td className="px-4 py-2 text-xs">{r.at.slice(0, 16)}</td>
                   <td className="px-4 py-2 tabular-nums">{r.p_at_5}</td>
                   <td className="px-4 py-2 tabular-nums">{r.mrr}</td>
@@ -743,16 +748,16 @@ function EvalPage() {
         {d.gaps.length ? (
           <div className="mt-3 space-y-3">
             {d.gaps.map((g: any) => (
-              <div key={g.id} className="rounded-xl border border-sand-200 p-3">
+              <div key={g.id} className="rounded-xl border border-ink-200/60 p-3 dark:border-ink-700/60">
                 <div className="flex flex-wrap items-center gap-2">
                   <Badge>{g.lang}</Badge>
-                  <span className="text-sm text-ink-800">{g.question}</span>
+                  <span className="text-sm text-ink-800 dark:text-cream-100">{g.question}</span>
                 </div>
                 {fixing === g.id ? (
                   <div className="mt-2 flex flex-wrap gap-2">
                     <input value={text} onChange={(e) => setText(e.target.value)}
                            placeholder={t('evalPage.fixPlaceholder')}
-                           className="min-w-0 flex-1 rounded-full border border-sand-200 px-3 py-2 text-sm outline-none focus:border-clay-400" />
+                           className="min-w-0 flex-1 rounded-full border border-ink-200 bg-white px-3 py-2 text-sm outline-none focus:border-rose-500 dark:border-ink-700 dark:bg-ink-800 dark:text-cream-100" />
                     <Button onClick={async () => {
                       await api.admin.post(`/api/admin/eval/gaps/${g.id}/fix`, { answer_text: text })
                       setFixing(null); setText(''); await load()
@@ -774,19 +779,10 @@ function EvalPage() {
 
 /* ---------- оболонка ---------- */
 
-const NAV = [
-  ['', 'dashboard'], ['orders', 'orders'], ['shipments', 'shipments'],
-  ['dialogs', 'dialogs'], ['tickets', 'tickets'], ['products', 'products'],
-  ['sync', 'sync'], ['localization', 'localization'],
-  ['analytics', 'analytics'], ['eval', 'eval'],
-] as const
-
 export default function Admin() {
-  const { t } = useTranslation()
   const [authed, setAuthed] = useState(hasAdminCreds())
 
-  // Якщо будь-який запит повернув 401 — повертаємо екран входу,
-  // а не лишаємо користувача перед мовчазним «Завантаження…».
+  // Будь-який 401 повертає екран входу, а не лишає мовчазне «Завантаження…»
   useEffect(() => {
     const onFail = () => setAuthed(false)
     window.addEventListener(AUTH_FAILED, onFail)
@@ -794,51 +790,22 @@ export default function Admin() {
   }, [])
 
   if (!authed) return <Login onDone={() => setAuthed(true)} />
-  return (
-    <div className="min-h-screen bg-sand-50">
-      <header className="border-b border-sand-200 bg-white">
-        <div className="mx-auto flex max-w-6xl flex-wrap items-center gap-3 px-4 py-3">
-          <span className="text-sm font-semibold text-ink-900">RoBeauty AI Operations</span>
-          <Badge>{t('demoBadge')}</Badge>
-          <div className="ml-auto flex items-center gap-3">
-            <LangSwitch />
-            <button onClick={() => { clearAdminCreds(); setAuthed(false) }}
-                    className="text-xs font-semibold text-ink-400 hover:text-ink-800">
-              {t('common.logout')}
-            </button>
-            <Link to="/" className="text-xs font-semibold text-clay-600 hover:underline">
-              {t('nav.backToChat')}
-            </Link>
-          </div>
-        </div>
-        <nav className="no-scrollbar mx-auto flex max-w-6xl gap-1 overflow-x-auto px-4 pb-2">
-          {NAV.map(([path, key]) => (
-            <NavLink key={key} to={`/admin/${path}`} end={path === ''}
-                     className={({ isActive }) =>
-                       `whitespace-nowrap rounded-full px-3 py-1.5 text-xs font-semibold transition-colors ${
-                         isActive ? 'bg-ink-900 text-white' : 'text-ink-400 hover:text-ink-800'}`}>
-              {t(`nav.${key}`)}
-            </NavLink>
-          ))}
-        </nav>
-      </header>
 
-      <main className="mx-auto max-w-6xl px-4 py-6">
-        <Routes>
-          <Route index element={<Dashboard />} />
-          <Route path="orders" element={<Orders />} />
-          <Route path="shipments" element={<Shipments />} />
-          <Route path="dialogs" element={<Dialogs />} />
-          <Route path="tickets" element={<Tickets />} />
-          <Route path="products" element={<Products />} />
-          <Route path="products/:id" element={<ProductDetail />} />
-          <Route path="sync" element={<Sync />} />
-          <Route path="localization" element={<Localization />} />
-          <Route path="analytics" element={<Analytics />} />
-          <Route path="eval" element={<EvalPage />} />
-        </Routes>
-      </main>
-      <Disclaimer />
-    </div>
+  return (
+    <Routes>
+      <Route element={<Shell onLogout={() => { clearAdminCreds(); setAuthed(false) }} />}>
+        <Route index element={<Dashboard />} />
+        <Route path="orders" element={<Orders />} />
+        <Route path="shipments" element={<Shipments />} />
+        <Route path="dialogs" element={<Dialogs />} />
+        <Route path="tickets" element={<Tickets />} />
+        <Route path="products" element={<Products />} />
+        <Route path="products/:id" element={<ProductDetail />} />
+        <Route path="sync" element={<Sync />} />
+        <Route path="localization" element={<Localization />} />
+        <Route path="analytics" element={<Analytics />} />
+        <Route path="eval" element={<EvalPage />} />
+      </Route>
+    </Routes>
   )
 }

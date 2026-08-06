@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Button } from './ui'
+import { Badge, Button, Card, Input } from './ui'
 
 /**
  * Онбординг першого запуску.
@@ -60,19 +60,24 @@ export default function Bootstrap({ onReady }: { onReady: () => void }) {
   const needKey = s && !s.has_llm_key && !keySaved
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-sand-50 px-4 py-10">
-      <div className="w-full max-w-xl rounded-2xl border border-sand-200 bg-white p-6 shadow-sm">
-        <h1 className="text-lg font-semibold text-ink-900">{t('boot.title')}</h1>
-        <p className="mt-1 text-sm leading-relaxed text-ink-600">{t('boot.intro')}</p>
+    <div className="flex min-h-screen items-center justify-center bg-cream-100 px-4 py-10 dark:bg-ink-950">
+      <Card className="w-full max-w-xl animate-rise">
+        <div className="mb-4 flex items-center gap-2">
+          <div className="font-display text-xl font-semibold tracking-wide text-ink-950 dark:text-cream-50">
+            RoBeauty
+          </div>
+          <Badge tone="brand">{t('demoBadge')}</Badge>
+        </div>
+        <h1 className="font-display text-lg font-semibold text-ink-950 dark:text-cream-50">{t('boot.title')}</h1>
+        <p className="mt-1 text-sm leading-relaxed text-ink-600 dark:text-ink-300">{t('boot.intro')}</p>
 
         {needKey ? (
-          <div className="mt-5 rounded-xl border border-sand-200 bg-sand-50 p-4">
-            <div className="text-sm font-semibold text-ink-800">{t('boot.keyTitle')}</div>
-            <p className="mt-1 text-xs leading-relaxed text-ink-400">{t('boot.keyHint')}</p>
+          <div className="mt-5 rounded-xl border border-ink-200/60 bg-cream-100 p-4 dark:border-ink-700/60 dark:bg-ink-800/50">
+            <div className="text-sm font-semibold text-ink-800 dark:text-cream-100">{t('boot.keyTitle')}</div>
+            <p className="mt-1 text-xs leading-relaxed text-ink-500 dark:text-ink-400">{t('boot.keyHint')}</p>
             <div className="mt-3 flex flex-wrap gap-2">
-              <input value={key} onChange={(e) => setKey(e.target.value)} type="password"
-                     placeholder="sk-…"
-                     className="min-w-0 flex-1 rounded-full border border-sand-200 px-4 py-2 text-sm outline-none focus:border-clay-400" />
+              <Input value={key} onChange={(e) => setKey(e.target.value)} type="password"
+                     placeholder="sk-…" className="flex-1" />
               <Button onClick={saveKey} disabled={key.trim().length < 20}>{t('boot.keySave')}</Button>
             </div>
           </div>
@@ -82,15 +87,15 @@ export default function Bootstrap({ onReady }: { onReady: () => void }) {
           {(s?.steps ?? []).map((st) => (
             <li key={st.key} className="flex gap-3">
               <span className={`mt-0.5 text-sm ${
-                st.status === 'done' ? 'text-emerald-600'
-                  : st.status === 'running' ? 'animate-pulse text-clay-600'
+                st.status === 'done' ? 'text-mint-600'
+                  : st.status === 'running' ? 'animate-pulse text-rose-600'
                   : st.status === 'failed' ? 'text-rose-600' : 'text-ink-400'}`}>
                 {ICON[st.status]}
               </span>
               <div className="min-w-0">
-                <div className="text-sm font-medium text-ink-800">
+                <div className="text-sm font-medium text-ink-800 dark:text-cream-100">
                   {t(`boot.steps.${st.key}.title`)}
-                  {st.count != null && <span className="ml-2 tabular-nums text-clay-700">{st.count}</span>}
+                  {st.count != null && <span className="ml-2 tabular-nums text-rose-700 dark:text-rose-300">{st.count}</span>}
                 </div>
                 <div className="text-xs leading-relaxed text-ink-400">
                   {st.detail || t(`boot.steps.${st.key}.hint`)}
@@ -101,10 +106,10 @@ export default function Bootstrap({ onReady }: { onReady: () => void }) {
         </ol>
 
         {s && (
-          <div className="mt-5 flex flex-wrap gap-4 border-t border-sand-100 pt-4 text-xs text-ink-400">
-            <span>{t('boot.db.products')}: <b className="tabular-nums text-ink-800">{s.db.products}</b></span>
-            <span>{t('boot.db.chunks')}: <b className="tabular-nums text-ink-800">{s.db.chunks}</b></span>
-            <span>{t('boot.db.pl')}: <b className="tabular-nums text-ink-800">{s.db.pl_translations}</b></span>
+          <div className="mt-5 flex flex-wrap gap-4 border-t border-ink-100 pt-4 dark:border-ink-800 text-xs text-ink-400">
+            <span>{t('boot.db.products')}: <b className="tabular-nums text-ink-800 dark:text-cream-100">{s.db.products}</b></span>
+            <span>{t('boot.db.chunks')}: <b className="tabular-nums text-ink-800 dark:text-cream-100">{s.db.chunks}</b></span>
+            <span>{t('boot.db.pl')}: <b className="tabular-nums text-ink-800 dark:text-cream-100">{s.db.pl_translations}</b></span>
           </div>
         )}
 
@@ -121,7 +126,7 @@ export default function Bootstrap({ onReady }: { onReady: () => void }) {
         </div>
 
         <p className="mt-5 text-[11px] leading-relaxed text-ink-400">{t('boot.note')}</p>
-      </div>
+      </Card>
     </div>
   )
 }
