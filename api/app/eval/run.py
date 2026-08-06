@@ -33,6 +33,40 @@ JUDGE = """Оціни відповідь консультанта космети
  "helpful": true|false — чи відповідає по суті питання,
  "correct_language": true|false — чи відповідь мовою "{lang}"}}"""
 
+RELEVANCE = """Питання клієнта косметичного бренду: «{q}»
+
+Нижче фрагменти, які повернув пошук. Для кожного визнач, чи допомагає він
+відповісти саме на це питання: 1 — містить релевантну інформацію,
+0 — про інше або лише загальні слова про бренд.
+
+Будь суворим: загальна сторінка про бренд не є відповіддю на питання про
+конкретний засіб чи проблему шкіри.
+
+Фрагменти:
+{items}
+
+Поверни ТІЛЬКИ JSON-масив чисел 0/1 у тому ж порядку."""
+
+
+def judge_relevance(question: str, chunks: list[dict]) -> list[int]:
+    """Сліпа розмітка релевантності знайдених фрагментів.
+
+    Раніше тут рахувалося «чи є хоч якісь джерела» — метрика завжди давала
+    1.0 і нічого не вимірювала. Тепер кожен фрагмент оцінює суддя, який
+    бачить лише питання й текст, без знання про спосіб пошуку.
+    """
+    if not chunks:
+        return []
+    body = "\n\n".join(f"[{i + 1}] {c['text'][:400]}" for i, c in enumerate(chunks))
+    try:
+        out = llm.chat_json([{"role": "user", "content": RELEVANCE.format(
+            q=question, items=body)}], purpose="judge", max_tokens=300)
+        labels = out if isinstance(out, list) else out.get("labels") or out.get("result")
+        labels = [int(x) for x in labels][:len(chunks)]
+        return labels + [0] * (len(chunks) - len(labels))
+    except Exception:  # noqa: BLE001
+        return [0] * len(chunks)
+
 
 def load_questions() -> list[dict]:
     """Мінімальний парсер нашого YAML (плоскі списки ключ: значення)."""
@@ -74,11 +108,12 @@ def main() -> None:
                 purpose="judge", model=None, max_tokens=200)
             ok = all(verdict.get(k) for k in ("grounded", "helpful",
                                               "correct_language"))
-            # retrieval: успіхом вважаємо релевантні джерела в топі
-            hits = [s for s in res.get("sources", []) if s.get("type") == "product"
-                    or s.get("type") == "page"]
-            p_hits += min(len(hits), 5) / 5
-            rr_sum += 1.0 if hits else 0.0
+            # Метрики пошуку: сліпа розмітка релевантності топ-5 фрагментів
+            chunks = rag.retrieve(c["q"], c["lang"])[:5]
+            labels = judge_relevance(c["q"], chunks)
+            p_hits += sum(labels) / 5 if labels else 0.0
+            first = next((i + 1 for i, v in enumerate(labels) if v), None)
+            rr_sum += 1 / first if first else 0.0
         judge_pass += ok
         per_case.append({"q": c["q"][:60], "behaviour": behaviour, "ok": ok})
         print(f"  {i:>2}/{len(cases)} {'OK ' if ok else 'FAIL'} {c['q'][:56]}",
