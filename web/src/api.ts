@@ -6,6 +6,11 @@ export function setAdminCreds(user: string, pass: string) {
 }
 export const hasAdminCreds = () => Boolean(sessionStorage.getItem('rb-admin'))
 
+export const clearAdminCreds = () => sessionStorage.removeItem('rb-admin')
+
+/** Подія «сесія протухла» — оболонка адмінки повертає екран входу. */
+export const AUTH_FAILED = 'rb-auth-failed'
+
 async function request<T>(path: string, init: RequestInit = {}, admin = false): Promise<T> {
   const headers: Record<string, string> = {
     'Content-Type': 'application/json',
@@ -16,6 +21,13 @@ async function request<T>(path: string, init: RequestInit = {}, admin = false): 
     if (creds) headers.Authorization = `Basic ${creds}`
   }
   const r = await fetch(`${BASE}${path}`, { ...init, headers })
+  if (r.status === 401 && admin) {
+    // Невірний пароль не має лишати інтерфейс у вічному «Завантаження…»:
+    // чистимо сесію й просимо увійти знову.
+    clearAdminCreds()
+    window.dispatchEvent(new CustomEvent(AUTH_FAILED))
+    throw new Error('401')
+  }
   if (!r.ok) throw new Error(String(r.status))
   return r.json() as Promise<T>
 }

@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Link, NavLink, Route, Routes, useNavigate, useParams } from 'react-router-dom'
-import { api, hasAdminCreds, setAdminCreds } from '../api'
+import { AUTH_FAILED, api, clearAdminCreds, hasAdminCreds, setAdminCreds } from '../api'
 import { Badge, Button, Card, Disclaimer, LangSwitch, PageHead, Stat, Table } from '../ui'
 
 /* ---------- вхід ---------- */
@@ -24,6 +24,34 @@ function Login({ onDone }: { onDone: () => void }) {
   )
 }
 
+
+/** Завантаження даних розділу з видимою помилкою замість вічного «Завантаження…». */
+function useAdminData<T>(path: string, deps: unknown[] = []) {
+  const [data, setData] = useState<T | null>(null)
+  const [error, setError] = useState<string | null>(null)
+  const load = async () => {
+    setError(null)
+    try {
+      setData(await api.admin.get<T>(path))
+    } catch (e) {
+      setError(String((e as Error).message) === '401' ? '401' : 'error')
+    }
+  }
+  useEffect(() => { void load() }, deps)
+  return { data, error, reload: load }
+}
+
+function Loading({ error, onRetry }: { error: string | null; onRetry: () => void }) {
+  const { t } = useTranslation()
+  if (!error) return <p className="text-sm text-ink-400">{t('common.loading')}</p>
+  return (
+    <div className="rounded-2xl border border-rose-200 bg-rose-50 p-4">
+      <p className="text-sm text-rose-700">{t('common.loadError')}</p>
+      <Button variant="ghost" className="mt-2" onClick={onRetry}>{t('common.retry')}</Button>
+    </div>
+  )
+}
+
 /* ---------- дашборд ---------- */
 
 type Dash = {
@@ -38,9 +66,8 @@ type Dash = {
 
 function Dashboard() {
   const { t } = useTranslation()
-  const [d, setD] = useState<Dash | null>(null)
-  useEffect(() => { void api.admin.get<Dash>('/api/admin/dashboard').then(setD) }, [])
-  if (!d) return <p className="text-sm text-ink-400">{t('common.loading')}</p>
+  const { data: d, error, reload } = useAdminData<Dash>('/api/admin/dashboard')
+  if (!d) return <Loading error={error} onRetry={reload} />
   const totalConv = Object.values(d.conversations.by_channel).reduce((a, b) => a + b, 0)
   return (
     <>
@@ -122,11 +149,10 @@ function Dashboard() {
 
 function Products() {
   const { t } = useTranslation()
-  const [d, setD] = useState<any>(null)
   const [q, setQ] = useState('')
   const nav = useNavigate()
-  useEffect(() => { void api.admin.get('/api/admin/products').then(setD) }, [])
-  if (!d) return <p className="text-sm text-ink-400">{t('common.loading')}</p>
+  const { data: d, error, reload } = useAdminData<any>('/api/admin/products')
+  if (!d) return <Loading error={error} onRetry={reload} />
   const items = d.items.filter((p: any) =>
     !q || p.title.toLowerCase().includes(q.toLowerCase()) || p.sku.includes(q))
   return (
@@ -160,9 +186,8 @@ function Products() {
 function ProductDetail() {
   const { t } = useTranslation()
   const { id } = useParams()
-  const [p, setP] = useState<any>(null)
-  useEffect(() => { void api.admin.get(`/api/admin/products/${id}`).then(setP) }, [id])
-  if (!p) return <p className="text-sm text-ink-400">{t('common.loading')}</p>
+  const { data: p, error, reload } = useAdminData<any>(`/api/admin/products/${id}`, [id])
+  if (!p) return <Loading error={error} onRetry={reload} />
   const d = p.details || {}
   const row = (label: string, value: any) => value && (
     Array.isArray(value) ? value.length > 0 : true) ? (
@@ -253,9 +278,10 @@ function Orders() {
   const { t } = useTranslation()
   const [d, setD] = useState<any>(null)
   const [busy, setBusy] = useState(false)
-  const load = () => api.admin.get('/api/admin/orders').then(setD)
+  const [err, setErr] = useState<string | null>(null)
+  const load = () => api.admin.get('/api/admin/orders').then(setD).catch((e) => setErr(String(e.message)))
   useEffect(() => { void load() }, [])
-  if (!d) return <p className="text-sm text-ink-400">{t('common.loading')}</p>
+  if (!d) return <Loading error={err} onRetry={load} />
   return (
     <>
       <PageHead title={t('orders.title')} subtitle={t('orders.subtitle')}
@@ -297,9 +323,10 @@ function Shipments() {
   const { t } = useTranslation()
   const [d, setD] = useState<any>(null)
   const [busy, setBusy] = useState(false)
-  const load = () => api.admin.get('/api/admin/shipments').then(setD)
+  const [err, setErr] = useState<string | null>(null)
+  const load = () => api.admin.get('/api/admin/shipments').then(setD).catch((e) => setErr(String(e.message)))
   useEffect(() => { void load() }, [])
-  if (!d) return <p className="text-sm text-ink-400">{t('common.loading')}</p>
+  if (!d) return <Loading error={err} onRetry={load} />
   return (
     <>
       <PageHead title={t('shipments.title')} subtitle={t('shipments.subtitle')}
@@ -349,11 +376,15 @@ function Dialogs() {
   const [busy, setBusy] = useState(false)
   const [reply, setReply] = useState('')
 
-  const load = () => api.admin.get(`/api/admin/conversations${channel ? `?channel=${channel}` : ''}`).then(setD)
+  const [err, setErr] = useState<string | null>(null)
+  const load = () => api.admin
+    .get(`/api/admin/conversations${channel ? `?channel=${channel}` : ''}`)
+    .then(setD)
+    .catch((e) => setErr(String(e.message)))
   useEffect(() => { void load() }, [channel])
   const open = (id: number) => api.admin.get(`/api/admin/conversations/${id}`).then(setSel)
 
-  if (!d) return <p className="text-sm text-ink-400">{t('common.loading')}</p>
+  if (!d) return <Loading error={err} onRetry={load} />
   return (
     <>
       <PageHead title={t('dialogs.title')} subtitle={t('dialogs.subtitle')}
@@ -454,7 +485,8 @@ function Tickets() {
   const [d, setD] = useState<any>(null)
   const [digest, setDigest] = useState('')
   const [busy, setBusy] = useState(false)
-  const load = () => api.admin.get('/api/admin/tickets').then(setD)
+  const [err, setErr] = useState<string | null>(null)
+  const load = () => api.admin.get('/api/admin/tickets').then(setD).catch((e) => setErr(String(e.message)))
   useEffect(() => { void load() }, [])
   return (
     <>
@@ -475,7 +507,7 @@ function Tickets() {
           <div className="whitespace-pre-wrap text-sm leading-relaxed text-ink-700">{digest}</div>
         </Card>
       )}
-      {!d ? <p className="text-sm text-ink-400">{t('common.loading')}</p> : (
+      {!d ? <Loading error={err} onRetry={load} /> : (
         <div className="space-y-3">
           {d.items.map((x: any) => (
             <Card key={x.id}>
@@ -509,7 +541,8 @@ function Sync() {
   const { t } = useTranslation()
   const [d, setD] = useState<any>(null)
   const [busy, setBusy] = useState(false)
-  const load = () => api.admin.get('/api/admin/sync').then(setD)
+  const [err, setErr] = useState<string | null>(null)
+  const load = () => api.admin.get('/api/admin/sync').then(setD).catch((e) => setErr(String(e.message)))
   useEffect(() => { void load() }, [])
   return (
     <>
@@ -517,7 +550,7 @@ function Sync() {
                 actions={<Button disabled={busy} onClick={async () => {
                   setBusy(true); await api.admin.post('/api/admin/sync/explain'); await load(); setBusy(false)
                 }}>{busy ? t('common.running') : t('sync.explain')}</Button>} />
-      {!d ? <p className="text-sm text-ink-400">{t('common.loading')}</p> : (
+      {!d ? <Loading error={err} onRetry={load} /> : (
         <Table head={[t('sync.direction'), 'SKU', t('sync.action'), t('common.status'), t('sync.detail'), '']}>
           {d.items.map((r: any) => (
             <tr key={r.id} className="border-b border-sand-100 align-top last:border-0">
@@ -554,9 +587,10 @@ function Sync() {
 function Localization() {
   const { t } = useTranslation()
   const [d, setD] = useState<any>(null)
-  const load = () => api.admin.get('/api/admin/localization').then(setD)
+  const [err, setErr] = useState<string | null>(null)
+  const load = () => api.admin.get('/api/admin/localization').then(setD).catch((e) => setErr(String(e.message)))
   useEffect(() => { void load() }, [])
-  if (!d) return <p className="text-sm text-ink-400">{t('common.loading')}</p>
+  if (!d) return <Loading error={err} onRetry={load} />
   return (
     <>
       <PageHead title={t('localization.title')} subtitle={t('localization.subtitle')} />
@@ -674,9 +708,10 @@ function EvalPage() {
   const [d, setD] = useState<any>(null)
   const [fixing, setFixing] = useState<number | null>(null)
   const [text, setText] = useState('')
-  const load = () => api.admin.get('/api/admin/eval').then(setD)
+  const [err, setErr] = useState<string | null>(null)
+  const load = () => api.admin.get('/api/admin/eval').then(setD).catch((e) => setErr(String(e.message)))
   useEffect(() => { void load() }, [])
-  if (!d) return <p className="text-sm text-ink-400">{t('common.loading')}</p>
+  if (!d) return <Loading error={err} onRetry={load} />
   return (
     <>
       <PageHead title={t('evalPage.title')} subtitle={t('evalPage.subtitle')} />
@@ -749,6 +784,15 @@ const NAV = [
 export default function Admin() {
   const { t } = useTranslation()
   const [authed, setAuthed] = useState(hasAdminCreds())
+
+  // Якщо будь-який запит повернув 401 — повертаємо екран входу,
+  // а не лишаємо користувача перед мовчазним «Завантаження…».
+  useEffect(() => {
+    const onFail = () => setAuthed(false)
+    window.addEventListener(AUTH_FAILED, onFail)
+    return () => window.removeEventListener(AUTH_FAILED, onFail)
+  }, [])
+
   if (!authed) return <Login onDone={() => setAuthed(true)} />
   return (
     <div className="min-h-screen bg-sand-50">
@@ -758,6 +802,10 @@ export default function Admin() {
           <Badge>{t('demoBadge')}</Badge>
           <div className="ml-auto flex items-center gap-3">
             <LangSwitch />
+            <button onClick={() => { clearAdminCreds(); setAuthed(false) }}
+                    className="text-xs font-semibold text-ink-400 hover:text-ink-800">
+              {t('common.logout')}
+            </button>
             <Link to="/" className="text-xs font-semibold text-clay-600 hover:underline">
               {t('nav.backToChat')}
             </Link>

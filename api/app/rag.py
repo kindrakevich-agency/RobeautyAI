@@ -146,8 +146,37 @@ def sources_for(chunks: list[dict], lang: str) -> list[dict]:
     return out
 
 
-def product_cards(chunks: list[dict], lang: str, limit: int = 3) -> list[dict]:
+def _product_ids_direct(question: str, limit: int) -> list[int]:
+    """Пошук ТІЛЬКИ по товарних чанках.
+
+    Оглядові й контентні сторінки довші, тож у загальному топі вони регулярно
+    витісняють короткі картки товарів — і відповідь лишається без жодної
+    картки, хоча товар у каталозі є. Тому коли товарів у топі немає, шукаємо
+    їх окремим запитом по підмножині чанків.
+    """
+    qvec = embeddings_client.embed([question])[0]
+    with db.engine.connect() as conn:
+        rows = conn.execute(sql(
+            "SELECT ref_id, 1 - (embedding <=> CAST(:v AS vector)) AS sim "
+            "FROM chunks WHERE ref_type = 'product' "
+            "ORDER BY embedding <=> CAST(:v AS vector) LIMIT :n"),
+            {"v": str(qvec), "n": limit * 3}).mappings().all()
+    seen, out = set(), []
+    for r in rows:
+        if r["sim"] < GROUND_THRESHOLD or r["ref_id"] in seen:
+            continue
+        seen.add(r["ref_id"])
+        out.append(r["ref_id"])
+        if len(out) >= limit:
+            break
+    return out
+
+
+def product_cards(chunks: list[dict], lang: str, limit: int = 3,
+                  question: str | None = None) -> list[dict]:
     ids = [c["ref_id"] for c in chunks if c["ref_type"] == "product"][:limit]
+    if not ids and question:
+        ids = _product_ids_direct(question, limit)
     cards = []
     with db.get_session() as s:
         for pid in ids:
@@ -206,4 +235,4 @@ def answer(question: str, history: list[dict], lang: str) -> dict:
     return {"reply": reply, "escalate": False,
             "confidence": round(min(0.98, 0.5 + top_sim / 2), 2),
             "sources": sources_for(chunks, lang),
-            "products": product_cards(chunks, lang)}
+            "products": product_cards(chunks, lang, question=question)}

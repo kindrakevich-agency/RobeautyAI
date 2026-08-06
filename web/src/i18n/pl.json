@@ -59,7 +59,10 @@
     "loading": "Ładowanie…",
     "search": "Szukaj",
     "back": "Wstecz",
-    "openOnSite": "Otwórz na stronie marki"
+    "openOnSite": "Otwórz na stronie marki",
+    "loadError": "Nie udało się pobrać danych. Sprawdź logowanie i spróbuj ponownie.",
+    "retry": "Spróbuj ponownie",
+    "logout": "Wyloguj"
   },
   "dashboard": {
     "title": "Pulpit",
