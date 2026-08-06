@@ -2,7 +2,7 @@
  * Аудит інтерфейсу: обидві теми × два вьюпорти × усі маршрути.
  *
  * Шукає те, що око пропускає: горизонтальний скрол, текст, який зливається
- * з фактичним тлом, порожні розділи, зниклий сайдбар, помилки консолі,
+ * з тлом за контрастом WCAG, порожні розділи, зниклий сайдбар, помилки консолі,
  * запити зі статусом 4xx/5xx і замалі цілі для пальця на мобільному.
  *
  * Мобільний вьюпорт тут не для галочки: вікно Chrome на macOS не звужується
@@ -105,10 +105,29 @@ for (const vp of VIEWPORTS) {
         if (overImage(el)) continue
         const r0 = el.getBoundingClientRect()
         if (r0.width < 10 || r0.height < 6) continue
-        const [r, g, bl] = parse(st.color)
-        const [br, bgc, bb] = bgOf(el)
-        const diff = Math.abs(r - br) + Math.abs(g - bgc) + Math.abs(bl - bb)
-        if (diff < 60) out.invisible.push(`${el.tagName}: ${el.textContent.trim().slice(0, 40)}`)
+        // Контраст за WCAG, а не сира різниця RGB: попередній поріг
+        // (сума модулів різниць < 60) пропускав сірий #A6A6A6 на білому —
+        // формально «різні» кольори, фактично текст не читається.
+        const lum = (c) => {
+          const [r, g, bl] = c.map((v) => {
+            const x = v / 255
+            return x <= 0.03928 ? x / 12.92 : Math.pow((x + 0.055) / 1.055, 2.4)
+          })
+          return 0.2126 * r + 0.7152 * g + 0.0722 * bl
+        }
+        const fg = parse(st.color)
+        const bg = bgOf(el)
+        const [l1, l2] = [lum(fg), lum(bg)].sort((a, b) => b - a)
+        const ratio = (l1 + 0.05) / (l2 + 0.05)
+        // Великим вважається текст від 18.66px жирного або 24px звичайного.
+        const px = parseFloat(st.fontSize)
+        const bold = parseInt(st.fontWeight, 10) >= 700
+        const large = px >= 24 || (bold && px >= 18.66)
+        const need = large ? 3 : 4.5
+        if (ratio < need) {
+          out.invisible.push(`${el.tagName} «${el.textContent.trim().slice(0, 28)}» `
+            + `${ratio.toFixed(1)}:1 (треба ${need})`)
+        }
       }
       out.empty = (document.querySelector('main')?.textContent || '').trim().length < 40
       out.hasAside = Boolean(document.querySelector('aside'))
@@ -149,7 +168,8 @@ for (const vp of VIEWPORTS) {
         + (res.wide.length ? ` — винуватці: ${res.wide.join(', ')}` : ''))
     }
     if (vp.isMobile && res.small.length) issues.push(`замалі цілі: ${res.small.join(' | ')}`)
-    if (res.invisible.length) issues.push(`невидимий текст: ${res.invisible.slice(0, 3).join(' | ')}`)
+    if (res.invisible.length) issues.push(`слабкий контраст (${res.invisible.length}): `
+        + res.invisible.slice(0, 4).join(' | '))
     if (res.empty) issues.push('порожній контент')
     if (route.startsWith('/admin') && !res.hasAside) issues.push('немає сайдбару')
     if (errors.length) issues.push(`console: ${errors.slice(0, 2).join(' | ')}`)

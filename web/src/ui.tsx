@@ -21,7 +21,7 @@ export function Card({ children, className = '', pad = true }: {
   children: ReactNode; className?: string; pad?: boolean
 }) {
   return (
-    <div className={`min-w-0 rounded-2xl border border-ink-200/60 bg-white shadow-card
+    <div className={`min-w-0 rounded-2xl border border-ink-200 bg-white shadow-card
                      dark:border-ink-700/60 dark:bg-ink-900 ${pad ? 'p-5' : ''} ${className}`}>
       {children}
     </div>
@@ -44,13 +44,13 @@ export function Stat({ label, value, hint, accent = false }: {
       {accent && (
         <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-ink-700 to-cream-200" />
       )}
-      <div className="text-[11px] font-bold uppercase tracking-[0.14em] text-ink-400">
+      <div className="text-[11px] font-bold uppercase tracking-[0.14em] text-ink-600">
         {label}
       </div>
       <div className="mt-2 font-display text-3xl font-semibold tabular-nums text-ink-950 dark:text-cream-50">
         {value}
       </div>
-      {hint && <div className="mt-1 text-xs text-ink-500 dark:text-ink-400">{hint}</div>}
+      {hint && <div className="mt-1 text-xs text-ink-600 dark:text-ink-400">{hint}</div>}
     </Card>
   )
 }
@@ -101,7 +101,7 @@ export function Input(props: React.InputHTMLAttributes<HTMLInputElement>) {
   return (
     <input {...rest}
            className={`min-w-0 rounded border border-ink-200 bg-white px-3.5 py-2 text-sm
-                       text-ink-900 outline-none transition-colors placeholder:text-ink-400
+                       text-ink-900 outline-none transition-colors placeholder:text-ink-600
                        focus:border-ink-700 dark:border-ink-700 dark:bg-ink-800
                        dark:text-cream-100 ${className}`} />
   )
@@ -116,7 +116,7 @@ export function PageHead({ title, subtitle, actions }: {
         <h1 className="font-display text-2xl font-semibold tracking-tight text-ink-950 dark:text-cream-50">
           {title}
         </h1>
-        {subtitle && <p className="mt-1 text-sm text-ink-500 dark:text-ink-400">{subtitle}</p>}
+        {subtitle && <p className="mt-1 text-sm text-ink-600 dark:text-ink-400">{subtitle}</p>}
       </div>
       {actions && <div className="flex flex-wrap gap-2">{actions}</div>}
     </div>
@@ -132,7 +132,7 @@ export function LangSwitch() {
                 className={`min-h-[38px] min-w-[38px] px-3 uppercase transition-colors ${
                   i18n.language === l
                     ? 'bg-ink-900 text-cream-50 dark:bg-cream-100 dark:text-ink-900'
-                    : 'text-ink-500 hover:text-ink-900 dark:text-ink-300 dark:hover:text-cream-100'}`}>
+                    : 'text-ink-600 hover:text-ink-900 dark:text-ink-300 dark:hover:text-cream-100'}`}>
           {l}
         </button>
       ))}
@@ -144,7 +144,7 @@ export function ThemeToggle() {
   const { dark, toggle } = useDark()
   return (
     <button onClick={toggle} aria-label="theme"
-            className="rounded-full p-2 text-ink-500 transition-colors hover:bg-ink-100
+            className="rounded-full p-2 text-ink-600 transition-colors hover:bg-ink-100
                        hover:text-ink-900 dark:text-ink-300 dark:hover:bg-ink-800">
       {dark ? (
         <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"
@@ -176,17 +176,17 @@ export function Table({ head, children, sort, onSort }: {
   }
 
   return (
-    <div className="min-w-0 overflow-x-auto rounded-2xl border border-ink-200/60 bg-white
+    <div className="min-w-0 overflow-x-auto rounded-2xl border border-ink-200 bg-white
                     shadow-card dark:border-ink-700/60 dark:bg-ink-900">
       <table className="w-full min-w-[640px] border-collapse text-sm">
         <thead>
-          <tr className="border-b border-ink-200/70 text-left dark:border-ink-700/70">
+          <tr className="border-b border-ink-200 text-left dark:border-ink-700/70">
             {head.map((h, i) => {
               const label = typeof h === 'string' ? h : h.label
               const key = typeof h === 'string' ? undefined : h.sortKey
               const active = key && sort?.key === key
               return (
-                <th key={i} className="px-4 py-3 text-[11px] font-bold uppercase tracking-[0.1em] text-ink-400">
+                <th key={i} className="px-4 py-3 text-[11px] font-bold uppercase tracking-[0.1em] text-ink-600">
                   {key ? (
                     <button onClick={() => toggle(key)}
                             className={`-my-2 inline-flex min-h-[38px] items-center gap-1 transition-colors hover:text-ink-800 dark:hover:text-cream-100 ${
@@ -234,7 +234,7 @@ export function Tr({ children }: { children: ReactNode }) {
 export function Disclaimer() {
   const { t } = useTranslation()
   return (
-    <p className="mx-auto max-w-3xl px-4 py-8 text-center text-[11px] leading-relaxed text-ink-400">
+    <p className="mx-auto max-w-3xl px-4 py-8 text-center text-[11px] leading-relaxed text-ink-600">
       {t('disclaimer')}
     </p>
   )
@@ -265,12 +265,12 @@ export function Modal({ open, onClose, title, children, wide = false }: {
          role="dialog" aria-modal="true">
       <div className="absolute inset-0 bg-ink-950/60 backdrop-blur-lg" onClick={onClose} />
       <div className={`animate-rise relative max-h-[88vh] w-full overflow-y-auto rounded-2xl
-                       border border-ink-200/60 bg-white p-6 shadow-pop dark:border-ink-700
+                       border border-ink-200 bg-white p-6 shadow-pop dark:border-ink-700
                        dark:bg-ink-900 ${wide ? 'max-w-3xl' : 'max-w-lg'}`}>
         <div className="mb-4 flex items-start justify-between gap-4">
           <h3 className="font-display text-xl font-semibold text-ink-950 dark:text-cream-50">{title}</h3>
           <button onClick={onClose} aria-label="close"
-                  className="rounded-full p-1.5 text-ink-400 hover:bg-ink-100 hover:text-ink-800
+                  className="rounded-full p-1.5 text-ink-600 hover:bg-ink-100 hover:text-ink-800
                              dark:hover:bg-ink-800 dark:hover:text-cream-100 dark:text-cream-100">✕</button>
         </div>
         {children}
@@ -309,13 +309,13 @@ export function Avatar({ name, size = 8 }: { name: string; size?: 8 | 9 | 10 }) 
 }
 
 export function Mono({ children }: { children: ReactNode }) {
-  return <span className="font-mono text-xs text-ink-500 dark:text-ink-400">{children}</span>
+  return <span className="font-mono text-xs text-ink-600 dark:text-ink-400">{children}</span>
 }
 
 export function Empty({ text }: { text: string }) {
   return (
     <div className="rounded-2xl border border-dashed border-ink-200 px-6 py-10 text-center
-                    text-sm text-ink-400 dark:border-ink-700">
+                    text-sm text-ink-600 dark:border-ink-700">
       {text}
     </div>
   )

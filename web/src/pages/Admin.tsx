@@ -51,7 +51,7 @@ function useAdminData<T>(path: string, deps: unknown[] = []) {
 
 function Loading({ error, onRetry }: { error: string | null; onRetry: () => void }) {
   const { t } = useTranslation()
-  if (!error) return <p className="text-sm text-ink-400">{t('common.loading')}</p>
+  if (!error) return <p className="text-sm text-ink-600">{t('common.loading')}</p>
   return (
     <div className="rounded-2xl border border-cream-200/50 bg-cream-200/60 p-4 dark:bg-ink-900 dark:border-ink-500/30 dark:bg-ink-700/10">
       <p className="text-sm text-ink-950 dark:text-cream-200">{t('common.loadError')}</p>
@@ -92,7 +92,7 @@ function Dashboard() {
 
       <div className="mb-4 grid grid-cols-1 gap-4 lg:grid-cols-2">
         <Card>
-          <div className="text-[11px] font-semibold uppercase tracking-widest text-ink-400">
+          <div className="text-[11px] font-semibold uppercase tracking-widest text-ink-600">
             {t('dashboard.plProgress')}
           </div>
           <div className="mt-2 text-2xl font-semibold text-ink-900 dark:text-cream-50">
@@ -104,32 +104,32 @@ function Dashboard() {
           </div>
         </Card>
         <Card>
-          <div className="text-[11px] font-semibold uppercase tracking-widest text-ink-400">
+          <div className="text-[11px] font-semibold uppercase tracking-widest text-ink-600">
             {t('dashboard.evalTitle')}
           </div>
           {d.eval.p_at_5 == null ? (
-            <p className="mt-2 text-sm text-ink-400">{t('dashboard.notMeasured')}</p>
+            <p className="mt-2 text-sm text-ink-600">{t('dashboard.notMeasured')}</p>
           ) : (
             <div className="mt-2 flex gap-6">
               <div><div className="text-2xl font-semibold tabular-nums">{d.eval.p_at_5}</div>
-                <div className="text-xs text-ink-400">P@5</div></div>
+                <div className="text-xs text-ink-600">P@5</div></div>
               <div><div className="text-2xl font-semibold tabular-nums">{d.eval.judge_pass_rate}</div>
-                <div className="text-xs text-ink-400">{t('evalPage.judge')}</div></div>
+                <div className="text-xs text-ink-600">{t('evalPage.judge')}</div></div>
             </div>
           )}
         </Card>
       </div>
 
       <Card>
-        <div className="text-[11px] font-semibold uppercase tracking-widest text-ink-400">
+        <div className="text-[11px] font-semibold uppercase tracking-widest text-ink-600">
           {t('dashboard.costsTitle')}
         </div>
-        <p className="mt-1 text-xs text-ink-400">{t('dashboard.costsHint')}</p>
+        <p className="mt-1 text-xs text-ink-600">{t('dashboard.costsHint')}</p>
         <div className="mt-3">
           <span className="text-3xl font-semibold tabular-nums text-ink-900 dark:text-cream-50">
             ${d.api_costs.total_usd.toFixed(3)}
           </span>
-          <span className="ml-2 text-xs text-ink-400">
+          <span className="ml-2 text-xs text-ink-600">
             {d.api_costs.calls} {t('dashboard.calls')} · {d.api_costs.tokens.toLocaleString('uk')} {t('dashboard.tokens')}
           </span>
         </div>
@@ -139,9 +139,9 @@ function Dashboard() {
           ))}
         </div>
         <div className="mt-5 grid grid-cols-1 gap-3 sm:grid-cols-2">
-          <div className="rounded-xl border border-ink-200/60 p-4 dark:border-ink-700/60">
+          <div className="rounded-xl border border-ink-200 p-4 dark:border-ink-700/60">
             <div className="text-sm font-semibold text-ink-800 dark:text-cream-100">{t('dashboard.buyTitle')}</div>
-            <p className="mt-1 text-xs leading-relaxed text-ink-400">{t('dashboard.buyItems')}</p>
+            <p className="mt-1 text-xs leading-relaxed text-ink-600">{t('dashboard.buyItems')}</p>
           </div>
           <div className="rounded-xl border border-ink-700 bg-cream-100 p-4">
             <div className="text-sm font-semibold text-ink-950">{t('dashboard.buildTitle')}</div>
@@ -172,7 +172,7 @@ function Products() {
         {items.map((p: any) => (
           // Всередині адмінки посилання ведуть на картку товару в адмінці
           <button key={p.id} onClick={() => nav(`/admin/products/${p.id}`)}
-                  className="min-w-0 rounded-2xl border border-ink-200/60 bg-white p-3 text-left shadow-card transition-colors hover:border-ink-700 dark:border-ink-700/60 dark:bg-ink-900">
+                  className="min-w-0 rounded-2xl border border-ink-200 bg-white p-3 text-left shadow-card transition-colors hover:border-ink-700 dark:border-ink-700/60 dark:bg-ink-900">
             {p.image && (
               <img src={p.image} alt="" loading="lazy" referrerPolicy="no-referrer"
                    className="mb-2 aspect-square w-full rounded-lg object-cover" />
@@ -180,7 +180,7 @@ function Products() {
             <div className="line-clamp-2 text-xs font-semibold leading-snug text-ink-800 dark:text-cream-100">{p.title}</div>
             <div className="mt-1 text-sm font-semibold text-ink-950">{Math.round(p.price)} ₴</div>
             {p.ingredients?.length ? (
-              <div className="mt-1 line-clamp-1 text-[11px] text-ink-400">
+              <div className="mt-1 line-clamp-1 text-[11px] text-ink-600">
                 {p.ingredients.join(' · ')}
               </div>
             ) : null}
@@ -200,7 +200,7 @@ function ProductDetail() {
   const row = (label: string, value: any) => value && (
     Array.isArray(value) ? value.length > 0 : true) ? (
       <div className="border-t border-ink-100 py-2.5">
-        <div className="text-[11px] font-semibold uppercase tracking-wider text-ink-400">{label}</div>
+        <div className="text-[11px] font-semibold uppercase tracking-wider text-ink-600">{label}</div>
         <div className="mt-0.5 text-sm leading-relaxed text-ink-700">
           {Array.isArray(value) ? value.join(' · ') : value}
         </div>
@@ -241,7 +241,7 @@ function ProductDetail() {
           </h1>
           <div className="mt-2 flex flex-wrap items-baseline gap-3">
             <span className="text-2xl font-semibold text-ink-950">{Math.round(p.price)} ₴</span>
-            {p.old_price ? <span className="text-sm text-ink-400 line-through">
+            {p.old_price ? <span className="text-sm text-ink-600 line-through">
               {Math.round(p.old_price)} ₴</span> : null}
             {p.volume && <Badge>{p.volume}</Badge>}
             {p.variant_label && <Badge>{p.variant_label}</Badge>}
@@ -259,7 +259,7 @@ function ProductDetail() {
 
           {p.titles && (
             <Card className="mt-4">
-              <div className="text-[11px] font-semibold uppercase tracking-widest text-ink-400">
+              <div className="text-[11px] font-semibold uppercase tracking-widest text-ink-600">
                 {t('products.descriptions')}
               </div>
               {Object.entries(p.titles).map(([lang, v]: any) => (
@@ -269,7 +269,7 @@ function ProductDetail() {
                     <Badge tone={v.status === 'approved' ? 'good' : 'neutral'}>{v.status}</Badge>
                   </div>
                   <div className="mt-1 text-sm font-medium text-ink-800 dark:text-cream-100">{v.title}</div>
-                  <p className="mt-1 line-clamp-6 text-xs leading-relaxed text-ink-400">{v.description}</p>
+                  <p className="mt-1 line-clamp-6 text-xs leading-relaxed text-ink-600">{v.description}</p>
                 </div>
               ))}
             </Card>
@@ -313,7 +313,7 @@ function Orders() {
             <td className="px-4 py-3"><Mono>{o.number}</Mono></td>
             <td className="px-4 py-3">
               <div className="text-sm text-ink-800 dark:text-cream-100">{o.customer}</div>
-              <div className="text-[11px] text-ink-400">
+              <div className="text-[11px] text-ink-600">
                 {o.city} · {t('orders.pickupRate')} {Math.round(o.pickup_rate * 100)}%
               </div>
             </td>
@@ -323,7 +323,7 @@ function Orders() {
               {o.decision === 'auto' ? <Badge tone="good">{t('orders.auto')}</Badge>
                 : o.decision === 'call' ? <Badge tone="warn">{t('orders.call')}</Badge> : '—'}
             </td>
-            <td className="px-4 py-3 text-xs leading-relaxed text-ink-400">{o.reason}</td>
+            <td className="px-4 py-3 text-xs leading-relaxed text-ink-600">{o.reason}</td>
           </tr>
         ))}
       </Table>
@@ -368,7 +368,7 @@ function Shipments() {
                   </li>
                 ))}
               </ul>
-            ) : <p className="mt-2 text-xs text-ink-400">{t('shipments.noReminders')}</p>}
+            ) : <p className="mt-2 text-xs text-ink-600">{t('shipments.noReminders')}</p>}
           </Card>
         ))}
       </div>
@@ -408,13 +408,13 @@ function Dialogs() {
       <div className="mb-4 flex flex-wrap gap-2">
         <button onClick={() => setChannel('')}
                 className={`inline-flex min-h-[38px] items-center rounded px-3.5 text-xs font-semibold ${
-                  !channel ? 'bg-ink-900 text-white' : 'border border-ink-200 text-ink-400'}`}>
+                  !channel ? 'bg-ink-900 text-white' : 'border border-ink-200 text-ink-600'}`}>
           {t('dialogs.filterAll')}
         </button>
         {Object.entries(d.by_channel).map(([c, n]) => (
           <button key={c} onClick={() => setChannel(c)}
                   className={`inline-flex min-h-[38px] items-center rounded px-3.5 text-xs font-semibold ${
-                    channel === c ? 'bg-ink-900 text-white' : 'border border-ink-200 text-ink-400'}`}>
+                    channel === c ? 'bg-ink-900 text-white' : 'border border-ink-200 text-ink-600'}`}>
             {CHANNEL_LABEL[c] ?? c} · {n as number}
           </button>
         ))}
@@ -424,15 +424,15 @@ function Dialogs() {
         <div className="space-y-2">
           {d.items.map((c: any) => (
             <button key={c.id} onClick={() => open(c.id)}
-                    className="block w-full rounded-xl border border-ink-200/60 bg-white p-3 text-left shadow-card transition-colors hover:border-ink-700 dark:border-ink-700/60 dark:bg-ink-900">
+                    className="block w-full rounded-xl border border-ink-200 bg-white p-3 text-left shadow-card transition-colors hover:border-ink-700 dark:border-ink-700/60 dark:bg-ink-900">
               <div className="flex flex-wrap items-center gap-2">
                 <Badge>{CHANNEL_LABEL[c.channel] ?? c.channel}</Badge>
-                <span className="text-xs text-ink-400">{c.handle ?? '—'}</span>
+                <span className="text-xs text-ink-600">{c.handle ?? '—'}</span>
                 {c.escalated && <Badge tone="warn">esc</Badge>}
                 {c.customer_id && <Badge tone="good">#{c.customer_id}</Badge>}
               </div>
               <div className="mt-1.5 text-sm text-ink-800 dark:text-cream-100">
-                {c.analysis?.topic ?? <span className="text-ink-400">{t('dialogs.analysisPending')}</span>}
+                {c.analysis?.topic ?? <span className="text-ink-600">{t('dialogs.analysisPending')}</span>}
               </div>
               {c.analysis && (
                 <div className="mt-1 flex flex-wrap gap-1.5">
@@ -453,8 +453,8 @@ function Dialogs() {
             <Card>
               <div className="mb-3 flex flex-wrap items-center gap-2">
                 <Badge>{CHANNEL_LABEL[sel.channel] ?? sel.channel}</Badge>
-                <span className="text-xs text-ink-400">{sel.handle ?? '—'}</span>
-                <span className="text-xs text-ink-400">
+                <span className="text-xs text-ink-600">{sel.handle ?? '—'}</span>
+                <span className="text-xs text-ink-600">
                   {t('dialogs.linkedCustomer')}: {sel.customer_id ? `#${sel.customer_id}` : t('dialogs.notLinked')}
                 </span>
               </div>
@@ -469,7 +469,7 @@ function Dialogs() {
                   <div key={i} className={`rounded-xl px-3 py-2 text-sm ${
                     m.role === 'user' ? 'bg-ink-100 text-ink-800 dark:bg-ink-800 dark:text-cream-100'
                       : m.role === 'human_agent' ? 'bg-emerald-50 text-emerald-900'
-                      : 'border border-ink-200/60 text-ink-600 dark:border-ink-700/60 dark:text-ink-300'}`}>
+                      : 'border border-ink-200 text-ink-600 dark:border-ink-700/60 dark:text-ink-300'}`}>
                     {m.content}
                   </div>
                 ))}
@@ -535,7 +535,7 @@ function Tickets() {
               <p className="mt-2 text-sm text-ink-800 dark:text-cream-100">{x.text}</p>
               {x.draft_reply && (
                 <div className="mt-2 rounded-xl bg-cream-100 p-3 dark:bg-ink-800/60">
-                  <div className="text-[11px] font-semibold uppercase tracking-wider text-ink-400">
+                  <div className="text-[11px] font-semibold uppercase tracking-wider text-ink-600">
                     {t('tickets.draft')}
                   </div>
                   <p className="mt-1 text-sm leading-relaxed text-ink-600">{x.draft_reply}</p>
@@ -626,7 +626,7 @@ function Localization() {
         {d.items.slice(0, 30).map((x: any) => (
           <Card key={x.id}>
             <div className="mb-2 flex flex-wrap items-center gap-2">
-              <span className="font-mono text-xs text-ink-400">{x.sku}</span>
+              <span className="font-mono text-xs text-ink-600">{x.sku}</span>
               <Badge tone={x.status === 'approved' ? 'good' : 'neutral'}>
                 {x.status === 'approved' ? t('localization.statusApproved') : t('localization.statusDraft')}
               </Badge>
@@ -634,18 +634,18 @@ function Localization() {
             </div>
             <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
               <div className="min-w-0">
-                <div className="text-[11px] font-semibold uppercase tracking-wider text-ink-400">
+                <div className="text-[11px] font-semibold uppercase tracking-wider text-ink-600">
                   {t('localization.sourceUk')}
                 </div>
                 <div className="mt-1 text-sm font-medium text-ink-800 dark:text-cream-100">{x.uk_title}</div>
-                <p className="mt-1 line-clamp-4 text-xs leading-relaxed text-ink-400">{x.uk_description}</p>
+                <p className="mt-1 line-clamp-4 text-xs leading-relaxed text-ink-600">{x.uk_description}</p>
               </div>
               <div className="min-w-0">
                 <div className="text-[11px] font-semibold uppercase tracking-wider text-ink-900 dark:text-cream-200">
                   {t('localization.targetPl')}
                 </div>
                 <div className="mt-1 text-sm font-medium text-ink-800 dark:text-cream-100">{x.pl_title}</div>
-                <p className="mt-1 line-clamp-4 text-xs leading-relaxed text-ink-400">{x.pl_description}</p>
+                <p className="mt-1 line-clamp-4 text-xs leading-relaxed text-ink-600">{x.pl_description}</p>
               </div>
             </div>
             <div className="mt-3 flex gap-2">
@@ -692,7 +692,7 @@ function Analytics() {
         <div className="mt-3 flex flex-wrap gap-2">
           {presets.map((p) => (
             <button key={p} onClick={() => { const x = t(`analytics.presets.${p}`); setQ(x); void ask(x) }}
-                    className="inline-flex min-h-[38px] items-center rounded border border-ink-200/60 px-3.5 text-left text-xs text-ink-600 transition-colors hover:border-ink-700 dark:border-ink-700/60 dark:text-ink-300 hover:text-ink-950">
+                    className="inline-flex min-h-[38px] items-center rounded border border-ink-200 px-3.5 text-left text-xs text-ink-600 transition-colors hover:border-ink-700 dark:border-ink-700/60 dark:text-ink-300 hover:text-ink-950">
               {t(`analytics.presets.${p}`)}
             </button>
           ))}
@@ -736,7 +736,7 @@ function EvalPage() {
     <>
       <PageHead title={t('evalPage.title')} subtitle={t('evalPage.subtitle')} />
       <Card className="mb-4">
-        <div className="text-[11px] font-semibold uppercase tracking-widest text-ink-400">
+        <div className="text-[11px] font-semibold uppercase tracking-widest text-ink-600">
           {t('evalPage.runs')}
         </div>
         {d.runs.length ? (
@@ -752,18 +752,18 @@ function EvalPage() {
               ))}
             </Table>
           </div>
-        ) : <p className="mt-2 text-sm text-ink-400">{t('dashboard.notMeasured')}</p>}
+        ) : <p className="mt-2 text-sm text-ink-600">{t('dashboard.notMeasured')}</p>}
       </Card>
 
       <Card>
-        <div className="text-[11px] font-semibold uppercase tracking-widest text-ink-400">
+        <div className="text-[11px] font-semibold uppercase tracking-widest text-ink-600">
           {t('evalPage.gaps')}
         </div>
-        <p className="mt-1 text-xs text-ink-400">{t('evalPage.gapsHint')}</p>
+        <p className="mt-1 text-xs text-ink-600">{t('evalPage.gapsHint')}</p>
         {d.gaps.length ? (
           <div className="mt-3 space-y-3">
             {d.gaps.map((g: any) => (
-              <div key={g.id} className="rounded-xl border border-ink-200/60 p-3 dark:border-ink-700/60">
+              <div key={g.id} className="rounded-xl border border-ink-200 p-3 dark:border-ink-700/60">
                 <div className="flex flex-wrap items-center gap-2">
                   <Badge>{g.lang}</Badge>
                   <span className="text-sm text-ink-800 dark:text-cream-100">{g.question}</span>

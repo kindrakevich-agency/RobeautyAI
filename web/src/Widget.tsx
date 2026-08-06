@@ -61,7 +61,7 @@ function Cards({ items }: { items: ProductCard[] }) {
       <div ref={rail} className="no-scrollbar flex snap-x snap-mandatory gap-2 overflow-x-auto pb-1">
         {items.map((p) => (
           <div key={p.sku} className="flex w-[168px] shrink-0 snap-start flex-col rounded-xl
-                                      border border-ink-200/70 bg-white p-2 dark:border-ink-700 dark:bg-ink-800">
+                                      border border-ink-200 bg-white p-2 dark:border-ink-700 dark:bg-ink-800">
             {p.image && !broken[p.sku] && (
               <img src={p.image} alt="" loading="lazy" referrerPolicy="no-referrer"
                    onError={() => setBroken((b) => ({ ...b, [p.sku]: true }))}
@@ -74,7 +74,7 @@ function Cards({ items }: { items: ProductCard[] }) {
               {Math.round(p.price).toLocaleString('uk-UA')} {t('common.uah')}
             </div>
             {p.ingredients?.length ? (
-              <div className="mt-0.5 line-clamp-1 text-[10px] text-ink-400">
+              <div className="mt-0.5 line-clamp-1 text-[10px] text-ink-600">
                 {p.ingredients.join(' · ')}
               </div>
             ) : null}
@@ -90,7 +90,7 @@ function Cards({ items }: { items: ProductCard[] }) {
           {([-1, 1] as const).map((d) => (
             <button key={d} onClick={() => rail.current?.scrollBy({ left: d * 180, behavior: 'smooth' })}
                     aria-label={d < 0 ? '←' : '→'}
-                    className="rounded-full border border-ink-200 px-2 py-0.5 text-[10px] text-ink-400
+                    className="rounded-full border border-ink-200 px-2 py-0.5 text-[10px] text-ink-600
                                hover:border-ink-700 hover:text-ink-950 dark:border-ink-700">
               {d < 0 ? '←' : '→'}
             </button>
@@ -117,10 +117,10 @@ function Sources({ items }: { items: Source[] }) {
             <li key={i} className="text-[10px] leading-relaxed">
               {s.url ? (
                 <a href={s.url} target="_blank" rel="noreferrer"
-                   className="text-ink-500 underline decoration-ink-200 hover:text-ink-950 dark:text-ink-400">
+                   className="text-ink-600 underline decoration-ink-200 hover:text-ink-950 dark:text-ink-400">
                   {s.title}
                 </a>
-              ) : <span className="text-ink-500">{s.title}</span>}
+              ) : <span className="text-ink-600">{s.title}</span>}
             </li>
           ))}
         </ul>
@@ -205,10 +205,10 @@ export default function Widget() {
         <section role="dialog" aria-label={t('chat.title')}
                  className={`z-[94] flex flex-col overflow-hidden bg-cream-100 dark:bg-ink-950
                              ${full ? fullscreen : docked}`}>
-          <header className="flex items-center gap-1 border-b border-ink-200/70 bg-cream-50/80 px-4 py-3
+          <header className="flex items-center gap-1 border-b border-ink-200 bg-cream-50/80 px-4 py-3
                              backdrop-blur-md dark:border-ink-700 dark:bg-ink-900/80">
             <button onClick={() => setFull((v) => !v)} aria-label="expand"
-                    className="rounded-lg p-1 text-ink-500 hover:bg-ink-100 dark:hover:bg-ink-800">
+                    className="rounded-lg p-1 text-ink-600 hover:bg-ink-100 dark:hover:bg-ink-800">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"
                    strokeLinecap="round">{full
                      ? <><polyline points="4 14 10 14 10 20" /><polyline points="20 10 14 10 14 4" /></>
@@ -219,12 +219,12 @@ export default function Widget() {
               {t('chat.title')}
             </div>
             <button onClick={() => { setMsgs([]); setConvId(null) }} aria-label="new"
-                    className="rounded-lg p-1.5 text-ink-500 hover:bg-ink-100 dark:hover:bg-ink-800">
+                    className="rounded-lg p-1.5 text-ink-600 hover:bg-ink-100 dark:hover:bg-ink-800">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"
                    strokeLinecap="round"><polyline points="23 4 23 10 17 10" /><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10" /></svg>
             </button>
             <button onClick={() => setOpen(false)} aria-label="close"
-                    className="grid size-8 place-items-center rounded-full bg-ink-100 text-ink-500
+                    className="grid size-8 place-items-center rounded-full bg-ink-100 text-ink-600
                                hover:bg-ink-200 dark:bg-ink-800 dark:hover:bg-ink-700">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"
                    strokeLinecap="round"><line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" /></svg>
@@ -232,7 +232,7 @@ export default function Widget() {
           </header>
 
           <div className="flex items-center gap-2 border-b border-ink-100 bg-cream-50 px-4 py-1.5
-                          text-[11px] text-ink-400 dark:border-ink-800 dark:bg-ink-900" role="note">
+                          text-[11px] text-ink-600 dark:border-ink-800 dark:bg-ink-900" role="note">
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" aria-hidden>
               <circle cx="12" cy="12" r="9" stroke="currentColor" strokeWidth="1.6" />
               <path d="M12 11v5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
@@ -247,11 +247,11 @@ export default function Widget() {
                 <h2 className="text-[20px] leading-snug font-bold tracking-tight text-ink-900 dark:text-cream-50">
                   {t('chat.greeting')}
                 </h2>
-                <p className="mt-2 text-xs leading-relaxed text-ink-400">{t('chat.sourcesHint')}</p>
+                <p className="mt-2 text-xs leading-relaxed text-ink-600">{t('chat.sourcesHint')}</p>
                 <div className="mt-5 space-y-2">
                   {(QUICK[i18n.language] ?? QUICK.uk).map((q) => (
                     <button key={q} onClick={() => ask(q)}
-                            className="w-full rounded-xl border border-ink-200/70 px-3 py-2.5 text-left
+                            className="w-full rounded-xl border border-ink-200 px-3 py-2.5 text-left
                                        text-xs leading-snug text-ink-600 transition-colors
                                        hover:border-ink-700 hover:text-ink-950
                                        dark:border-ink-700 dark:text-ink-300">
@@ -268,7 +268,7 @@ export default function Widget() {
                   <div className={`min-w-0 max-w-[92%] rounded-2xl px-3.5 py-2.5 text-[13px] leading-relaxed ${
                     m.role === 'user'
                       ? 'bg-ink-900 text-white'
-                      : 'border border-ink-200/70 bg-white text-ink-800 dark:border-ink-700 dark:bg-ink-900 dark:text-cream-100'}`}>
+                      : 'border border-ink-200 bg-white text-ink-800 dark:border-ink-700 dark:bg-ink-900 dark:text-cream-100'}`}>
                     {m.role === 'assistant' ? (
                       <div className="rb-md" dangerouslySetInnerHTML={{ __html: renderMarkdown(m.text) }} />
                     ) : (
@@ -305,7 +305,7 @@ export default function Widget() {
           )}
 
           <form onSubmit={(e) => { e.preventDefault(); void ask(input) }}
-                className="flex items-center gap-2 border-t border-ink-200/70 bg-cream-50 px-3 py-2.5
+                className="flex items-center gap-2 border-t border-ink-200 bg-cream-50 px-3 py-2.5
                            dark:border-ink-700 dark:bg-ink-900">
             <input value={input} onChange={(e) => setInput(e.target.value)}
                    placeholder={t('chat.placeholder')}

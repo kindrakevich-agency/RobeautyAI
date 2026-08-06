@@ -64,11 +64,11 @@ export default function SystemInsights() {
                          hover:border-ink-700/40 sm:w-full sm:max-w-md sm:shrink sm:justify-start
                          sm:py-2 sm:pr-3 sm:pl-3.5 dark:bg-ink-800/70">
         <Sparkles size={15} className="shrink-0 text-ink-900 dark:text-cream-200" />
-        <span className="hidden min-w-0 flex-1 truncate text-ink-400 sm:block dark:text-ink-500">
+        <span className="hidden min-w-0 flex-1 truncate text-ink-600 sm:block dark:text-ink-500">
           {t('insights.trigger')}
         </span>
         <kbd className="hidden shrink-0 rounded border border-ink-200 px-1.5 py-0.5 font-mono
-                        text-[10px] text-ink-400 sm:block dark:border-ink-600">⌘K</kbd>
+                        text-[10px] text-ink-600 sm:block dark:border-ink-600">⌘K</kbd>
       </button>
 
       {/* Портал у body: шапка має backdrop-blur і перехопила б position:fixed */}
@@ -85,10 +85,10 @@ export default function SystemInsights() {
                 <input ref={inputRef} value={q} onChange={(e) => setQ(e.target.value)}
                        placeholder={t('insights.placeholder')}
                        className="flex-1 border-0 bg-transparent p-0 text-[15px] text-ink-900
-                                  outline-none placeholder:text-ink-400 dark:text-cream-100" />
+                                  outline-none placeholder:text-ink-600 dark:text-cream-100" />
                 <CornerDownLeft size={15} className="shrink-0 text-ink-300" />
                 <button type="button" onClick={() => setOpen(false)} aria-label="close"
-                        className="shrink-0 rounded-lg p-1 text-ink-400 hover:bg-ink-100 dark:hover:bg-ink-800">
+                        className="shrink-0 rounded-lg p-1 text-ink-600 hover:bg-ink-100 dark:hover:bg-ink-800">
                   <X size={16} />
                 </button>
               </form>
@@ -96,14 +96,14 @@ export default function SystemInsights() {
               <div className="overflow-y-auto px-5 py-4">
                 {!report && !loading && (
                   <>
-                    <div className="mb-2.5 text-[11px] font-bold tracking-widest text-ink-400 uppercase">
+                    <div className="mb-2.5 text-[11px] font-bold tracking-widest text-ink-600 uppercase">
                       {t('insights.quick')}
                     </div>
                     <div className="grid gap-2 sm:grid-cols-2">
                       {PRESETS.map((p) => (
                         <button key={p.key} type="button"
                                 onClick={() => { const x = t(`insights.presets.${p.key}.q`); setQ(x); void run(x) }}
-                                className="group flex items-center gap-3 rounded-xl border border-ink-200/70
+                                className="group flex items-center gap-3 rounded-xl border border-ink-200
                                            px-3.5 py-3 text-left transition-all hover:-translate-y-0.5
                                            hover:border-ink-700 hover:shadow-card dark:border-ink-700">
                           <span className="flex size-8 shrink-0 items-center justify-center rounded-lg
@@ -118,11 +118,11 @@ export default function SystemInsights() {
                         </button>
                       ))}
                     </div>
-                    <p className="mt-4 text-xs leading-relaxed text-ink-400">{t('insights.hint')}</p>
+                    <p className="mt-4 text-xs leading-relaxed text-ink-600">{t('insights.hint')}</p>
                   </>
                 )}
 
-                {loading && <div className="py-6 text-sm text-ink-400">{t('insights.thinking')}</div>}
+                {loading && <div className="py-6 text-sm text-ink-600">{t('insights.thinking')}</div>}
                 {failed && !loading && (
                   <p className="py-4 text-sm text-ink-950 dark:text-cream-200">{t('insights.failed')}</p>
                 )}
