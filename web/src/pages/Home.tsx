@@ -15,12 +15,15 @@ export default function Home() {
     <div className="min-h-screen bg-cream-100 dark:bg-ink-950">
       <header className="border-b border-ink-200/60 dark:border-ink-700/60">
         <div className="mx-auto flex max-w-4xl items-center gap-3 px-4 py-4">
-          <div className="min-w-0 flex-1">
-            <div className="font-display text-lg font-semibold tracking-wide text-ink-950 dark:text-cream-50">
-              RoBeauty
+          {/* Локап логотипа robeauty.me: «RO» жирним + «BEAUTY» тонким, риска,
+              дрібний підпис — на сайті там «науковий ANTI-AGE». */}
+          <div className="flex min-w-0 flex-1 items-center gap-2.5">
+            <div className="font-display text-[19px] leading-none tracking-[0.02em] text-ink-950 dark:text-cream-50">
+              <span className="font-bold">RO</span><span className="font-normal">BEAUTY</span>
             </div>
-            <div className="text-[10px] font-bold tracking-[0.2em] text-ink-900 uppercase dark:text-cream-200">
-              AI Consultant
+            <div className="h-[15px] w-px bg-ink-300 dark:bg-ink-700" />
+            <div className="text-[8px] font-bold leading-[1.3] tracking-[0.16em] text-ink-600 uppercase dark:text-ink-400">
+              AI<br />CONSULTANT
             </div>
           </div>
           <Badge tone="brand">{t('demoBadge')}</Badge>
@@ -39,8 +42,9 @@ export default function Home() {
         <p className="mt-3 max-w-xl text-base leading-relaxed text-ink-600 dark:text-ink-300">
           {t('home.lede')}
         </p>
-        <p className="mt-6 inline-flex items-center gap-2 rounded-full border border-ink-700/40
-                      bg-ink-700/10 px-4 py-2 text-sm font-semibold text-ink-950 dark:text-cream-200">
+        <p className="mt-7 inline-flex items-center gap-2 rounded bg-ink-900 px-5 py-3
+                      text-[11px] font-bold tracking-display text-white uppercase
+                      dark:bg-cream-100 dark:text-ink-950">
           {t('home.cta')} →
         </p>
 
