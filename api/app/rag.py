@@ -211,6 +211,38 @@ def _system_prompt(lang: str) -> str:
     return (sections.get(lang) or sections.get("uk") or text_).strip()
 
 
+# Реєстр і валюта у відповіді.
+#
+# Промпт просить не згадувати «матеріали» і тримати одну валюту, але модель
+# порушує це в частині відповідей, тож правило додатково застосовується
+# детерміновано. Так формулювання не залежить від того, як цього разу лягла
+# генерація.
+
+_FRAME_RE = [
+    (re.compile(r"\b(?:з|із|у|в)\s+(?:наданих\s+)?(?:довідкових\s+)?матеріал(?:ах|ів|и)\b\s*", re.I), ""),
+    (re.compile(r"\bз\s+довідк(?:и|ових)\b\s*", re.I), ""),
+    (re.compile(r"\bу\s+баз(?:і|и)\s+знань\b\s*", re.I), ""),
+    (re.compile(r"\bзгідно\s+з\s+(?:наданими\s+)?даними\b\s*", re.I), ""),
+    (re.compile(r"\bw\s+materiałach\b\s*", re.I), ""),
+    (re.compile(r"\bwedług\s+(?:dostarczonych\s+)?danych\b\s*", re.I), ""),
+]
+
+_CURRENCY = {"uk": "грн", "pl": "UAH"}
+
+
+def _polish(reply: str, lang: str) -> str:
+    for rx, repl in _FRAME_RE:
+        reply = rx.sub(repl, reply)
+    unit = _CURRENCY.get(lang, "грн")
+    # Уніфікуємо валюту: ₴ / UAH / грн → один запис після числа.
+    # «грн» без крапки в шаблоні: інакше заміна з'їдає крапку в кінці речення.
+    reply = re.sub(r"(\d(?:[\d\u00a0\u202f ]*\d)?)\s*(?:₴|грн|UAH)(?!\w)", rf"\1 {unit}", reply)
+    # Прибираємо подвійні пробіли, що лишилися після вирізаних зворотів.
+    reply = re.sub(r"[ \t]{2,}", " ", reply)
+    reply = re.sub(r"\s+([,.:;!?»)])", r"\1", reply)
+    return reply.strip()
+
+
 def answer(question: str, history: list[dict], lang: str) -> dict:
     if MEDICAL_RE.search(question):
         return {"reply": REFUSAL.get(lang, REFUSAL["uk"]), "escalate": True,
@@ -230,11 +262,11 @@ def answer(question: str, history: list[dict], lang: str) -> dict:
     messages = [{"role": "system", "content": _system_prompt(lang)},
                 *history[-6:],
                 {"role": "user", "content":
-                 f"Довідкові матеріали:\n{context}\n\nПитання клієнта: {question}"}]
+                 f"Каталог RoBeauty:\n{context}\n\nПитання клієнта: {question}"}]
     reply = llm.chat(messages, purpose="chat", model=config.MODEL_CHAT,
                      max_tokens=1200)
 
-    return {"reply": reply, "escalate": False,
+    return {"reply": _polish(reply, lang), "escalate": False,
             "confidence": round(min(0.98, 0.5 + top_sim / 2), 2),
             "sources": sources_for(chunks, lang),
             "products": product_cards(chunks, lang, question=question)}
