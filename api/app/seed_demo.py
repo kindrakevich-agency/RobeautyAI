@@ -71,6 +71,22 @@ SOCIAL_DIALOGS = [
 ]
 
 
+def _pickup_rate() -> float:
+    """Реалістичний розподіл викупу для D2C з накладеним платежем.
+
+    Рівномірний uniform(0.5, 1.0) робив половину бази хронічними
+    невикупниками — так не буває в живому магазині й це спотворювало
+    метрику агента. Насправді більшість клієнтів забирає посилки
+    справно, а проблемних — меншість.
+    """
+    r = rng.random()
+    if r < 0.65:
+        return round(rng.uniform(0.88, 1.0), 2)   # надійні
+    if r < 0.87:
+        return round(rng.uniform(0.75, 0.88), 2)  # звичайні
+    return round(rng.uniform(0.45, 0.75), 2)      # проблемні
+
+
 def main() -> None:
     with db.get_session() as s:
         marker = s.scalar(select(Customer).where(Customer.name == "__seed_marker__"))
@@ -89,7 +105,7 @@ def main() -> None:
                 phone_masked=f"+380 {rng.choice([50, 67, 63, 96])} *** ** {rng.randint(10, 99)}",
                 city=rng.choice(CITIES),
                 orders_count=rng.randint(1, 14),
-                pickup_rate=round(rng.uniform(0.5, 1.0), 2),
+                pickup_rate=_pickup_rate(),
                 ltv=round(rng.uniform(600, 18000), 0),
             )
             customers.append(c)
