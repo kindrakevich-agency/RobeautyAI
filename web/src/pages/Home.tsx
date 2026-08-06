@@ -18,14 +18,23 @@ import Widget from '../Widget'
  */
 
 type Health = { chunks: number; products: number; translated_pl: number }
+type Item = { sku: string; title: string; price: number; volume: string | null
+              image: string; url: string | null }
 
 export default function Home() {
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
   const [h, setH] = useState<Health | null>(null)
+  const [items, setItems] = useState<Item[]>([])
 
   useEffect(() => {
     fetch('/api/health').then((r) => r.json()).then(setH).catch(() => {})
   }, [])
+
+  // Фото — прямими посиланнями з robeauty.me, нічого не перезаливаємо.
+  useEffect(() => {
+    fetch(`/api/showcase?lang=${i18n.language}&limit=7`)
+      .then((r) => r.json()).then((d) => setItems(d.items || [])).catch(() => {})
+  }, [i18n.language])
 
   const points = ['sources', 'grounding', 'cards', 'handoff'] as const
   const num = (v?: number) => (v == null ? '—' : v.toLocaleString('uk-UA'))
@@ -92,39 +101,51 @@ export default function Home() {
             </div>
           </div>
 
-          {/* Панель специфікації — той самий жанр, що й склад на звороті банки. */}
-          <aside className="animate-rise-1 min-w-0 self-start border border-ink-200 bg-white
-                            dark:border-ink-800 dark:bg-ink-900">
-            <div className="border-b border-ink-200 px-5 py-3 dark:border-ink-800">
-              <div className="text-[9px] font-bold tracking-[0.2em] text-ink-500 uppercase dark:text-ink-400">
-                {t('home.spec.title')}
+          {/* Фото товару бренду на бежі — та сама подача, що й плитки категорій
+              на robeauty.me. Без знімка ахроматична палітра читається як бланк:
+              у них колір тримає саме фотографія, а не акцентний відтінок. */}
+          <div className="animate-rise-1 min-w-0 self-stretch">
+            <div className="relative aspect-[4/5] w-full overflow-hidden bg-cream-200 dark:bg-ink-900">
+              {items[0]?.image && (
+                <img src={items[0].image} alt={items[0].title} loading="eager"
+                     className="size-full object-cover" />
+              )}
+              {items[0] && (
+                <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-ink-950/75 to-transparent p-4 pt-10">
+                  <div className="text-[11px] leading-snug font-semibold text-white line-clamp-2">
+                    {items[0].title}
+                  </div>
+                  <div className="mt-1 text-[11px] font-bold tabular-nums text-white/85">
+                    {Math.round(items[0].price).toLocaleString('uk-UA')} {t('common.uah')}
+                    {items[0].volume ? ` · ${items[0].volume}` : ''}
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+        </section>
+
+        {/* ---------- специфікація стенда ---------- */}
+        <section className="grid grid-cols-2 gap-px border-y border-ink-200 bg-ink-200
+                            sm:grid-cols-4 dark:border-ink-800 dark:bg-ink-800">
+          {[
+            ['catalog', num(h?.products)],
+            ['chunks', num(h?.chunks)],
+            ['langs', `UA · PL — ${num(h?.translated_pl)}`],
+            ['sources', t('home.spec.sourcesValue')],
+          ].map(([k, v]) => (
+            <div key={String(k)} className="bg-cream-100 px-4 py-5 dark:bg-ink-950">
+              <div className="text-[9px] font-bold tracking-[0.16em] text-ink-500 uppercase dark:text-ink-400">
+                {t(`home.spec.${k}`)}
+              </div>
+              <div className="mt-2 font-display text-[17px] leading-tight font-bold tabular-nums
+                              text-ink-950 dark:text-cream-50">
+                {v}
               </div>
             </div>
-            <dl className="divide-y divide-ink-100 dark:divide-ink-800">
-              {[
-                ['catalog', num(h?.products)],
-                ['chunks', num(h?.chunks)],
-                ['langs', `UA · PL — ${num(h?.translated_pl)}`],
-                ['sources', t('home.spec.sourcesValue')],
-              ].map(([k, v]) => (
-                <div key={String(k)} className="flex items-baseline justify-between gap-4 px-5 py-3.5">
-                  <dt className="text-[10px] font-bold tracking-[0.14em] text-ink-500 uppercase dark:text-ink-400">
-                    {t(`home.spec.${k}`)}
-                  </dt>
-                  <dd className="shrink-0 font-display text-[15px] font-semibold tabular-nums
-                                 text-ink-950 dark:text-cream-50">
-                    {v}
-                  </dd>
-                </div>
-              ))}
-            </dl>
-            <div className="border-t border-ink-200 px-5 py-3 dark:border-ink-800">
-              <p className="text-[10px] leading-relaxed text-ink-500 dark:text-ink-400">
-                {t('home.spec.note')}
-              </p>
-            </div>
-          </aside>
+          ))}
         </section>
+        <p className="pt-3 text-[10px] text-ink-500 dark:text-ink-400">{t('home.spec.note')}</p>
 
         {/* ---------- склад ---------- */}
         <section className="border-t border-ink-200 py-14 dark:border-ink-800">
@@ -148,6 +169,35 @@ export default function Home() {
             ))}
           </div>
         </section>
+
+        {/* Каталог, на якому все це працює: справжні фото, назви й ціни.
+            Заразом це доказ, що стенд стоїть поверх реальних даних. */}
+        {items.length > 1 && (
+          <section className="border-t border-ink-200 py-14 dark:border-ink-800">
+            <h2 className="rb-display text-[11px] text-ink-500 dark:text-ink-400">
+              {t('home.catalogTitle')}
+            </h2>
+            <div className="no-scrollbar -mx-5 mt-6 flex snap-x snap-mandatory gap-3
+                            overflow-x-auto px-5 pb-1">
+              {items.slice(1).map((it) => (
+                <a key={it.sku} href={it.url || '#'} target="_blank" rel="noreferrer"
+                   className="group w-[46%] shrink-0 snap-start sm:w-[23%]">
+                  <div className="aspect-square w-full overflow-hidden bg-cream-200 dark:bg-ink-900">
+                    <img src={it.image} alt={it.title} loading="lazy"
+                         className="size-full object-cover transition-transform duration-500
+                                    group-hover:scale-[1.04]" />
+                  </div>
+                  <div className="mt-2.5 line-clamp-2 text-[12px] leading-snug text-ink-800 dark:text-cream-100">
+                    {it.title}
+                  </div>
+                  <div className="mt-1 text-[12px] font-bold tabular-nums text-ink-950 dark:text-cream-50">
+                    {Math.round(it.price).toLocaleString('uk-UA')} {t('common.uah')}
+                  </div>
+                </a>
+              ))}
+            </div>
+          </section>
+        )}
 
         {/* ---------- спробуйте самі ---------- */}
         <section className="pb-20">

@@ -68,7 +68,8 @@
     "openOnSite": "Otwórz na stronie marki",
     "loadError": "Nie udało się pobrać danych. Sprawdź logowanie i spróbuj ponownie.",
     "retry": "Spróbuj ponownie",
-    "logout": "Wyloguj"
+    "logout": "Wyloguj",
+    "uah": "UAH"
   },
   "dashboard": {
     "title": "Pulpit",
@@ -320,6 +321,7 @@
       "sources": "Źródła",
       "sourcesValue": "pod każdą odpowiedzią",
       "note": "Liczby czytane z bazy na żywo. Katalog i ceny — z robeauty.me."
-    }
+    },
+    "catalogTitle": "Katalog, na którym to działa"
   }
 }

@@ -126,10 +126,10 @@ export function PageHead({ title, subtitle, actions }: {
 export function LangSwitch() {
   const { i18n } = useTranslation()
   return (
-    <div className="flex shrink-0 overflow-hidden rounded-full border border-ink-200 text-xs font-bold dark:border-ink-700">
+    <div className="flex shrink-0 overflow-hidden rounded border border-ink-200 text-[11px] font-bold dark:border-ink-700">
       {(['uk', 'pl'] as const).map((l) => (
         <button key={l} onClick={() => setLang(l)}
-                className={`px-2.5 py-1.5 uppercase transition-colors ${
+                className={`min-h-[38px] min-w-[38px] px-3 uppercase transition-colors ${
                   i18n.language === l
                     ? 'bg-ink-900 text-cream-50 dark:bg-cream-100 dark:text-ink-900'
                     : 'text-ink-500 hover:text-ink-900 dark:text-ink-300 dark:hover:text-cream-100'}`}>

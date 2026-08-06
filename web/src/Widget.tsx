@@ -189,9 +189,11 @@ export default function Widget() {
   }
   askRef.current = ask
 
-  const docked = 'fixed bottom-24 right-5 h-[min(680px,calc(100dvh-7rem))] ' +
-    'w-[min(390px,calc(100vw-2.5rem))] rounded-lg border border-ink-200 shadow-pop ' +
-    'dark:border-ink-700'
+  // До sm — завжди на весь екран: вузька панель на телефоні не поміщається.
+  const docked = 'fixed inset-0 h-dvh w-screen rounded-none border-0 ' +
+    'sm:inset-auto sm:bottom-24 sm:right-5 sm:h-[min(680px,calc(100dvh-7rem))] ' +
+    'sm:w-[min(390px,calc(100vw-2.5rem))] sm:rounded-lg sm:border sm:border-ink-200 ' +
+    'sm:shadow-pop sm:dark:border-ink-700'
   const fullscreen = 'fixed inset-0 h-dvh w-screen rounded-none border-0'
 
   return (

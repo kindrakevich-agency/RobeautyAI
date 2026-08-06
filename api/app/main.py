@@ -14,7 +14,7 @@ from sqlalchemy import func, select, text as sql_text
 
 from . import bootstrap, config, db, llm, rag
 from .agents import dialogs as dialogs_agent
-from .models import Conversation, Message, Ticket
+from .models import Conversation, Message, Product, ProductI18n, Ticket
 
 import os
 
@@ -48,6 +48,41 @@ def health() -> dict:
             "SELECT count(*) FROM product_i18n WHERE lang = 'pl'").scalar()
     return {"status": "ok", "chunks": chunks, "products": products,
             "translated_pl": translated, "llm": bool(config.OPENAI_API_KEY)}
+
+
+# ---------- вітрина для публічної сторінки ----------
+
+@app.get("/api/showcase")
+def showcase(lang: str = "uk", limit: int = 8) -> dict:
+    """Кілька товарів із фото для головної.
+
+    Фото віддаються прямими посиланнями на robeauty.me — ми їх не
+    перезаливаємо й не кешуємо в себе, як і домовлено із замовником.
+    """
+    with db.get_session() as s:
+        rows = (s.query(Product)
+                .filter(Product.images != [], Product.price > 0)
+                .order_by(Product.price.desc())
+                .limit(limit * 3).all())
+    seen: set[str] = set()
+    items = []
+    for p_ in rows:
+        img = (p_.images or [None])[0]
+        if not img or img in seen:
+            continue
+        seen.add(img)
+        title = p_.sku
+        with db.get_session() as s:
+            tr = (s.query(ProductI18n)
+                  .filter(ProductI18n.product_id == p_.id, ProductI18n.lang == lang)
+                  .first())
+            if tr:
+                title = tr.title
+        items.append({"sku": p_.sku, "title": title, "price": p_.price,
+                      "volume": p_.volume, "image": img, "url": p_.landing_url})
+        if len(items) >= limit:
+            break
+    return {"items": items}
 
 
 # ---------- онбординг першого запуску ----------
