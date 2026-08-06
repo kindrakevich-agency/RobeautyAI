@@ -7,6 +7,7 @@ import {
 import { useTranslation } from 'react-i18next'
 import { clearAdminCreds } from './api'
 import SystemInsights from './SystemInsights'
+import Widget from './Widget'
 import { Badge, Disclaimer, LangSwitch, ThemeToggle } from './ui'
 
 type Item = { to: string; key: string; icon: typeof LayoutDashboard }
@@ -137,6 +138,7 @@ export default function Shell({ onLogout }: { onLogout: () => void }) {
         </main>
         <Disclaimer />
       </div>
+      <Widget />
     </div>
   )
 }

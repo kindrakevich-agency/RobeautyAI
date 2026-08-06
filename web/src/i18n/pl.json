@@ -25,7 +25,9 @@
       "eyes": "Okolice oczu"
     },
     "aiNotice": "Rozmawiasz z konsultantem AI",
-    "openAdmin": "Panel"
+    "openAdmin": "Panel",
+    "greeting": "Cześć! Dobiorę pielęgnację pod Twoją skórę",
+    "failed": "Nie udało się uzyskać odpowiedzi"
   },
   "nav": {
     "dashboard": "Pulpit",
@@ -274,6 +276,29 @@
       "quality": {
         "label": "Jakość AI",
         "q": "Jak działa konsultant i gdzie są luki w bazie wiedzy?"
+      }
+    }
+  },
+  "home": {
+    "title": "Konsultant AI, który poleca wyłącznie to, co naprawdę jest w katalogu",
+    "lede": "Stanowisko demo na bazie prawdziwego katalogu RoBeauty: dobór pielęgnacji do typu skóry i problemu, karty produktów z cenami i składem, uczciwe „nie wiem” zamiast zmyślonej odpowiedzi.",
+    "cta": "Kliknij przycisk w prawym dolnym rogu i sprawdź",
+    "points": {
+      "sources": {
+        "title": "Źródła pod każdą odpowiedzią",
+        "text": "Widać, z jakich stron katalogu powstała odpowiedź — można to sprawdzić, a nie wierzyć na słowo."
+      },
+      "grounding": {
+        "title": "Nie zmyśla składów ani cen",
+        "text": "Odpowiada tylko z bazy wiedzy. Gdy danych brak — mówi wprost i proponuje doradcę."
+      },
+      "cards": {
+        "title": "Karty produktów w czacie",
+        "text": "Zdjęcie, cena, pojemność i pierwsze składniki aktywne, z linkiem do strony produktu."
+      },
+      "handoff": {
+        "title": "Przekazanie człowiekowi",
+        "text": "Pytania medyczne, reklamacje i nietypowe przypadki trafiają do doradcy — z całym kontekstem rozmowy."
       }
     }
   }

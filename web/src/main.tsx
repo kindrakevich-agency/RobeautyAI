@@ -4,7 +4,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import './i18n'
 import './index.css'
 import Bootstrap from './Bootstrap'
-import Chat from './pages/Chat'
+import Home from './pages/Home'
 import Admin from './pages/Admin'
 
 /**
@@ -26,7 +26,7 @@ function App() {
 
   return (
     <Routes>
-      <Route path="/" element={<Chat />} />
+      <Route path="/" element={<Home />} />
       <Route path="/admin/*" element={<Admin />} />
     </Routes>
   )

@@ -16,3 +16,37 @@
 
 .animate-rise-1 { animation: rise .35s cubic-bezier(.22,1,.36,1) both; animation-delay: .05s; }
 .animate-rise-2 { animation: rise .35s cubic-bezier(.22,1,.36,1) both; animation-delay: .1s; }
+
+/* Пульсуючі кільця навколо плаваючої кнопки консультанта */
+.rb-ring {
+  position: absolute;
+  inset: 0;
+  border-radius: 9999px;
+  border: 2px solid rgb(212 156 139 / 0.55);
+  animation: rb-pulse 2.6s cubic-bezier(.22,1,.36,1) infinite;
+  pointer-events: none;
+}
+.rb-ring--delay { animation-delay: 1.3s; }
+
+@keyframes rb-pulse {
+  0%   { transform: scale(1);    opacity: .7; }
+  70%  { transform: scale(1.55); opacity: 0; }
+  100% { transform: scale(1.55); opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rb-ring { animation: none; opacity: 0; }
+}
+
+/* Форматування відповіді асистента */
+.rb-md p { margin: 0 0 .5em; }
+.rb-md p:last-child { margin-bottom: 0; }
+.rb-md ul { margin: .4em 0 .6em; padding-left: 1.1em; list-style: disc; }
+.rb-md li { margin: .15em 0; }
+.rb-md strong { font-weight: 600; }
+.rb-md h3, .rb-md h4, .rb-md h5 { margin: .6em 0 .3em; font-weight: 600; font-size: 1em; }
+.rb-md a { text-decoration: underline; }
+.rb-md code {
+  padding: .1em .3em; border-radius: .25rem;
+  background: rgb(160 144 138 / .15); font-size: .92em;
+}

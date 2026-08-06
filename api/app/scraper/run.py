@@ -10,10 +10,44 @@
 from __future__ import annotations
 
 import json
+import re
 import sys
 
 from .. import config
 from . import extract, landings, tilda_api
+
+
+
+def _gallery(edition: dict, api_product: dict) -> list[str]:
+    """Усі фото товару без дублів, у розумному порядку."""
+    out: list[str] = []
+    seen: set[str] = set()
+
+    def add(url: str | None) -> None:
+        if not url or url in seen:
+            return
+        # мініатюри Tilda (-100x100) у галереї не потрібні
+        if re.search(r"-\d{2,3}x\d{2,3}\.", url):
+            return
+        seen.add(url)
+        out.append(url)
+
+    add(edition.get("img"))
+
+    # gallery приходить JSON-РЯДКОМ, а не списком: ітерація по ньому дає
+    # окремі символи, тож розбираємо явно.
+    gallery = api_product.get("gallery")
+    if isinstance(gallery, str):
+        try:
+            gallery = json.loads(gallery)
+        except json.JSONDecodeError:
+            gallery = []
+    for g in gallery or []:
+        add(g.get("img") if isinstance(g, dict) else g)
+
+    # Лендінг НЕ додаємо: там є апсел-блоки з фото інших товарів, і саме так
+    # у попередньому проєкті картки отримали чужі зображення.
+    return out[:12]
 
 
 def _num(v) -> float:
@@ -68,8 +102,11 @@ def main() -> None:
                 "old_price": _num(ed.get("priceold")) or None,
                 "volume": (ld.volume if ld else None) or (p.get("descr") or None),
                 "variant_label": ", ".join(f"{k[:-1]}: {v}" for k, v in attrs.items()) or None,
-                "images": [ed.get("img")] if ed.get("img") else
-                          [g.get("img") for g in (p.get("gallery") or []) if g.get("img")],
+                # Галерея: фото варіації йде першим, далі решта з API і
+                # зображення з лендінга. Раніше бралося лише перше фото
+                # варіації, тож у картці товару була одна картинка замість
+                # усіх, які показує сайт.
+                "images": _gallery(ed, p),
                 "category": (p.get("_parts") or ["catalog"])[0],
                 "descr_api": p.get("descr") or "",
                 "text_api": p.get("text") or "",
