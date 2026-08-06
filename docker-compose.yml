@@ -24,7 +24,11 @@ services:
 
   api:
     build: ./api
-    env_file: .env
+    # .env необов'язковий: свіжий клон має підніматися як є, а ключ до LLM
+    # можна ввести на екрані онбордингу.
+    env_file:
+      - path: .env
+        required: false
     environment:
       DATABASE_URL: postgresql+psycopg://robeauty:robeauty@postgres:5432/robeauty
       EMBEDDINGS_URL: http://tei:80
