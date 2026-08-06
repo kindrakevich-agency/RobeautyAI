@@ -63,7 +63,7 @@ def _call(client: httpx.Client, body: str) -> Details:
         json={
             "model": config.MODEL_LITE,
             "messages": [{"role": "user", "content": PROMPT.format(body=body[:14000])}],
-            "max_completion_tokens": 2000,
+            "max_completion_tokens": 4500,
             "response_format": {"type": "json_object"},
         },
         timeout=120,

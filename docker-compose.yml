@@ -6,7 +6,7 @@ services:
       POSTGRES_PASSWORD: robeauty
       POSTGRES_DB: robeauty
     ports:
-      - "127.0.0.1:5433:5432"
+      - "127.0.0.1:5434:5432"
     volumes:
       - pg_data:/var/lib/postgresql/data
     healthcheck:
@@ -26,7 +26,7 @@ services:
     build: ./api
     env_file: .env
     environment:
-      DATABASE_URL: postgresql://robeauty:robeauty@postgres:5432/robeauty
+      DATABASE_URL: postgresql+psycopg://robeauty:robeauty@postgres:5432/robeauty
       EMBEDDINGS_URL: http://tei:80
     ports:
       - "127.0.0.1:8110:8110"

@@ -8,7 +8,7 @@ DATA_DIR = BASE_DIR / "data"
 RAW_DIR = DATA_DIR / "raw"
 
 DATABASE_URL = os.environ.get(
-    "DATABASE_URL", "postgresql://robeauty:robeauty@localhost:5433/robeauty"
+    "DATABASE_URL", "postgresql+psycopg://robeauty:robeauty@localhost:5434/robeauty"
 )
 
 OPENAI_API_KEY = os.environ.get("OPENAI_API_KEY", "")
