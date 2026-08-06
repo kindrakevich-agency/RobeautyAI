@@ -68,7 +68,7 @@ export default function SystemInsights() {
           {t('insights.trigger')}
         </span>
         <kbd className="hidden shrink-0 rounded border border-ink-200 px-1.5 py-0.5 font-mono
-                        text-[10px] text-ink-600 sm:block dark:border-ink-600">⌘K</kbd>
+                        text-[10px] text-ink-600 dark:text-ink-300 sm:block dark:border-ink-600">⌘K</kbd>
       </button>
 
       {/* Портал у body: шапка має backdrop-blur і перехопила б position:fixed */}
@@ -88,7 +88,7 @@ export default function SystemInsights() {
                                   outline-none placeholder:text-ink-600 dark:text-cream-100" />
                 <CornerDownLeft size={15} className="shrink-0 text-ink-300" />
                 <button type="button" onClick={() => setOpen(false)} aria-label="close"
-                        className="shrink-0 rounded-lg p-1 text-ink-600 hover:bg-ink-100 dark:hover:bg-ink-800">
+                        className="shrink-0 rounded-lg p-1 text-ink-600 dark:text-ink-300 hover:bg-ink-100 dark:hover:bg-ink-800">
                   <X size={16} />
                 </button>
               </form>
@@ -96,7 +96,7 @@ export default function SystemInsights() {
               <div className="overflow-y-auto px-5 py-4">
                 {!report && !loading && (
                   <>
-                    <div className="mb-2.5 text-[11px] font-bold tracking-widest text-ink-700 uppercase">
+                    <div className="mb-2.5 text-[11px] font-bold tracking-widest text-ink-700 dark:text-ink-300 uppercase">
                       {t('insights.quick')}
                     </div>
                     <div className="grid gap-2 sm:grid-cols-2">
@@ -118,11 +118,11 @@ export default function SystemInsights() {
                         </button>
                       ))}
                     </div>
-                    <p className="mt-4 text-xs leading-relaxed text-ink-600">{t('insights.hint')}</p>
+                    <p className="mt-4 text-xs leading-relaxed text-ink-600 dark:text-ink-300">{t('insights.hint')}</p>
                   </>
                 )}
 
-                {loading && <div className="py-6 text-sm text-ink-600">{t('insights.thinking')}</div>}
+                {loading && <div className="py-6 text-sm text-ink-600 dark:text-ink-300">{t('insights.thinking')}</div>}
                 {failed && !loading && (
                   <p className="py-4 text-sm text-ink-950 dark:text-cream-200">{t('insights.failed')}</p>
                 )}

@@ -89,7 +89,7 @@ export default function Bootstrap({ onReady }: { onReady: () => void }) {
               <span className={`mt-0.5 text-sm ${
                 st.status === 'done' ? 'text-good-500'
                   : st.status === 'running' ? 'animate-pulse text-ink-900 dark:text-cream-50'
-                  : st.status === 'failed' ? 'text-ink-900 dark:text-cream-50' : 'text-ink-600'}`}>
+                  : st.status === 'failed' ? 'text-ink-900 dark:text-cream-50' : 'text-ink-600 dark:text-ink-300'}`}>
                 {ICON[st.status]}
               </span>
               <div className="min-w-0">
@@ -97,7 +97,7 @@ export default function Bootstrap({ onReady }: { onReady: () => void }) {
                   {t(`boot.steps.${st.key}.title`)}
                   {st.count != null && <span className="ml-2 tabular-nums text-ink-950 dark:text-cream-200">{st.count}</span>}
                 </div>
-                <div className="text-xs leading-relaxed text-ink-600">
+                <div className="text-xs leading-relaxed text-ink-600 dark:text-ink-300">
                   {st.detail || t(`boot.steps.${st.key}.hint`)}
                 </div>
               </div>
@@ -106,7 +106,7 @@ export default function Bootstrap({ onReady }: { onReady: () => void }) {
         </ol>
 
         {s && (
-          <div className="mt-5 flex flex-wrap gap-4 border-t border-ink-100 pt-4 dark:border-ink-800 text-xs text-ink-600">
+          <div className="mt-5 flex flex-wrap gap-4 border-t border-ink-100 pt-4 dark:border-ink-800 text-xs text-ink-600 dark:text-ink-300">
             <span>{t('boot.db.products')}: <b className="tabular-nums text-ink-800 dark:text-cream-100">{s.db.products}</b></span>
             <span>{t('boot.db.chunks')}: <b className="tabular-nums text-ink-800 dark:text-cream-100">{s.db.chunks}</b></span>
             <span>{t('boot.db.pl')}: <b className="tabular-nums text-ink-800 dark:text-cream-100">{s.db.pl_translations}</b></span>
@@ -121,11 +121,11 @@ export default function Bootstrap({ onReady }: { onReady: () => void }) {
           {!s?.running && !s?.ready && (
             <Button onClick={start} disabled={Boolean(needKey)}>{t('boot.start')}</Button>
           )}
-          {s?.running && <span className="text-sm text-ink-600">{t('boot.running')}</span>}
+          {s?.running && <span className="text-sm text-ink-600 dark:text-ink-300">{t('boot.running')}</span>}
           {s?.ready && <Button onClick={onReady}>{t('boot.openDemo')}</Button>}
         </div>
 
-        <p className="mt-5 text-[11px] leading-relaxed text-ink-600">{t('boot.note')}</p>
+        <p className="mt-5 text-[11px] leading-relaxed text-ink-600 dark:text-ink-300">{t('boot.note')}</p>
       </Card>
     </div>
   )

@@ -107,7 +107,7 @@ export default function Shell({ onLogout }: { onLogout: () => void }) {
         <div className="fixed inset-0 z-50 lg:hidden">
           <div className="absolute inset-0 bg-ink-950/60 backdrop-blur-lg" onClick={() => setMobileNav(false)} />
           <aside className="animate-rise absolute inset-y-0 left-0 w-72 bg-cream-50 shadow-pop dark:bg-ink-900">
-            <button className="absolute top-5 right-4 text-ink-600" onClick={() => setMobileNav(false)} aria-label="close">
+            <button className="absolute top-5 right-4 text-ink-600 dark:text-ink-300" onClick={() => setMobileNav(false)} aria-label="close">
               <X size={20} />
             </button>
             <Sidebar onNavigate={() => setMobileNav(false)} onLogout={onLogout} />
@@ -117,7 +117,7 @@ export default function Shell({ onLogout }: { onLogout: () => void }) {
 
       <div className="lg:pl-64">
         <header className="sticky top-0 z-30 flex h-16 items-center gap-3 border-b border-ink-200 bg-cream-200/90 px-4 backdrop-blur-md sm:px-6 dark:border-ink-700/60 dark:bg-ink-950/85">
-          <button className="rounded-lg p-2 text-ink-600 hover:bg-ink-100 lg:hidden dark:hover:bg-ink-800"
+          <button className="rounded-lg p-2 text-ink-600 dark:text-ink-300 hover:bg-ink-100 lg:hidden dark:hover:bg-ink-800"
                   onClick={() => setMobileNav(true)} aria-label="menu">
             <Menu size={20} />
           </button>
