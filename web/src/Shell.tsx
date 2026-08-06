@@ -6,6 +6,7 @@ import {
 } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import { clearAdminCreds } from './api'
+import SystemInsights from './SystemInsights'
 import { Badge, Disclaimer, LangSwitch, ThemeToggle } from './ui'
 
 type Item = { to: string; key: string; icon: typeof LayoutDashboard }
@@ -117,12 +118,14 @@ export default function Shell({ onLogout }: { onLogout: () => void }) {
             <Menu size={20} />
           </button>
 
-          <a href="/" className="flex min-w-0 items-center gap-2 text-sm font-semibold text-ink-600 hover:text-rose-700 dark:text-ink-300">
-            <ShoppingBag size={16} className="shrink-0" />
-            <span className="truncate">{t('nav.backToChat')}</span>
-          </a>
+          <div className="min-w-0 max-w-md flex-1">
+            <SystemInsights />
+          </div>
 
           <div className="ml-auto flex shrink-0 items-center gap-1.5">
+            <a href="/" className="mr-1 hidden items-center gap-1.5 text-xs font-semibold text-ink-500 hover:text-rose-700 sm:flex dark:text-ink-300">
+              <ShoppingBag size={14} /> {t('nav.backToChat')}
+            </a>
             <Badge tone="brand">{t('demoBadge')}</Badge>
             <LangSwitch />
             <ThemeToggle />

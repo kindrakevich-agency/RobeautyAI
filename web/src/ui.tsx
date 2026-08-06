@@ -1,4 +1,5 @@
 import type { ReactNode } from 'react'
+import { createPortal } from 'react-dom'
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { setLang } from './i18n'
@@ -154,26 +155,69 @@ export function ThemeToggle() {
   )
 }
 
-/* ---------- таблиця ---------- */
+/* ---------- таблиця з сортуванням ---------- */
 
-export function Table({ head, children }: { head: string[]; children: ReactNode }) {
+export type SortState = { key: string; dir: 'asc' | 'desc' } | null
+
+/** Клік по заголовку: asc → desc → без сортування. */
+export function Table({ head, children, sort, onSort }: {
+  head: (string | { label: string; sortKey?: string })[]
+  children: ReactNode
+  sort?: SortState
+  onSort?: (s: SortState) => void
+}) {
+  const toggle = (key: string) => {
+    if (!onSort) return
+    if (!sort || sort.key !== key) onSort({ key, dir: 'asc' })
+    else if (sort.dir === 'asc') onSort({ key, dir: 'desc' })
+    else onSort(null)
+  }
+
   return (
     <div className="min-w-0 overflow-x-auto rounded-2xl border border-ink-200/60 bg-white
                     shadow-card dark:border-ink-700/60 dark:bg-ink-900">
       <table className="w-full min-w-[640px] border-collapse text-sm">
         <thead>
           <tr className="border-b border-ink-200/70 text-left dark:border-ink-700/70">
-            {head.map((h, i) => (
-              <th key={i} className="px-4 py-3 text-[11px] font-bold uppercase tracking-[0.1em] text-ink-400">
-                {h}
-              </th>
-            ))}
+            {head.map((h, i) => {
+              const label = typeof h === 'string' ? h : h.label
+              const key = typeof h === 'string' ? undefined : h.sortKey
+              const active = key && sort?.key === key
+              return (
+                <th key={i} className="px-4 py-3 text-[11px] font-bold uppercase tracking-[0.1em] text-ink-400">
+                  {key ? (
+                    <button onClick={() => toggle(key)}
+                            className={`inline-flex items-center gap-1 transition-colors hover:text-ink-800 dark:hover:text-cream-100 ${
+                              active ? 'text-rose-700 dark:text-rose-300' : ''}`}>
+                      {label}
+                      <span className="text-[9px]">
+                        {active ? (sort!.dir === 'asc' ? '▲' : '▼') : '⇅'}
+                      </span>
+                    </button>
+                  ) : label}
+                </th>
+              )
+            })}
           </tr>
         </thead>
         <tbody>{children}</tbody>
       </table>
     </div>
   )
+}
+
+/** Сортування рядків за поточним станом. `get` дістає значення колонки. */
+export function applySort<T>(rows: T[], sort: SortState, get: (row: T, key: string) => unknown): T[] {
+  if (!sort) return rows
+  const dir = sort.dir === 'asc' ? 1 : -1
+  return [...rows].sort((a, b) => {
+    const x = get(a, sort.key)
+    const y = get(b, sort.key)
+    if (x == null) return 1
+    if (y == null) return -1
+    if (typeof x === 'number' && typeof y === 'number') return (x - y) * dir
+    return String(x).localeCompare(String(y), 'uk') * dir
+  })
 }
 
 export function Tr({ children }: { children: ReactNode }) {
@@ -191,5 +235,86 @@ export function Disclaimer() {
     <p className="mx-auto max-w-3xl px-4 py-8 text-center text-[11px] leading-relaxed text-ink-400">
       {t('disclaimer')}
     </p>
+  )
+}
+
+
+/* ---------- діалог ---------- */
+
+/**
+ * Модальне вікно. Рендериться порталом у body — інакше будь-який предок із
+ * backdrop-filter (у нас це шапка) стає контейнером для position:fixed, і
+ * затемнення накриває лише його, а не сторінку.
+ */
+export function Modal({ open, onClose, title, children, wide = false }: {
+  open: boolean; onClose: () => void; title: string
+  children: ReactNode; wide?: boolean
+}) {
+  useEffect(() => {
+    if (!open) return
+    const h = (e: KeyboardEvent) => e.key === 'Escape' && onClose()
+    window.addEventListener('keydown', h)
+    return () => window.removeEventListener('keydown', h)
+  }, [open, onClose])
+  if (!open) return null
+
+  return createPortal(
+    <div className="fixed inset-0 z-[90] flex items-center justify-center p-4"
+         role="dialog" aria-modal="true">
+      <div className="absolute inset-0 bg-ink-950/60 backdrop-blur-lg" onClick={onClose} />
+      <div className={`animate-rise relative max-h-[88vh] w-full overflow-y-auto rounded-2xl
+                       border border-ink-200/60 bg-white p-6 shadow-pop dark:border-ink-700
+                       dark:bg-ink-900 ${wide ? 'max-w-3xl' : 'max-w-lg'}`}>
+        <div className="mb-4 flex items-start justify-between gap-4">
+          <h3 className="font-display text-xl font-semibold text-ink-950 dark:text-cream-50">{title}</h3>
+          <button onClick={onClose} aria-label="close"
+                  className="rounded-full p-1.5 text-ink-400 hover:bg-ink-100 hover:text-ink-800
+                             dark:hover:bg-ink-800 dark:hover:text-cream-100">✕</button>
+        </div>
+        {children}
+      </div>
+    </div>,
+    document.body,
+  )
+}
+
+/* ---------- дрібні елементи ---------- */
+
+export function Status({ kind, children }: {
+  kind: 'ok' | 'warn' | 'bad' | 'idle'; children: ReactNode
+}) {
+  const dot = {
+    ok: 'bg-mint-400', warn: 'bg-amber-400', bad: 'bg-rose-500', idle: 'bg-ink-300',
+  }[kind]
+  return (
+    <span className="inline-flex items-center gap-1.5 text-xs font-medium text-ink-600 dark:text-ink-300">
+      <span className={`size-2 shrink-0 rounded-full ${dot}`} />
+      {children}
+    </span>
+  )
+}
+
+export function Avatar({ name, size = 8 }: { name: string; size?: 8 | 9 | 10 }) {
+  const initials = name.split(' ').map((w) => w[0]).slice(0, 2).join('')
+  const cls = size === 10 ? 'size-10 text-sm' : size === 9 ? 'size-9 text-sm' : 'size-8 text-xs'
+  return (
+    <span className={`inline-flex ${cls} shrink-0 items-center justify-center rounded-full
+                      bg-rose-600/15 font-display font-semibold text-rose-700
+                      dark:bg-rose-400/20 dark:text-rose-300`}>
+      {initials}
+    </span>
+  )
+}
+
+export function Mono({ children }: { children: ReactNode }) {
+  return <span className="font-mono text-xs text-ink-500 dark:text-ink-400">{children}</span>
+}
+
+export function Empty({ text }: { text: string }) {
+  return (
+    <div className="rounded-2xl border border-dashed border-ink-200 px-6 py-10 text-center
+                    text-sm text-ink-400 dark:border-ink-700">
+      {text}
+    </div>
   )
 }

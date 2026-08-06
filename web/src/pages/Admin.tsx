@@ -2,7 +2,10 @@ import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Link, NavLink, Route, Routes, useNavigate, useParams } from 'react-router-dom'
 import { AUTH_FAILED, api, clearAdminCreds, hasAdminCreds, setAdminCreds } from '../api'
-import { Badge, Button, Card, Input, PageHead, SectionTitle, Stat, Table, Tr } from '../ui'
+import {
+  Badge, Button, Card, Empty, Input, Mono, PageHead, SectionTitle, type SortState,
+  Stat, Status, Table, Tr, applySort,
+} from '../ui'
 import Shell from '../Shell'
 
 /* ---------- вхід ---------- */
@@ -281,6 +284,7 @@ function ProductDetail() {
 
 function Orders() {
   const { t } = useTranslation()
+  const [sort, setSort] = useState<SortState>(null)
   const [d, setD] = useState<any>(null)
   const [busy, setBusy] = useState(false)
   const [err, setErr] = useState<string | null>(null)
@@ -297,11 +301,16 @@ function Orders() {
         <Stat label={t('orders.autoPct')} value={`${d.auto_pct}%`} />
         <Stat label={t('orders.callsSaved')} value={d.calls_saved_today} />
       </div>
-      <Table head={[t('orders.number'), t('common.customer'), t('common.total'),
-                    t('orders.payment'), t('orders.decision'), t('common.reason')]}>
-        {d.items.slice(0, 40).map((o: any) => (
+      <Table sort={sort} onSort={setSort}
+             head={[{ label: t('orders.number'), sortKey: 'number' },
+                    { label: t('common.customer'), sortKey: 'customer' },
+                    { label: t('common.total'), sortKey: 'total' },
+                    t('orders.payment'),
+                    { label: t('orders.decision'), sortKey: 'decision' },
+                    t('common.reason')]}>
+        {applySort<any>(d.items, sort, (r, k) => r[k]).slice(0, 40).map((o: any) => (
           <tr key={o.id} className="border-b border-ink-100 align-top last:border-0 dark:border-ink-800">
-            <td className="px-4 py-3 font-mono text-xs">{o.number}</td>
+            <td className="px-4 py-3"><Mono>{o.number}</Mono></td>
             <td className="px-4 py-3">
               <div className="text-sm text-ink-800 dark:text-cream-100">{o.customer}</div>
               <div className="text-[11px] text-ink-400">
@@ -476,7 +485,7 @@ function Dialogs() {
                 }}>{t('common.send')}</Button>
               </div>
             </Card>
-          ) : <p className="text-sm text-ink-400">{t('common.empty')}</p>}
+          ) : <Empty text={t('common.empty')} />}
         </div>
       </div>
     </>
@@ -544,6 +553,7 @@ function Tickets() {
 
 function Sync() {
   const { t } = useTranslation()
+  const [syncSort, setSyncSort] = useState<SortState>(null)
   const [d, setD] = useState<any>(null)
   const [busy, setBusy] = useState(false)
   const [err, setErr] = useState<string | null>(null)
@@ -556,11 +566,16 @@ function Sync() {
                   setBusy(true); await api.admin.post('/api/admin/sync/explain'); await load(); setBusy(false)
                 }}>{busy ? t('common.running') : t('sync.explain')}</Button>} />
       {!d ? <Loading error={err} onRetry={load} /> : (
-        <Table head={[t('sync.direction'), 'SKU', t('sync.action'), t('common.status'), t('sync.detail'), '']}>
-          {d.items.map((r: any) => (
+        <Table sort={syncSort} onSort={setSyncSort}
+               head={[{ label: t('sync.direction'), sortKey: 'direction' },
+                      { label: 'SKU', sortKey: 'sku' },
+                      t('sync.action'),
+                      { label: t('common.status'), sortKey: 'status' },
+                      t('sync.detail'), '']}>
+          {applySort<any>(d.items, syncSort, (x, k) => x[k]).map((r: any) => (
             <tr key={r.id} className="border-b border-ink-100 align-top last:border-0 dark:border-ink-800">
               <td className="px-4 py-3 text-xs">{r.direction === 'tilda_to_1c' ? '→ 1С' : '← 1С'}</td>
-              <td className="px-4 py-3 font-mono text-xs">{r.sku}</td>
+              <td className="px-4 py-3"><Mono>{r.sku}</Mono></td>
               <td className="px-4 py-3 text-xs">{r.action}</td>
               <td className="px-4 py-3">
                 {r.status === 'conflict' ? <Badge tone="bad">{t('sync.conflict')}</Badge>
@@ -771,7 +786,7 @@ function EvalPage() {
               </div>
             ))}
           </div>
-        ) : <p className="mt-2 text-sm text-ink-400">{t('evalPage.noGaps')}</p>}
+        ) : <Empty text={t('evalPage.noGaps')} />}
       </Card>
     </>
   )

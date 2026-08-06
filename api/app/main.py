@@ -12,7 +12,7 @@ from fastapi.security import HTTPBasic, HTTPBasicCredentials
 from pydantic import BaseModel, Field
 from sqlalchemy import func, select, text as sql_text
 
-from . import bootstrap, config, db, rag
+from . import bootstrap, config, db, llm, rag
 from .agents import dialogs as dialogs_agent
 from .models import Conversation, Message, Ticket
 
@@ -485,6 +485,67 @@ def fix_gap(gap_id: int, body: GapFixIn, _: str = Depends(admin_auth)) -> dict:
         s.commit()
     return {"ok": True}
 
+
+
+class InsightsIn(BaseModel):
+    question: str = Field(min_length=3, max_length=400)
+    lang: str = "uk"
+
+
+@app.post("/api/admin/insights")
+def admin_insights(body: InsightsIn, _: str = Depends(admin_auth)) -> dict:
+    """AI-звіт по стану системи — рядок у шапці замість пошуку.
+
+    Зріз показників збирається НА СЕРВЕРІ: клієнт не може підмінити цифри
+    або запитати дані поза своїм доступом.
+    """
+    with db.get_session() as s:
+        snapshot = {
+            "orders": {
+                "total": s.scalar(select(func.count()).select_from(Order)),
+                "auto": s.scalar(select(func.count()).where(
+                    Order.confirm_decision == "auto")),
+                "call_queue": s.scalar(select(func.count()).where(
+                    Order.confirm_decision == "call")),
+            },
+            "shipments_waiting": [
+                {"days": sh.days_waiting, "status": sh.np_status,
+                 "reminders": len(sh.reminders or [])}
+                for sh in s.scalars(select(Shipment).order_by(
+                    Shipment.days_waiting.desc()).limit(10))],
+            "conversations": {
+                "by_channel": dict(s.execute(
+                    select(Conversation.channel, func.count())
+                    .group_by(Conversation.channel)).all()),
+                "escalated": s.scalar(select(func.count()).where(
+                    Conversation.escalated.is_(True))),
+                "topics": [c.analysis.get("topic") for c in s.scalars(
+                    select(Conversation).where(Conversation.analysis.isnot(None))
+                    .limit(20)) if c.analysis],
+            },
+            "tickets_by_category": dict(s.execute(
+                select(Ticket.category, func.count())
+                .where(Ticket.category.isnot(None))
+                .group_by(Ticket.category)).all()),
+            "localization": {
+                "approved": s.scalar(select(func.count()).where(
+                    ProductI18n.lang == "pl", ProductI18n.status == "approved")),
+                "total": s.scalar(select(func.count()).select_from(Product)),
+            },
+            "knowledge_gaps": [g.question for g in s.scalars(
+                select(Unanswered).where(Unanswered.resolved.is_(False)).limit(10))],
+            "api_cost_usd": round(float(s.scalar(
+                select(func.coalesce(func.sum(ApiUsage.cost_usd), 0))) or 0), 4),
+        }
+
+    prompt = (
+        "Ти — операційний аналітик бренду косметики. На основі зрізу системи дай "
+        "стислий брифінг: що зараз найважливіше, де ризик, що варто зробити далі. "
+        "3–5 пунктів, конкретні цифри, без води. "
+        f"Мова відповіді: {'польська' if body.lang == 'pl' else 'українська'}.\n\n"
+        f"Питання: {body.question}\n\nЗріз системи: {snapshot}")
+    return {"report": llm.chat([{"role": "user", "content": prompt}],
+                               purpose="insights", max_tokens=900)}
 
 
 @app.get("/api/admin/dashboard")

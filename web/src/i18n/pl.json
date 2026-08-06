@@ -248,5 +248,33 @@
       "chunks": "fragmentów",
       "pl": "tłumaczeń"
     }
+  },
+  "insights": {
+    "trigger": "Cześć — zapytaj o system",
+    "placeholder": "Co jest teraz najważniejsze?",
+    "quick": "Szybkie raporty",
+    "hint": "Przekrój wskaźników powstaje na serwerze, więc liczb nie da się podmienić z przeglądarki.",
+    "thinking": "Analizuję stan systemu…",
+    "failed": "Usługa raportów niedostępna.",
+    "briefing": "Twój briefing",
+    "again": "Inne pytanie",
+    "presets": {
+      "attention": {
+        "label": "Co wymaga uwagi",
+        "q": "Co teraz najbardziej wymaga mojej uwagi?"
+      },
+      "today": {
+        "label": "Raport na dziś",
+        "q": "Daj krótkie podsumowanie dnia: zamówienia, nieodebrane, rozmowy."
+      },
+      "localization": {
+        "label": "Gotowość na Polskę",
+        "q": "Na ile jesteśmy gotowi na rynek polski?"
+      },
+      "quality": {
+        "label": "Jakość AI",
+        "q": "Jak działa konsultant i gdzie są luki w bazie wiedzy?"
+      }
+    }
   }
 }
