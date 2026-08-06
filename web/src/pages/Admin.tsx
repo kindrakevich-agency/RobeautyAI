@@ -95,7 +95,7 @@ function Dashboard() {
           <div className="text-[11px] font-semibold uppercase tracking-widest text-ink-400">
             {t('dashboard.plProgress')}
           </div>
-          <div className="mt-2 text-2xl font-semibold text-ink-900">
+          <div className="mt-2 text-2xl font-semibold text-ink-900 dark:text-cream-50">
             {d.localization.approved} / {d.localization.products}
           </div>
           <div className="mt-3 h-2 overflow-hidden rounded-full bg-ink-100 dark:bg-ink-800">
@@ -126,7 +126,7 @@ function Dashboard() {
         </div>
         <p className="mt-1 text-xs text-ink-400">{t('dashboard.costsHint')}</p>
         <div className="mt-3">
-          <span className="text-3xl font-semibold tabular-nums text-ink-900">
+          <span className="text-3xl font-semibold tabular-nums text-ink-900 dark:text-cream-50">
             ${d.api_costs.total_usd.toFixed(3)}
           </span>
           <span className="ml-2 text-xs text-ink-400">
@@ -140,7 +140,7 @@ function Dashboard() {
         </div>
         <div className="mt-5 grid grid-cols-1 gap-3 sm:grid-cols-2">
           <div className="rounded-xl border border-ink-200/60 p-4 dark:border-ink-700/60">
-            <div className="text-sm font-semibold text-ink-800">{t('dashboard.buyTitle')}</div>
+            <div className="text-sm font-semibold text-ink-800 dark:text-cream-100">{t('dashboard.buyTitle')}</div>
             <p className="mt-1 text-xs leading-relaxed text-ink-400">{t('dashboard.buyItems')}</p>
           </div>
           <div className="rounded-xl border border-rose-500 bg-cream-100 p-4">
@@ -177,7 +177,7 @@ function Products() {
               <img src={p.image} alt="" loading="lazy" referrerPolicy="no-referrer"
                    className="mb-2 aspect-square w-full rounded-lg object-cover" />
             )}
-            <div className="line-clamp-2 text-xs font-semibold leading-snug text-ink-800">{p.title}</div>
+            <div className="line-clamp-2 text-xs font-semibold leading-snug text-ink-800 dark:text-cream-100">{p.title}</div>
             <div className="mt-1 text-sm font-semibold text-rose-700">{Math.round(p.price)} ₴</div>
             {p.ingredients?.length ? (
               <div className="mt-1 line-clamp-1 text-[11px] text-ink-400">
@@ -236,7 +236,7 @@ function ProductDetail() {
         </div>
 
         <div className="min-w-0">
-          <h1 className="text-xl font-semibold text-ink-900">
+          <h1 className="text-xl font-semibold text-ink-900 dark:text-cream-50">
             {p.titles?.uk?.title ?? p.sku}
           </h1>
           <div className="mt-2 flex flex-wrap items-baseline gap-3">
@@ -268,7 +268,7 @@ function ProductDetail() {
                     <Badge>{lang}</Badge>
                     <Badge tone={v.status === 'approved' ? 'good' : 'neutral'}>{v.status}</Badge>
                   </div>
-                  <div className="mt-1 text-sm font-medium text-ink-800">{v.title}</div>
+                  <div className="mt-1 text-sm font-medium text-ink-800 dark:text-cream-100">{v.title}</div>
                   <p className="mt-1 line-clamp-6 text-xs leading-relaxed text-ink-400">{v.description}</p>
                 </div>
               ))}
@@ -353,7 +353,7 @@ function Shipments() {
         {d.items.slice(0, 25).map((s: any) => (
           <Card key={s.id}>
             <div className="flex flex-wrap items-baseline justify-between gap-2">
-              <div className="text-sm font-semibold text-ink-800">
+              <div className="text-sm font-semibold text-ink-800 dark:text-cream-100">
                 {s.customer} · {Math.round(s.total)} ₴
               </div>
               <Badge tone={s.days_waiting >= 4 ? 'bad' : s.days_waiting >= 2 ? 'warn' : 'neutral'}>
@@ -637,14 +637,14 @@ function Localization() {
                 <div className="text-[11px] font-semibold uppercase tracking-wider text-ink-400">
                   {t('localization.sourceUk')}
                 </div>
-                <div className="mt-1 text-sm font-medium text-ink-800">{x.uk_title}</div>
+                <div className="mt-1 text-sm font-medium text-ink-800 dark:text-cream-100">{x.uk_title}</div>
                 <p className="mt-1 line-clamp-4 text-xs leading-relaxed text-ink-400">{x.uk_description}</p>
               </div>
               <div className="min-w-0">
                 <div className="text-[11px] font-semibold uppercase tracking-wider text-rose-600">
                   {t('localization.targetPl')}
                 </div>
-                <div className="mt-1 text-sm font-medium text-ink-800">{x.pl_title}</div>
+                <div className="mt-1 text-sm font-medium text-ink-800 dark:text-cream-100">{x.pl_title}</div>
                 <p className="mt-1 line-clamp-4 text-xs leading-relaxed text-ink-400">{x.pl_description}</p>
               </div>
             </div>
@@ -703,7 +703,7 @@ function Analytics() {
         <Card>
           {res.error ? <p className="text-sm text-rose-700 dark:text-rose-300">{res.error}</p> : (
             <>
-              <p className="text-base leading-relaxed text-ink-800">{res.answer}</p>
+              <p className="text-base leading-relaxed text-ink-800 dark:text-cream-100">{res.answer}</p>
               <button onClick={() => setShowSql((v) => !v)}
                       className="mt-3 text-xs font-semibold text-rose-600 hover:underline">
                 {showSql ? '▾' : '▸'} {t('analytics.showSql')}

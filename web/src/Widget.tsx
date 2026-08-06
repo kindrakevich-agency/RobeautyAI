@@ -24,7 +24,7 @@ function Fab({ open, onClick }: { open: boolean; onClick: () => void }) {
   return (
     <button type="button" onClick={onClick} aria-label={open ? 'close chat' : 'open chat'}
             className="fixed right-5 bottom-5 z-[95] grid size-14 place-items-center rounded-full
-                       bg-white text-ink-900 shadow-pop outline-none transition-transform
+                       bg-white text-ink-900 shadow-pop dark:bg-ink-800 dark:text-cream-100 outline-none transition-transform
                        hover:scale-105 dark:bg-ink-800 dark:text-cream-100">
       {!open && (
         <>
@@ -291,7 +291,7 @@ export default function Widget() {
                            dark:border-ink-700 dark:bg-ink-900">
             <input value={input} onChange={(e) => setInput(e.target.value)}
                    placeholder={t('chat.placeholder')}
-                   className="min-w-0 flex-1 rounded-full border border-ink-200 bg-white px-3.5 py-2
+                   className="min-w-0 flex-1 rounded-full border border-ink-200 bg-white px-3.5 py-2 dark:border-ink-700 dark:bg-ink-800
                               text-[13px] outline-none focus:border-rose-500 dark:border-ink-700
                               dark:bg-ink-800 dark:text-cream-100" />
             <button type="submit" disabled={busy} aria-label={t('chat.send')}

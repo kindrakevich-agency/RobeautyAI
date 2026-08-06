@@ -60,7 +60,7 @@ export default function SystemInsights() {
       <button type="button" aria-label={t('insights.trigger')}
               onClick={() => { setOpen(true); setTimeout(() => inputRef.current?.focus(), 40) }}
               className="group flex min-w-0 shrink-0 items-center justify-center gap-2.5 rounded-full
-                         border border-transparent bg-white/70 p-2 text-left text-sm transition-colors
+                         border border-transparent bg-white/70 p-2 dark:bg-ink-800/70 text-left text-sm transition-colors
                          hover:border-rose-500/40 sm:w-full sm:max-w-md sm:shrink sm:justify-start
                          sm:py-2 sm:pr-3 sm:pl-3.5 dark:bg-ink-800/70">
         <Sparkles size={15} className="shrink-0 text-rose-600 dark:text-rose-300" />

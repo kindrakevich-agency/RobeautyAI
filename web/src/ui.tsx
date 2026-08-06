@@ -130,7 +130,7 @@ export function LangSwitch() {
                 className={`px-2.5 py-1.5 uppercase transition-colors ${
                   i18n.language === l
                     ? 'bg-ink-900 text-cream-50 dark:bg-cream-100 dark:text-ink-900'
-                    : 'text-ink-500 hover:text-ink-900 dark:hover:text-cream-100'}`}>
+                    : 'text-ink-500 hover:text-ink-900 dark:text-ink-300 dark:hover:text-cream-100'}`}>
           {l}
         </button>
       ))}
@@ -269,7 +269,7 @@ export function Modal({ open, onClose, title, children, wide = false }: {
           <h3 className="font-display text-xl font-semibold text-ink-950 dark:text-cream-50">{title}</h3>
           <button onClick={onClose} aria-label="close"
                   className="rounded-full p-1.5 text-ink-400 hover:bg-ink-100 hover:text-ink-800
-                             dark:hover:bg-ink-800 dark:hover:text-cream-100">✕</button>
+                             dark:hover:bg-ink-800 dark:hover:text-cream-100 dark:text-cream-100">✕</button>
         </div>
         {children}
       </div>
