@@ -64,31 +64,42 @@ def showcase(lang: str = "uk", limit: int = 8) -> dict:
                 .filter(Product.images != [], Product.price > 0)
                 .order_by(Product.price.desc())
                 .limit(limit * 8).all())
-    seen: set[str] = set()
-    seen_cat: set[str] = set()
-    items = []
-    for p_ in rows:
-        img = (p_.images or [None])[0]
-        if not img or img in seen:
-            continue
-        # Не більше одного товару з категорії: інакше у смузі підряд стоять
-        # майже однакові набори.
-        cat = p_.category or "—"
-        if cat in seen_cat and len(seen_cat) > 1:
-            continue
-        seen_cat.add(cat)
-        seen.add(img)
-        title = p_.sku
+    def _title(pid: int) -> str:
         with db.get_session() as s:
             tr = (s.query(ProductI18n)
-                  .filter(ProductI18n.product_id == p_.id, ProductI18n.lang == lang)
-                  .first())
-            if tr:
-                title = tr.title
-        items.append({"sku": p_.sku, "title": title, "price": p_.price,
-                      "volume": p_.volume, "image": img, "url": p_.landing_url})
-        if len(items) >= limit:
-            break
+                  .filter(ProductI18n.product_id == pid, ProductI18n.lang == lang).first())
+            return tr.title if tr else ""
+
+    def _card(p_, title: str) -> dict:
+        return {"sku": p_.sku, "title": title or p_.sku, "price": p_.price,
+                "volume": p_.volume, "image": (p_.images or [None])[0],
+                "url": p_.landing_url}
+
+    # Два проходи: спершу по одному товару з категорії, потім добираємо
+    # рештою. Один прохід із перевіркою «категорія вже була» пропускав
+    # дублі лише коли категорій уже кілька — і смуга виходила з трьох
+    # майже однакових сироваток підряд.
+    cards, rest = [], []
+    seen_img: set[str] = set()
+    seen_cat: set[str] = set()
+    seen_head: set[str] = set()
+    for p_ in rows:
+        img = (p_.images or [None])[0]
+        if not img or img in seen_img:
+            continue
+        title = _title(p_.id)
+        # Назви на кшталт «Сироватка + крем …» відрізняються лише хвостом,
+        # тож порівнюємо перші три слова.
+        head = " ".join(title.lower().split()[:3])
+        if head and head in seen_head:
+            continue
+        seen_img.add(img)
+        seen_head.add(head)
+        cat = p_.category or "—"
+        (cards if cat not in seen_cat else rest).append(_card(p_, title))
+        seen_cat.add(cat)
+
+    items = (cards + rest)[:limit]
     return {"items": items}
 
 
