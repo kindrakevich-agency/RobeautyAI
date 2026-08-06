@@ -61,9 +61,9 @@ export default function SystemInsights() {
               onClick={() => { setOpen(true); setTimeout(() => inputRef.current?.focus(), 40) }}
               className="group flex min-w-0 shrink-0 items-center justify-center gap-2.5 rounded-full
                          border border-transparent bg-white/70 p-2 dark:bg-ink-800/70 text-left text-sm transition-colors
-                         hover:border-rose-500/40 sm:w-full sm:max-w-md sm:shrink sm:justify-start
+                         hover:border-ink-700/40 sm:w-full sm:max-w-md sm:shrink sm:justify-start
                          sm:py-2 sm:pr-3 sm:pl-3.5 dark:bg-ink-800/70">
-        <Sparkles size={15} className="shrink-0 text-rose-600 dark:text-rose-300" />
+        <Sparkles size={15} className="shrink-0 text-ink-900 dark:text-cream-200" />
         <span className="hidden min-w-0 flex-1 truncate text-ink-400 sm:block dark:text-ink-500">
           {t('insights.trigger')}
         </span>
@@ -77,11 +77,11 @@ export default function SystemInsights() {
              role="dialog" aria-modal="true">
           <div className="absolute inset-0 bg-ink-950/60 backdrop-blur-lg" onClick={() => setOpen(false)} />
           <div className="animate-rise relative w-full max-w-2xl rounded-[20px] bg-gradient-to-b
-                          from-rose-400/40 via-rose-400/10 to-transparent p-px shadow-pop">
+                          from-ink-500/40 via-ink-500/10 to-transparent p-px shadow-pop">
             <div className="flex max-h-[78vh] flex-col overflow-hidden rounded-[19px] bg-white dark:bg-ink-900">
               <form onSubmit={(e) => { e.preventDefault(); void run(q) }}
                     className="flex items-center gap-3 border-b border-ink-100 px-5 py-4 dark:border-ink-800">
-                <Sparkles size={18} className="shrink-0 text-rose-600 dark:text-rose-300" />
+                <Sparkles size={18} className="shrink-0 text-ink-900 dark:text-cream-200" />
                 <input ref={inputRef} value={q} onChange={(e) => setQ(e.target.value)}
                        placeholder={t('insights.placeholder')}
                        className="flex-1 border-0 bg-transparent p-0 text-[15px] text-ink-900
@@ -105,11 +105,11 @@ export default function SystemInsights() {
                                 onClick={() => { const x = t(`insights.presets.${p.key}.q`); setQ(x); void run(x) }}
                                 className="group flex items-center gap-3 rounded-xl border border-ink-200/70
                                            px-3.5 py-3 text-left transition-all hover:-translate-y-0.5
-                                           hover:border-rose-500 hover:shadow-card dark:border-ink-700">
+                                           hover:border-ink-700 hover:shadow-card dark:border-ink-700">
                           <span className="flex size-8 shrink-0 items-center justify-center rounded-lg
-                                           bg-rose-600/10 text-rose-700 transition-colors
-                                           group-hover:bg-rose-600 group-hover:text-white
-                                           dark:bg-rose-400/15 dark:text-rose-300">
+                                           bg-ink-900/10 text-ink-950 transition-colors
+                                           group-hover:bg-ink-900 group-hover:text-white
+                                           dark:bg-ink-500/15 dark:text-cream-200">
                             <p.icon size={15} />
                           </span>
                           <span className="flex-1 text-sm font-medium text-ink-700 dark:text-ink-200">
@@ -124,12 +124,12 @@ export default function SystemInsights() {
 
                 {loading && <div className="py-6 text-sm text-ink-400">{t('insights.thinking')}</div>}
                 {failed && !loading && (
-                  <p className="py-4 text-sm text-rose-700 dark:text-rose-300">{t('insights.failed')}</p>
+                  <p className="py-4 text-sm text-ink-950 dark:text-cream-200">{t('insights.failed')}</p>
                 )}
                 {report && !loading && (
                   <>
                     <div className="mb-3 flex items-center gap-2 text-[11px] font-bold tracking-widest
-                                    text-rose-700 uppercase dark:text-rose-300">
+                                    text-ink-950 uppercase dark:text-cream-200">
                       <Sparkles size={12} /> {t('insights.briefing')}
                     </div>
                     <div className="whitespace-pre-wrap text-sm leading-relaxed text-ink-800 dark:text-cream-100">

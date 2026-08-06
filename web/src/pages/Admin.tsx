@@ -19,7 +19,7 @@ function Login({ onDone }: { onDone: () => void }) {
         <div className="font-display text-xl font-semibold tracking-wide text-ink-950 dark:text-cream-50">
           RoBeauty
         </div>
-        <div className="mt-1 mb-5 text-[10px] font-bold tracking-[0.2em] text-rose-600 uppercase dark:text-rose-300">
+        <div className="mt-1 mb-5 text-[10px] font-bold tracking-[0.2em] text-ink-900 uppercase dark:text-cream-200">
           AI Operations
         </div>
         <form onSubmit={(e) => { e.preventDefault(); setAdminCreds(u, p); onDone() }} className="space-y-3">
@@ -53,8 +53,8 @@ function Loading({ error, onRetry }: { error: string | null; onRetry: () => void
   const { t } = useTranslation()
   if (!error) return <p className="text-sm text-ink-400">{t('common.loading')}</p>
   return (
-    <div className="rounded-2xl border border-rose-300/50 bg-rose-50 p-4 dark:border-rose-400/30 dark:bg-rose-500/10">
-      <p className="text-sm text-rose-700 dark:text-rose-300">{t('common.loadError')}</p>
+    <div className="rounded-2xl border border-cream-200/50 bg-cream-200/60 p-4 dark:bg-ink-900 dark:border-ink-500/30 dark:bg-ink-700/10">
+      <p className="text-sm text-ink-950 dark:text-cream-200">{t('common.loadError')}</p>
       <Button variant="ghost" className="mt-2" onClick={onRetry}>{t('common.retry')}</Button>
     </div>
   )
@@ -99,7 +99,7 @@ function Dashboard() {
             {d.localization.approved} / {d.localization.products}
           </div>
           <div className="mt-3 h-2 overflow-hidden rounded-full bg-ink-100 dark:bg-ink-800">
-            <div className="h-full bg-rose-500"
+            <div className="h-full bg-ink-700"
                  style={{ width: `${(d.localization.approved / Math.max(1, d.localization.products)) * 100}%` }} />
           </div>
         </Card>
@@ -143,8 +143,8 @@ function Dashboard() {
             <div className="text-sm font-semibold text-ink-800 dark:text-cream-100">{t('dashboard.buyTitle')}</div>
             <p className="mt-1 text-xs leading-relaxed text-ink-400">{t('dashboard.buyItems')}</p>
           </div>
-          <div className="rounded-xl border border-rose-500 bg-cream-100 p-4">
-            <div className="text-sm font-semibold text-rose-700">{t('dashboard.buildTitle')}</div>
+          <div className="rounded-xl border border-ink-700 bg-cream-100 p-4">
+            <div className="text-sm font-semibold text-ink-950">{t('dashboard.buildTitle')}</div>
             <p className="mt-1 text-xs leading-relaxed text-ink-600">{t('dashboard.buildItems')}</p>
           </div>
         </div>
@@ -167,18 +167,18 @@ function Products() {
     <>
       <PageHead title={t('products.title')} subtitle={t('products.subtitle')} />
       <input value={q} onChange={(e) => setQ(e.target.value)} placeholder={t('common.search')}
-             className="mb-4 w-full max-w-sm rounded-full border border-ink-200 bg-white px-4 py-2 text-sm outline-none focus:border-rose-500 dark:border-ink-700 dark:bg-ink-800 dark:text-cream-100" />
+             className="mb-4 w-full max-w-sm rounded-full border border-ink-200 bg-white px-4 py-2 text-sm outline-none focus:border-ink-700 dark:border-ink-700 dark:bg-ink-800 dark:text-cream-100" />
       <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
         {items.map((p: any) => (
           // Всередині адмінки посилання ведуть на картку товару в адмінці
           <button key={p.id} onClick={() => nav(`/admin/products/${p.id}`)}
-                  className="min-w-0 rounded-2xl border border-ink-200/60 bg-white p-3 text-left shadow-card transition-colors hover:border-rose-500 dark:border-ink-700/60 dark:bg-ink-900">
+                  className="min-w-0 rounded-2xl border border-ink-200/60 bg-white p-3 text-left shadow-card transition-colors hover:border-ink-700 dark:border-ink-700/60 dark:bg-ink-900">
             {p.image && (
               <img src={p.image} alt="" loading="lazy" referrerPolicy="no-referrer"
                    className="mb-2 aspect-square w-full rounded-lg object-cover" />
             )}
             <div className="line-clamp-2 text-xs font-semibold leading-snug text-ink-800 dark:text-cream-100">{p.title}</div>
-            <div className="mt-1 text-sm font-semibold text-rose-700">{Math.round(p.price)} ₴</div>
+            <div className="mt-1 text-sm font-semibold text-ink-950">{Math.round(p.price)} ₴</div>
             {p.ingredients?.length ? (
               <div className="mt-1 line-clamp-1 text-[11px] text-ink-400">
                 {p.ingredients.join(' · ')}
@@ -209,7 +209,7 @@ function ProductDetail() {
 
   return (
     <>
-      <Link to="/admin/products" className="text-xs font-semibold text-rose-600 hover:underline">
+      <Link to="/admin/products" className="text-xs font-semibold text-ink-900 hover:underline">
         ← {t('common.back')}
       </Link>
       <div className="mt-3 grid grid-cols-1 gap-5 lg:grid-cols-[280px_1fr]">
@@ -229,7 +229,7 @@ function ProductDetail() {
           {/* Єдиний зовнішній лінк в адмінці — на оригінал сторінки бренду */}
           {p.landing_url && (
             <a href={p.landing_url} target="_blank" rel="noreferrer"
-               className="mt-3 block text-xs font-semibold text-rose-600 hover:underline">
+               className="mt-3 block text-xs font-semibold text-ink-900 hover:underline">
               {t('common.openOnSite')} →
             </a>
           )}
@@ -240,7 +240,7 @@ function ProductDetail() {
             {p.titles?.uk?.title ?? p.sku}
           </h1>
           <div className="mt-2 flex flex-wrap items-baseline gap-3">
-            <span className="text-2xl font-semibold text-rose-700">{Math.round(p.price)} ₴</span>
+            <span className="text-2xl font-semibold text-ink-950">{Math.round(p.price)} ₴</span>
             {p.old_price ? <span className="text-sm text-ink-400 line-through">
               {Math.round(p.old_price)} ₴</span> : null}
             {p.volume && <Badge>{p.volume}</Badge>}
@@ -364,7 +364,7 @@ function Shipments() {
               <ul className="mt-3 space-y-2 border-l-2 border-ink-200 pl-3">
                 {s.reminders.map((r: any, i: number) => (
                   <li key={i} className="text-xs leading-relaxed text-ink-600">
-                    <span className="font-semibold text-rose-600">#{r.day}</span> {r.text}
+                    <span className="font-semibold text-ink-900">#{r.day}</span> {r.text}
                   </li>
                 ))}
               </ul>
@@ -424,7 +424,7 @@ function Dialogs() {
         <div className="space-y-2">
           {d.items.map((c: any) => (
             <button key={c.id} onClick={() => open(c.id)}
-                    className="block w-full rounded-xl border border-ink-200/60 bg-white p-3 text-left shadow-card transition-colors hover:border-rose-500 dark:border-ink-700/60 dark:bg-ink-900">
+                    className="block w-full rounded-xl border border-ink-200/60 bg-white p-3 text-left shadow-card transition-colors hover:border-ink-700 dark:border-ink-700/60 dark:bg-ink-900">
               <div className="flex flex-wrap items-center gap-2">
                 <Badge>{CHANNEL_LABEL[c.channel] ?? c.channel}</Badge>
                 <span className="text-xs text-ink-400">{c.handle ?? '—'}</span>
@@ -477,7 +477,7 @@ function Dialogs() {
               <div className="mt-3 flex gap-2">
                 <input value={reply} onChange={(e) => setReply(e.target.value)}
                        placeholder={t('dialogs.replyPlaceholder')}
-                       className="min-w-0 flex-1 rounded-full border border-ink-200 bg-white px-3 py-2 text-sm outline-none focus:border-rose-500 dark:border-ink-700 dark:bg-ink-800 dark:text-cream-100" />
+                       className="min-w-0 flex-1 rounded-full border border-ink-200 bg-white px-3 py-2 text-sm outline-none focus:border-ink-700 dark:border-ink-700 dark:bg-ink-800 dark:text-cream-100" />
                 <Button onClick={async () => {
                   if (!reply.trim()) return
                   await api.admin.post(`/api/admin/conversations/${sel.id}/reply`, { content: reply })
@@ -619,7 +619,7 @@ function Localization() {
           {t('localization.progress')}: <b>{d.approved}</b> / {d.total}
         </div>
         <div className="mt-2 h-2 overflow-hidden rounded-full bg-ink-100 dark:bg-ink-800">
-          <div className="h-full bg-rose-500" style={{ width: `${(d.approved / Math.max(1, d.total)) * 100}%` }} />
+          <div className="h-full bg-ink-700" style={{ width: `${(d.approved / Math.max(1, d.total)) * 100}%` }} />
         </div>
       </Card>
       <div className="space-y-3">
@@ -641,7 +641,7 @@ function Localization() {
                 <p className="mt-1 line-clamp-4 text-xs leading-relaxed text-ink-400">{x.uk_description}</p>
               </div>
               <div className="min-w-0">
-                <div className="text-[11px] font-semibold uppercase tracking-wider text-rose-600">
+                <div className="text-[11px] font-semibold uppercase tracking-wider text-ink-900">
                   {t('localization.targetPl')}
                 </div>
                 <div className="mt-1 text-sm font-medium text-ink-800 dark:text-cream-100">{x.pl_title}</div>
@@ -686,13 +686,13 @@ function Analytics() {
       <Card className="mb-4">
         <form onSubmit={(e) => { e.preventDefault(); void ask(q) }} className="flex flex-wrap gap-2">
           <input value={q} onChange={(e) => setQ(e.target.value)} placeholder={t('analytics.placeholder')}
-                 className="min-w-0 flex-1 rounded-full border border-ink-200 bg-white px-4 py-2 text-sm outline-none focus:border-rose-500 dark:border-ink-700 dark:bg-ink-800 dark:text-cream-100" />
+                 className="min-w-0 flex-1 rounded-full border border-ink-200 bg-white px-4 py-2 text-sm outline-none focus:border-ink-700 dark:border-ink-700 dark:bg-ink-800 dark:text-cream-100" />
           <Button type="submit" disabled={busy}>{busy ? t('common.running') : t('analytics.ask')}</Button>
         </form>
         <div className="mt-3 flex flex-wrap gap-2">
           {presets.map((p) => (
             <button key={p} onClick={() => { const x = t(`analytics.presets.${p}`); setQ(x); void ask(x) }}
-                    className="rounded-full border border-ink-200/60 px-3 py-1.5 text-xs text-ink-600 transition-colors hover:border-rose-500 dark:border-ink-700/60 dark:text-ink-300 hover:text-rose-700">
+                    className="rounded-full border border-ink-200/60 px-3 py-1.5 text-xs text-ink-600 transition-colors hover:border-ink-700 dark:border-ink-700/60 dark:text-ink-300 hover:text-ink-950">
               {t(`analytics.presets.${p}`)}
             </button>
           ))}
@@ -701,11 +701,11 @@ function Analytics() {
 
       {res && (
         <Card>
-          {res.error ? <p className="text-sm text-rose-700 dark:text-rose-300">{res.error}</p> : (
+          {res.error ? <p className="text-sm text-ink-950 dark:text-cream-200">{res.error}</p> : (
             <>
               <p className="text-base leading-relaxed text-ink-800 dark:text-cream-100">{res.answer}</p>
               <button onClick={() => setShowSql((v) => !v)}
-                      className="mt-3 text-xs font-semibold text-rose-600 hover:underline">
+                      className="mt-3 text-xs font-semibold text-ink-900 hover:underline">
                 {showSql ? '▾' : '▸'} {t('analytics.showSql')}
               </button>
               {showSql && (
@@ -772,7 +772,7 @@ function EvalPage() {
                   <div className="mt-2 flex flex-wrap gap-2">
                     <input value={text} onChange={(e) => setText(e.target.value)}
                            placeholder={t('evalPage.fixPlaceholder')}
-                           className="min-w-0 flex-1 rounded-full border border-ink-200 bg-white px-3 py-2 text-sm outline-none focus:border-rose-500 dark:border-ink-700 dark:bg-ink-800 dark:text-cream-100" />
+                           className="min-w-0 flex-1 rounded-full border border-ink-200 bg-white px-3 py-2 text-sm outline-none focus:border-ink-700 dark:border-ink-700 dark:bg-ink-800 dark:text-cream-100" />
                     <Button onClick={async () => {
                       await api.admin.post(`/api/admin/eval/gaps/${g.id}/fix`, { answer_text: text })
                       setFixing(null); setText(''); await load()

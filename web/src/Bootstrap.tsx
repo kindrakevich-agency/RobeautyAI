@@ -87,15 +87,15 @@ export default function Bootstrap({ onReady }: { onReady: () => void }) {
           {(s?.steps ?? []).map((st) => (
             <li key={st.key} className="flex gap-3">
               <span className={`mt-0.5 text-sm ${
-                st.status === 'done' ? 'text-mint-600'
-                  : st.status === 'running' ? 'animate-pulse text-rose-600'
-                  : st.status === 'failed' ? 'text-rose-600' : 'text-ink-400'}`}>
+                st.status === 'done' ? 'text-good-500'
+                  : st.status === 'running' ? 'animate-pulse text-ink-900'
+                  : st.status === 'failed' ? 'text-ink-900' : 'text-ink-400'}`}>
                 {ICON[st.status]}
               </span>
               <div className="min-w-0">
                 <div className="text-sm font-medium text-ink-800 dark:text-cream-100">
                   {t(`boot.steps.${st.key}.title`)}
-                  {st.count != null && <span className="ml-2 tabular-nums text-rose-700 dark:text-rose-300">{st.count}</span>}
+                  {st.count != null && <span className="ml-2 tabular-nums text-ink-950 dark:text-cream-200">{st.count}</span>}
                 </div>
                 <div className="text-xs leading-relaxed text-ink-400">
                   {st.detail || t(`boot.steps.${st.key}.hint`)}
@@ -114,7 +114,7 @@ export default function Bootstrap({ onReady }: { onReady: () => void }) {
         )}
 
         {s?.error && (
-          <p className="mt-3 rounded-xl bg-rose-50 p-3 text-xs leading-relaxed text-rose-700">{s.error}</p>
+          <p className="mt-3 rounded-xl bg-crit-500/10 p-3 text-xs leading-relaxed text-crit-500 dark:bg-crit-300/10 dark:text-crit-300">{s.error}</p>
         )}
 
         <div className="mt-5 flex flex-wrap items-center gap-3">

@@ -19,14 +19,14 @@ export default function Home() {
             <div className="font-display text-lg font-semibold tracking-wide text-ink-950 dark:text-cream-50">
               RoBeauty
             </div>
-            <div className="text-[10px] font-bold tracking-[0.2em] text-rose-600 uppercase dark:text-rose-300">
+            <div className="text-[10px] font-bold tracking-[0.2em] text-ink-900 uppercase dark:text-cream-200">
               AI Consultant
             </div>
           </div>
           <Badge tone="brand">{t('demoBadge')}</Badge>
           <LangSwitch />
           <ThemeToggle />
-          <Link to="/admin" className="hidden text-xs font-semibold text-rose-600 hover:underline sm:block dark:text-rose-300">
+          <Link to="/admin" className="hidden text-xs font-semibold text-ink-900 hover:underline sm:block dark:text-cream-200">
             {t('chat.openAdmin')}
           </Link>
         </div>
@@ -39,8 +39,8 @@ export default function Home() {
         <p className="mt-3 max-w-xl text-base leading-relaxed text-ink-600 dark:text-ink-300">
           {t('home.lede')}
         </p>
-        <p className="mt-6 inline-flex items-center gap-2 rounded-full border border-rose-500/40
-                      bg-rose-500/10 px-4 py-2 text-sm font-semibold text-rose-700 dark:text-rose-300">
+        <p className="mt-6 inline-flex items-center gap-2 rounded-full border border-ink-700/40
+                      bg-ink-700/10 px-4 py-2 text-sm font-semibold text-ink-950 dark:text-cream-200">
           {t('home.cta')} →
         </p>
 

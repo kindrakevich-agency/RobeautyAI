@@ -1,3 +1,5 @@
+@import './fonts.css';
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -6,8 +8,8 @@
   body {
     @apply bg-cream-100 text-ink-900 font-sans antialiased dark:bg-ink-950 dark:text-cream-100;
   }
-  ::selection { @apply bg-rose-400/30; }
-  * { scrollbar-width: thin; scrollbar-color: rgb(160 144 138 / .5) transparent; }
+  ::selection { @apply bg-ink-900/15 dark:bg-cream-200/25; }
+  * { scrollbar-width: thin; scrollbar-color: rgb(138 138 138 / .5) transparent; }
 }
 
 /* Горизонтальний скролер карток: ховаємо смугу, лишаємо жест */
@@ -22,7 +24,7 @@
   position: absolute;
   inset: 0;
   border-radius: 9999px;
-  border: 2px solid rgb(212 156 139 / 0.55);
+  border: 2px solid rgb(46 46 46 / 0.35);
   animation: rb-pulse 2.6s cubic-bezier(.22,1,.36,1) infinite;
   pointer-events: none;
 }
@@ -48,5 +50,13 @@
 .rb-md a { text-decoration: underline; }
 .rb-md code {
   padding: .1em .3em; border-radius: .25rem;
-  background: rgb(160 144 138 / .15); font-size: .92em;
+  background: rgb(138 138 138 / .18); font-size: .92em;
+}
+
+/* Заголовки бренду: ВЕЛИКІ літери з розрядкою — так набрані «КАТЕГОРІЇ»,
+   «БЕСТСЕЛЕРИ» і кнопки на robeauty.me. */
+.rb-display {
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-weight: 700;
 }

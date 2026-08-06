@@ -30,7 +30,7 @@ export function Card({ children, className = '', pad = true }: {
 
 export function SectionTitle({ children }: { children: ReactNode }) {
   return (
-    <h2 className="mb-3 font-display text-lg font-semibold text-ink-950 dark:text-cream-50">
+    <h2 className="rb-display mb-3 font-display text-[13px] text-ink-950 dark:text-cream-50">
       {children}
     </h2>
   )
@@ -42,7 +42,7 @@ export function Stat({ label, value, hint, accent = false }: {
   return (
     <Card className={`animate-rise relative overflow-hidden ${accent ? '' : ''}`}>
       {accent && (
-        <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-rose-500 to-rose-300" />
+        <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-ink-700 to-cream-200" />
       )}
       <div className="text-[11px] font-bold uppercase tracking-[0.14em] text-ink-400">
         {label}
@@ -63,12 +63,14 @@ export function Button({
   children: ReactNode; onClick?: () => void; variant?: 'solid' | 'ghost'
   disabled?: boolean; type?: 'button' | 'submit'; className?: string
 }) {
-  const base = 'inline-flex items-center justify-center gap-1.5 rounded-full px-4 py-2 ' +
-    'text-sm font-semibold transition-all active:scale-[.98] disabled:opacity-50'
+  // Форма кнопки взята з robeauty.me: радіус 5px, ВЕЛИКІ літери, розрядка.
+  const base = 'inline-flex items-center justify-center gap-1.5 rounded px-5 py-2.5 ' +
+    'text-[11px] font-bold uppercase tracking-display transition-all ' +
+    'active:scale-[.98] disabled:opacity-50'
   const style = variant === 'solid'
-    ? 'bg-rose-600 text-white shadow-sm hover:bg-rose-700'
-    : 'border border-ink-200 text-ink-600 hover:border-rose-500 hover:text-rose-700 ' +
-      'dark:border-ink-700 dark:text-ink-300 dark:hover:text-rose-300'
+    ? 'bg-ink-900 text-white shadow-sm hover:bg-ink-950'
+    : 'border border-ink-200 text-ink-600 hover:border-ink-700 hover:text-ink-950 ' +
+      'dark:border-ink-700 dark:text-ink-300 dark:hover:text-cream-200'
   return (
     <button type={type} onClick={onClick} disabled={disabled} className={`${base} ${style} ${className}`}>
       {children}
@@ -81,14 +83,14 @@ export function Badge({ children, tone = 'neutral' }: {
 }) {
   const tones = {
     neutral: 'bg-ink-100 text-ink-600 dark:bg-ink-800 dark:text-ink-300',
-    brand: 'border border-rose-500/40 bg-rose-500/10 text-rose-700 dark:text-rose-300',
-    good: 'bg-mint-100 text-mint-600 dark:bg-mint-600/20 dark:text-mint-400',
-    warn: 'bg-amber-50 text-amber-700 dark:bg-amber-500/15 dark:text-amber-300',
-    bad: 'bg-rose-50 text-rose-700 dark:bg-rose-500/15 dark:text-rose-300',
+    brand: 'border border-ink-700/40 bg-ink-700/10 text-ink-950 dark:text-cream-200',
+    good: 'bg-cream-200 text-good-500 dark:bg-good-500/20 dark:text-good-300',
+    warn: 'bg-warn-500/10 text-warn-500 dark:bg-warn-300/15 dark:text-warn-300',
+    bad: 'bg-crit-500/10 text-crit-500 dark:bg-crit-300/10 dark:text-crit-300',
   }
   return (
-    <span className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-[11px] font-bold
-                      tracking-wide ${tones[tone]}`}>
+    <span className={`inline-flex items-center rounded-[3px] px-2 py-0.5 text-[10px] font-bold
+                      uppercase tracking-display ${tones[tone]}`}>
       {children}
     </span>
   )
@@ -98,9 +100,9 @@ export function Input(props: React.InputHTMLAttributes<HTMLInputElement>) {
   const { className = '', ...rest } = props
   return (
     <input {...rest}
-           className={`min-w-0 rounded-full border border-ink-200 bg-white px-4 py-2 text-sm
+           className={`min-w-0 rounded border border-ink-200 bg-white px-3.5 py-2 text-sm
                        text-ink-900 outline-none transition-colors placeholder:text-ink-400
-                       focus:border-rose-500 dark:border-ink-700 dark:bg-ink-800
+                       focus:border-ink-700 dark:border-ink-700 dark:bg-ink-800
                        dark:text-cream-100 ${className}`} />
   )
 }
@@ -188,7 +190,7 @@ export function Table({ head, children, sort, onSort }: {
                   {key ? (
                     <button onClick={() => toggle(key)}
                             className={`inline-flex items-center gap-1 transition-colors hover:text-ink-800 dark:hover:text-cream-100 ${
-                              active ? 'text-rose-700 dark:text-rose-300' : ''}`}>
+                              active ? 'text-ink-950 dark:text-cream-200' : ''}`}>
                       {label}
                       <span className="text-[9px]">
                         {active ? (sort!.dir === 'asc' ? '▲' : '▼') : '⇅'}
@@ -284,7 +286,7 @@ export function Status({ kind, children }: {
   kind: 'ok' | 'warn' | 'bad' | 'idle'; children: ReactNode
 }) {
   const dot = {
-    ok: 'bg-mint-400', warn: 'bg-amber-400', bad: 'bg-rose-500', idle: 'bg-ink-300',
+    ok: 'bg-good-500 dark:bg-good-300', warn: 'bg-warn-500 dark:bg-warn-300', bad: 'bg-crit-500 dark:bg-crit-300', idle: 'bg-ink-300',
   }[kind]
   return (
     <span className="inline-flex items-center gap-1.5 text-xs font-medium text-ink-600 dark:text-ink-300">
@@ -299,8 +301,8 @@ export function Avatar({ name, size = 8 }: { name: string; size?: 8 | 9 | 10 }) 
   const cls = size === 10 ? 'size-10 text-sm' : size === 9 ? 'size-9 text-sm' : 'size-8 text-xs'
   return (
     <span className={`inline-flex ${cls} shrink-0 items-center justify-center rounded-full
-                      bg-rose-600/15 font-display font-semibold text-rose-700
-                      dark:bg-rose-400/20 dark:text-rose-300`}>
+                      bg-ink-900/15 font-display font-semibold text-ink-950
+                      dark:bg-ink-500/20 dark:text-cream-200`}>
       {initials}
     </span>
   )

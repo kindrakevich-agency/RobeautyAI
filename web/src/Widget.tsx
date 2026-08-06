@@ -24,7 +24,7 @@ function Fab({ open, onClick }: { open: boolean; onClick: () => void }) {
   return (
     <button type="button" onClick={onClick} aria-label={open ? 'close chat' : 'open chat'}
             className="fixed right-5 bottom-5 z-[95] grid size-14 place-items-center rounded-full
-                       bg-white text-ink-900 shadow-pop dark:bg-ink-800 dark:text-cream-100 outline-none transition-transform
+                       bg-ink-900 text-white shadow-pop dark:bg-cream-100 dark:text-ink-950 outline-none transition-transform
                        hover:scale-105 dark:bg-ink-800 dark:text-cream-100">
       {!open && (
         <>
@@ -39,9 +39,9 @@ function Fab({ open, onClick }: { open: boolean; onClick: () => void }) {
         <svg width="30" height="30" viewBox="0 0 32 32" fill="none" aria-hidden>
           <defs>
             <linearGradient id="rb-loop" x1="0" y1="16" x2="32" y2="16" gradientUnits="userSpaceOnUse">
-              <stop offset="0%" stopColor="#E3B9AC" />
-              <stop offset="55%" stopColor="#D49C8B" />
-              <stop offset="100%" stopColor="#A06455" />
+              <stop offset="0%" stopColor="#8A8A8A" />
+              <stop offset="55%" stopColor="#F2EEE9" />
+              <stop offset="100%" stopColor="#FFFFFF" />
             </linearGradient>
           </defs>
           <path d={LOOP} stroke="url(#rb-loop)" strokeWidth="2.6" strokeLinecap="round" />
@@ -70,7 +70,7 @@ function Cards({ items }: { items: ProductCard[] }) {
             <div className="line-clamp-2 text-[11px] font-semibold leading-snug text-ink-800 dark:text-cream-100">
               {p.title}
             </div>
-            <div className="mt-1 text-[13px] font-semibold text-rose-700 dark:text-rose-300">
+            <div className="mt-1 text-[13px] font-semibold text-ink-950 dark:text-cream-200">
               {Math.round(p.price)} ₴
             </div>
             {p.ingredients?.length ? (
@@ -79,7 +79,7 @@ function Cards({ items }: { items: ProductCard[] }) {
               </div>
             ) : null}
             <a href={p.url ?? '#'} target="_blank" rel="noreferrer"
-               className="mt-auto pt-1.5 text-[10px] font-semibold text-rose-600 hover:underline dark:text-rose-300">
+               className="mt-auto pt-1.5 text-[10px] font-semibold text-ink-900 hover:underline dark:text-cream-200">
               {t('chat.more')} →
             </a>
           </div>
@@ -91,7 +91,7 @@ function Cards({ items }: { items: ProductCard[] }) {
             <button key={d} onClick={() => rail.current?.scrollBy({ left: d * 180, behavior: 'smooth' })}
                     aria-label={d < 0 ? '←' : '→'}
                     className="rounded-full border border-ink-200 px-2 py-0.5 text-[10px] text-ink-400
-                               hover:border-rose-500 hover:text-rose-700 dark:border-ink-700">
+                               hover:border-ink-700 hover:text-ink-950 dark:border-ink-700">
               {d < 0 ? '←' : '→'}
             </button>
           ))}
@@ -108,7 +108,7 @@ function Sources({ items }: { items: Source[] }) {
   return (
     <div className="mt-1.5">
       <button onClick={() => setOpen((v) => !v)}
-              className="text-[10px] font-semibold text-rose-600 hover:underline dark:text-rose-300">
+              className="text-[10px] font-semibold text-ink-900 hover:underline dark:text-cream-200">
         {open ? '▾' : '▸'} {t('chat.sources')} ({items.length})
       </button>
       {open && (
@@ -117,7 +117,7 @@ function Sources({ items }: { items: Source[] }) {
             <li key={i} className="text-[10px] leading-relaxed">
               {s.url ? (
                 <a href={s.url} target="_blank" rel="noreferrer"
-                   className="text-ink-500 underline decoration-ink-200 hover:text-rose-700 dark:text-ink-400">
+                   className="text-ink-500 underline decoration-ink-200 hover:text-ink-950 dark:text-ink-400">
                   {s.title}
                 </a>
               ) : <span className="text-ink-500">{s.title}</span>}
@@ -235,7 +235,7 @@ export default function Widget() {
                     <button key={q} onClick={() => ask(q)}
                             className="w-full rounded-xl border border-ink-200/70 px-3 py-2.5 text-left
                                        text-xs leading-snug text-ink-600 transition-colors
-                                       hover:border-rose-500 hover:text-rose-700
+                                       hover:border-ink-700 hover:text-ink-950
                                        dark:border-ink-700 dark:text-ink-300">
                       {q}
                     </button>
@@ -249,7 +249,7 @@ export default function Widget() {
                 <div key={i} className={m.role === 'user' ? 'flex justify-end' : ''}>
                   <div className={`min-w-0 max-w-[92%] rounded-2xl px-3.5 py-2.5 text-[13px] leading-relaxed ${
                     m.role === 'user'
-                      ? 'bg-rose-600 text-white'
+                      ? 'bg-ink-900 text-white'
                       : 'border border-ink-200/70 bg-white text-ink-800 dark:border-ink-700 dark:bg-ink-900 dark:text-cream-100'}`}>
                     {m.role === 'assistant' ? (
                       <div className="rb-md" dangerouslySetInnerHTML={{ __html: renderMarkdown(m.text) }} />
@@ -265,7 +265,7 @@ export default function Widget() {
                             await api.escalate({ conversation_id: convId })
                             setMsgs((x) => [...x, { role: 'assistant', text: t('chat.humanCalled') }])
                           }} className="mt-2 rounded-full border border-ink-200 px-3 py-1 text-[11px]
-                                        font-semibold text-ink-600 hover:border-rose-500 hover:text-rose-700
+                                        font-semibold text-ink-600 hover:border-ink-700 hover:text-ink-950
                                         dark:border-ink-700 dark:text-ink-300">
                             {t('chat.callHuman')}
                           </button>
@@ -291,12 +291,12 @@ export default function Widget() {
                            dark:border-ink-700 dark:bg-ink-900">
             <input value={input} onChange={(e) => setInput(e.target.value)}
                    placeholder={t('chat.placeholder')}
-                   className="min-w-0 flex-1 rounded-full border border-ink-200 bg-white px-3.5 py-2 dark:border-ink-700 dark:bg-ink-800
-                              text-[13px] outline-none focus:border-rose-500 dark:border-ink-700
+                   className="min-w-0 flex-1 rounded border border-ink-200 bg-white px-3.5 py-2 dark:border-ink-700 dark:bg-ink-800
+                              text-[13px] outline-none focus:border-ink-700 dark:border-ink-700
                               dark:bg-ink-800 dark:text-cream-100" />
             <button type="submit" disabled={busy} aria-label={t('chat.send')}
-                    className="grid size-9 shrink-0 place-items-center rounded-full bg-rose-600 text-white
-                               transition-colors hover:bg-rose-700 disabled:opacity-50">
+                    className="grid size-9 shrink-0 place-items-center rounded-full bg-ink-900 text-white
+                               transition-colors hover:bg-ink-950 disabled:opacity-50">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"
                    strokeLinecap="round"><line x1="22" y1="2" x2="11" y2="13" /><polygon points="22 2 15 22 11 13 2 9 22 2" /></svg>
             </button>

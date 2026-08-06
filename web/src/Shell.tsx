@@ -49,12 +49,15 @@ function Sidebar({ onNavigate, onLogout }: { onNavigate?: () => void; onLogout: 
   const { t } = useTranslation()
   return (
     <div className="flex h-full flex-col overflow-y-auto">
-      <div className="px-6 pt-6 pb-7">
-        <div className="font-display text-xl leading-none font-semibold tracking-wide text-ink-950 dark:text-cream-50">
-          RoBeauty
+      {/* Локап логотипа robeauty.me: «RO» жирним + «BEAUTY» тонким, вертикальна
+          риска, дрібний підпис — там на цьому місці «науковий ANTI-AGE». */}
+      <div className="flex items-center gap-2.5 px-6 pt-7 pb-8">
+        <div className="font-display text-[19px] leading-none tracking-[0.02em] text-ink-950 dark:text-cream-50">
+          <span className="font-bold">RO</span><span className="font-normal">BEAUTY</span>
         </div>
-        <div className="mt-1 text-[10px] font-bold tracking-[0.2em] text-rose-600 uppercase dark:text-rose-300">
-          AI Operations
+        <div className="h-[15px] w-px bg-ink-300 dark:bg-ink-700" />
+        <div className="text-[8px] font-bold leading-[1.3] tracking-[0.16em] text-ink-600 uppercase dark:text-ink-400">
+          AI<br />OPERATIONS
         </div>
       </div>
 
@@ -67,10 +70,10 @@ function Sidebar({ onNavigate, onLogout }: { onNavigate?: () => void; onLogout: 
             {g.items.map((it) => (
               <NavLink key={it.to} to={it.to} end={it.to === '/admin'} onClick={onNavigate}
                        className={({ isActive }) =>
-                         `mb-0.5 flex items-center gap-3 rounded-xl px-3 py-2 text-[13px] font-semibold transition-colors ${
+                         `mb-0.5 flex items-center gap-3 rounded px-3 py-2 text-[12px] font-semibold tracking-[0.02em] transition-colors ${
                            isActive
-                             ? 'bg-rose-600/10 text-rose-700 dark:bg-rose-400/15 dark:text-rose-300'
-                             : 'text-ink-600 hover:bg-ink-100/70 hover:text-ink-950 dark:text-ink-300 dark:hover:bg-ink-800 dark:hover:text-cream-50'
+                             ? 'bg-ink-900 text-white dark:bg-cream-100 dark:text-ink-950'
+                             : 'text-ink-600 hover:bg-cream-200 hover:text-ink-950 dark:text-ink-300 dark:hover:bg-ink-800 dark:hover:text-cream-50'
                          }`}>
                 <it.icon size={17} strokeWidth={2} />
                 <span className="flex-1">{t(`nav.${it.key}`)}</span>
@@ -124,7 +127,7 @@ export default function Shell({ onLogout }: { onLogout: () => void }) {
           </div>
 
           <div className="ml-auto flex shrink-0 items-center gap-1.5">
-            <a href="/" className="mr-1 hidden items-center gap-1.5 text-xs font-semibold text-ink-500 hover:text-rose-700 sm:flex dark:text-ink-300">
+            <a href="/" className="mr-1 hidden items-center gap-1.5 text-xs font-semibold text-ink-500 hover:text-ink-950 sm:flex dark:text-ink-300">
               <ShoppingBag size={14} /> {t('nav.backToChat')}
             </a>
             <Badge tone="brand">{t('demoBadge')}</Badge>
