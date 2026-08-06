@@ -45,7 +45,8 @@ RELEVANCE = """Питання клієнта косметичного бренд
 Фрагменти:
 {items}
 
-Поверни ТІЛЬКИ JSON-масив чисел 0/1 у тому ж порядку."""
+Поверни ТІЛЬКИ JSON-обʼєкт: {{"labels": [0, 1, ...]}} — по одному числу
+на кожен фрагмент, у тому ж порядку."""
 
 
 def judge_relevance(question: str, chunks: list[dict]) -> list[int]:
@@ -61,11 +62,20 @@ def judge_relevance(question: str, chunks: list[dict]) -> list[int]:
     try:
         out = llm.chat_json([{"role": "user", "content": RELEVANCE.format(
             q=question, items=body)}], purpose="judge", max_tokens=300)
-        labels = out if isinstance(out, list) else out.get("labels") or out.get("result")
-        labels = [int(x) for x in labels][:len(chunks)]
+        raw = out if isinstance(out, list) else (
+            out.get("labels") or out.get("result") or out.get("scores"))
+        if not isinstance(raw, list):
+            # Режим JSON у OpenAI повертає обʼєкт, тож масив у корені
+            # неможливий — якщо форма все одно інша, це видно в логах,
+            # а не тихо перетворюється на нулі.
+            print(f"    суддя повернув несподівану форму: {str(out)[:120]}",
+                  file=sys.stderr)
+            return []
+        labels = [int(bool(x)) for x in raw][:len(chunks)]
         return labels + [0] * (len(chunks) - len(labels))
-    except Exception:  # noqa: BLE001
-        return [0] * len(chunks)
+    except Exception as e:  # noqa: BLE001
+        print(f"    суддя релевантності впав: {str(e)[:100]}", file=sys.stderr)
+        return []
 
 
 def load_questions() -> list[dict]:
