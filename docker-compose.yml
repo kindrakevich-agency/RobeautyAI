@@ -1,0 +1,48 @@
+services:
+  postgres:
+    image: pgvector/pgvector:pg17
+    environment:
+      POSTGRES_USER: robeauty
+      POSTGRES_PASSWORD: robeauty
+      POSTGRES_DB: robeauty
+    ports:
+      - "127.0.0.1:5433:5432"
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U robeauty"]
+      interval: 5s
+      retries: 10
+
+  tei:
+    image: ghcr.io/huggingface/text-embeddings-inference:cpu-1.6
+    command: --model-id BAAI/bge-m3 --port 80
+    ports:
+      - "127.0.0.1:8093:80"
+    volumes:
+      - tei_data:/data
+
+  api:
+    build: ./api
+    env_file: .env
+    environment:
+      DATABASE_URL: postgresql://robeauty:robeauty@postgres:5432/robeauty
+      EMBEDDINGS_URL: http://tei:80
+    ports:
+      - "127.0.0.1:8110:8110"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    volumes:
+      - ./data:/repo/data
+
+  web:
+    build: ./web
+    ports:
+      - "127.0.0.1:5210:80"
+    depends_on:
+      - api
+
+volumes:
+  pg_data:
+  tei_data:

@@ -1,0 +1,27 @@
+# секрети
+.env
+*.pem
+*.key
+secrets/
+
+# дані скрапера — сирі дампи не для git
+data/raw/
+data/*.jsonl
+
+# python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# node
+node_modules/
+web/dist/
+
+# ОС і редактори
+.DS_Store
+*.log
+
+# внутрішні робочі нотатки
+robeauty.md
+notes/
