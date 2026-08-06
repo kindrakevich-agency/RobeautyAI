@@ -60,7 +60,7 @@ export default function Bootstrap({ onReady }: { onReady: () => void }) {
   const needKey = s && !s.has_llm_key && !keySaved
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-cream-100 px-4 py-10 dark:bg-ink-950">
+    <div className="flex min-h-screen items-center justify-center bg-cream-200 px-4 py-10 dark:bg-ink-950">
       <Card className="w-full max-w-xl animate-rise">
         <div className="mb-4 flex items-center gap-2">
           <div className="font-display text-xl font-semibold tracking-wide text-ink-950 dark:text-cream-50">

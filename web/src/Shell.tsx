@@ -56,7 +56,7 @@ function Sidebar({ onNavigate, onLogout }: { onNavigate?: () => void; onLogout: 
           <span className="font-bold">RO</span><span className="font-normal">BEAUTY</span>
         </div>
         <div className="h-[15px] w-px bg-ink-300 dark:bg-ink-700" />
-        <div className="text-[8px] font-bold leading-[1.3] tracking-[0.16em] text-ink-600 uppercase dark:text-ink-400">
+        <div className="text-[8px] font-bold leading-[1.3] tracking-[0.16em] text-ink-700 uppercase dark:text-ink-400">
           AI<br />OPERATIONS
         </div>
       </div>
@@ -64,7 +64,7 @@ function Sidebar({ onNavigate, onLogout }: { onNavigate?: () => void; onLogout: 
       <nav className="flex-1 space-y-5 px-3 pb-6">
         {groups.map((g) => (
           <div key={g.title}>
-            <div className="px-3 pb-1.5 text-[10px] font-bold tracking-[0.18em] text-ink-600 uppercase dark:text-ink-500">
+            <div className="px-3 pb-1.5 text-[10px] font-bold tracking-[0.18em] text-ink-700 uppercase dark:text-ink-500">
               {t(g.title)}
             </div>
             {g.items.map((it) => (
@@ -98,7 +98,7 @@ export default function Shell({ onLogout }: { onLogout: () => void }) {
   const [mobileNav, setMobileNav] = useState(false)
 
   return (
-    <div className="min-h-screen bg-cream-100 dark:bg-ink-950">
+    <div className="min-h-screen bg-cream-200 dark:bg-ink-950">
       <aside className="fixed inset-y-0 left-0 z-40 hidden w-64 border-r border-ink-200 bg-cream-50 lg:block dark:border-ink-700/60 dark:bg-ink-900">
         <Sidebar onLogout={onLogout} />
       </aside>
@@ -116,7 +116,7 @@ export default function Shell({ onLogout }: { onLogout: () => void }) {
       )}
 
       <div className="lg:pl-64">
-        <header className="sticky top-0 z-30 flex h-16 items-center gap-3 border-b border-ink-200 bg-cream-100/85 px-4 backdrop-blur-md sm:px-6 dark:border-ink-700/60 dark:bg-ink-950/85">
+        <header className="sticky top-0 z-30 flex h-16 items-center gap-3 border-b border-ink-200 bg-cream-200/90 px-4 backdrop-blur-md sm:px-6 dark:border-ink-700/60 dark:bg-ink-950/85">
           <button className="rounded-lg p-2 text-ink-600 hover:bg-ink-100 lg:hidden dark:hover:bg-ink-800"
                   onClick={() => setMobileNav(true)} aria-label="menu">
             <Menu size={20} />

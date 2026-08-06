@@ -40,8 +40,8 @@ export default function Home() {
   const num = (v?: number) => (v == null ? '—' : v.toLocaleString('uk-UA'))
 
   return (
-    <div className="min-h-screen bg-cream-100 dark:bg-ink-950">
-      <header className="sticky top-0 z-20 border-b border-ink-200 bg-cream-100/90 backdrop-blur-md dark:border-ink-800 dark:bg-ink-950/90">
+    <div className="min-h-screen bg-cream-200 dark:bg-ink-950">
+      <header className="sticky top-0 z-20 border-b border-ink-200 bg-cream-200/90 backdrop-blur-md dark:border-ink-800 dark:bg-ink-950/90">
         <div className="mx-auto flex max-w-5xl items-center gap-3 px-5 py-4">
           {/* Локап логотипа robeauty.me: «RO» жирним + «BEAUTY» тонким, риска,
               дрібний підпис — на сайті там «науковий ANTI-AGE». */}
@@ -50,14 +50,14 @@ export default function Home() {
               <span className="font-bold">RO</span><span className="font-normal">BEAUTY</span>
             </div>
             <div className="h-[15px] w-px bg-ink-300 dark:bg-ink-700" />
-            <div className="text-[8px] font-bold leading-[1.3] tracking-[0.16em] text-ink-600 uppercase dark:text-ink-400">
+            <div className="text-[8px] font-bold leading-[1.3] tracking-[0.16em] text-ink-700 uppercase dark:text-ink-400">
               AI<br />CONSULTANT
             </div>
           </div>
           <LangSwitch />
           <ThemeToggle />
           <Link to="/admin"
-                className="hidden text-[10px] font-bold tracking-display text-ink-600 uppercase
+                className="hidden text-[10px] font-bold tracking-display text-ink-700 uppercase
                            hover:text-ink-950 sm:block dark:text-ink-400 dark:hover:text-cream-50">
             {t('chat.openAdmin')}
           </Link>
@@ -70,7 +70,7 @@ export default function Home() {
           <div className="animate-rise min-w-0">
             <div className="flex items-center gap-3">
               <span className="h-px w-8 bg-ink-900 dark:bg-cream-200" />
-              <span className="text-[10px] font-bold tracking-[0.2em] text-ink-600 uppercase dark:text-ink-400">
+              <span className="text-[10px] font-bold tracking-[0.2em] text-ink-700 uppercase dark:text-ink-400">
                 {t('home.eyebrow')}
               </span>
             </div>
@@ -136,7 +136,7 @@ export default function Home() {
             ['sources', t('home.spec.sourcesValue')],
           ].map(([k, v]) => (
             <div key={String(k)} className="min-w-0 bg-cream-100 px-4 py-5 dark:bg-ink-950">
-              <div className="text-[9px] font-bold tracking-[0.16em] text-ink-600 uppercase dark:text-ink-400">
+              <div className="text-[9px] font-bold tracking-[0.16em] text-ink-700 uppercase dark:text-ink-400">
                 {t(`home.spec.${k}`)}
               </div>
               <div className="mt-2 font-display text-[16px] leading-tight font-bold tabular-nums
@@ -216,7 +216,7 @@ export default function Home() {
                 <span className="block text-[13px] leading-snug text-ink-800 dark:text-cream-100">
                   {t(`home.try.${k}`)}
                 </span>
-                <span className="mt-auto pt-3 block text-[10px] font-bold tracking-display text-ink-600
+                <span className="mt-auto pt-3 block text-[10px] font-bold tracking-display text-ink-700
                                  uppercase transition-colors group-hover:text-ink-900
                                  dark:group-hover:text-cream-200">
                   {t('home.tryAsk')} →

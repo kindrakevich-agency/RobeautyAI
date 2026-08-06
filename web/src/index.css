@@ -6,7 +6,7 @@
 
 @layer base {
   body {
-    @apply bg-cream-100 text-ink-900 font-sans antialiased dark:bg-ink-950 dark:text-cream-100;
+    @apply bg-cream-200 text-ink-900 font-sans antialiased dark:bg-ink-950 dark:text-cream-100;
   }
   ::selection { @apply bg-ink-900/15 dark:bg-cream-200/25; }
   * { scrollbar-width: thin; scrollbar-color: rgb(138 138 138 / .5) transparent; }

@@ -96,7 +96,7 @@ export default function SystemInsights() {
               <div className="overflow-y-auto px-5 py-4">
                 {!report && !loading && (
                   <>
-                    <div className="mb-2.5 text-[11px] font-bold tracking-widest text-ink-600 uppercase">
+                    <div className="mb-2.5 text-[11px] font-bold tracking-widest text-ink-700 uppercase">
                       {t('insights.quick')}
                     </div>
                     <div className="grid gap-2 sm:grid-cols-2">

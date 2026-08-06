@@ -203,7 +203,7 @@ export default function Widget() {
       </div>
       {open && (
         <section role="dialog" aria-label={t('chat.title')}
-                 className={`z-[94] flex flex-col overflow-hidden bg-cream-100 dark:bg-ink-950
+                 className={`z-[94] flex flex-col overflow-hidden bg-cream-200 dark:bg-ink-950
                              ${full ? fullscreen : docked}`}>
           <header className="flex items-center gap-1 border-b border-ink-200 bg-cream-50/80 px-4 py-3
                              backdrop-blur-md dark:border-ink-700 dark:bg-ink-900/80">
