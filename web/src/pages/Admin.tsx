@@ -641,7 +641,7 @@ function Localization() {
                 <p className="mt-1 line-clamp-4 text-xs leading-relaxed text-ink-400">{x.uk_description}</p>
               </div>
               <div className="min-w-0">
-                <div className="text-[11px] font-semibold uppercase tracking-wider text-ink-900">
+                <div className="text-[11px] font-semibold uppercase tracking-wider text-ink-900 dark:text-cream-200">
                   {t('localization.targetPl')}
                 </div>
                 <div className="mt-1 text-sm font-medium text-ink-800 dark:text-cream-100">{x.pl_title}</div>

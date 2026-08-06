@@ -111,7 +111,7 @@ export default function Home() {
                      className="size-full object-cover" />
               )}
               {items[0] && (
-                <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-ink-950/75 to-transparent p-4 pt-10">
+                <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-ink-950/90 via-ink-950/55 to-transparent p-4 pt-12">
                   <div className="text-[11px] leading-snug font-semibold text-white line-clamp-2">
                     {items[0].title}
                   </div>

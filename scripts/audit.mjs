@@ -87,10 +87,22 @@ for (const vp of VIEWPORTS) {
         }
         return base
       }
+      const overImage = (el) => {
+        let n = el
+        while (n && n !== document.documentElement) {
+          const s = getComputedStyle(n)
+          if (s.backgroundImage && s.backgroundImage !== 'none') return true
+          n = n.parentElement
+        }
+        return false
+      }
       for (const el of document.querySelectorAll('main *, aside *, header *')) {
         if (!el.textContent?.trim() || el.children.length) continue
         const st = getComputedStyle(el)
         if (st.opacity === '0' || st.visibility === 'hidden') continue
+        // Текст поверх фото чи градієнта: колір під ним задає картинка,
+        // обчислити контраст із computed styles неможливо.
+        if (overImage(el)) continue
         const r0 = el.getBoundingClientRect()
         if (r0.width < 10 || r0.height < 6) continue
         const [r, g, bl] = parse(st.color)
