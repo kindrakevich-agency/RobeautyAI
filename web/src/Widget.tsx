@@ -71,7 +71,7 @@ function Cards({ items }: { items: ProductCard[] }) {
               {p.title}
             </div>
             <div className="mt-1 text-[13px] font-semibold text-ink-950 dark:text-cream-200">
-              {Math.round(p.price)} ₴
+              {Math.round(p.price).toLocaleString('uk-UA')} {t('common.uah')}
             </div>
             {p.ingredients?.length ? (
               <div className="mt-0.5 line-clamp-1 text-[10px] text-ink-400">
@@ -198,7 +198,9 @@ export default function Widget() {
 
   return (
     <>
-      <Fab open={open} onClick={() => setOpen((v) => !v)} />
+      <div className={open ? 'hidden sm:block' : undefined}>
+        <Fab open={open} onClick={() => setOpen((v) => !v)} />
+      </div>
       {open && (
         <section role="dialog" aria-label={t('chat.title')}
                  className={`z-[94] flex flex-col overflow-hidden bg-cream-100 dark:bg-ink-950
