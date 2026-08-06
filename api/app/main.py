@@ -19,16 +19,22 @@ from .models import Conversation, Message, Ticket
 import os
 
 app = FastAPI(title="RoBeauty AI Operations", docs_url=None, redoc_url=None)
-security = HTTPBasic()
 
 
-def admin_auth(creds: HTTPBasicCredentials = Depends(security)) -> str:
-    ok_user = secrets.compare_digest(creds.username, os.environ.get("ADMIN_USER", "admin"))
-    ok_pass = secrets.compare_digest(
-        creds.password, os.environ.get("ADMIN_PASSWORD", "change-me"))
-    if not (ok_user and ok_pass):
-        raise HTTPException(401, "Unauthorized",
-                            headers={"WWW-Authenticate": "Basic"})
+# auto_error=False: без нього FastAPI сам віддає 401 з WWW-Authenticate,
+# і браузер показує власне вікно логіна поверх нашої форми.
+security = HTTPBasic(auto_error=False)
+
+
+def admin_auth(creds: HTTPBasicCredentials | None = Depends(security)) -> str:
+    ok = bool(creds) and (
+        secrets.compare_digest(creds.username, os.environ.get("ADMIN_USER", "admin"))
+        and secrets.compare_digest(
+            creds.password, os.environ.get("ADMIN_PASSWORD", "change-me")))
+    if not ok:
+        # Свідомо БЕЗ заголовка WWW-Authenticate: інакше браузер перехоплює
+        # 401 і малює системний попап замість екрана входу в застосунку.
+        raise HTTPException(401, "Unauthorized")
     return creds.username
 
 
