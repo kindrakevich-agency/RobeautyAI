@@ -58,15 +58,34 @@ for (const vp of VIEWPORTS) {
       // Текст, що зливається з ФАКТИЧНИМ тлом: піднімаємось по предках,
       // поки не знайдемо непрозорий фон — інакше активна кнопка з власним
       // світлим тлом хибно вважається невидимою.
-      const parse = (c) => (c.match(/\d+/g) || [0, 0, 0]).slice(0, 3).map(Number)
+      const parse = (c) => (c.match(/[\d.]+/g) || [0, 0, 0]).slice(0, 3).map(Number)
+      const alphaOf = (c) => {
+        const m = c.match(/rgba?\(([^)]+)\)/)
+        if (!m) return 1
+        const parts = m[1].split(',').map((x) => parseFloat(x))
+        return parts.length > 3 ? parts[3] : 1
+      }
+      // Напівпрозорі заливки треба НАКЛАДАТИ, а не читати як суцільний колір:
+      // чип із фоном accent/10 має ті самі канали, що й текст accent, і
+      // детектор вважав його невидимим, хоча він читається чудово.
       const bgOf = (el) => {
+        const stack = []
         let n = el
         while (n && n !== document.documentElement) {
           const c = getComputedStyle(n).backgroundColor
-          if (c && !c.includes('rgba(0, 0, 0, 0)') && c !== 'transparent') return parse(c)
+          const a = c ? alphaOf(c) : 0
+          if (c && a > 0.001) {
+            stack.push([parse(c), a])
+            if (a >= 0.999) break
+          }
           n = n.parentElement
         }
-        return parse(getComputedStyle(document.body).backgroundColor)
+        let base = parse(getComputedStyle(document.body).backgroundColor)
+        for (let i = stack.length - 1; i >= 0; i--) {
+          const [c, a] = stack[i]
+          base = base.map((v, k) => c[k] * a + v * (1 - a))
+        }
+        return base
       }
       for (const el of document.querySelectorAll('main *, aside *, header *')) {
         if (!el.textContent?.trim() || el.children.length) continue

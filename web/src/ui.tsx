@@ -189,7 +189,7 @@ export function Table({ head, children, sort, onSort }: {
                 <th key={i} className="px-4 py-3 text-[11px] font-bold uppercase tracking-[0.1em] text-ink-400">
                   {key ? (
                     <button onClick={() => toggle(key)}
-                            className={`inline-flex items-center gap-1 transition-colors hover:text-ink-800 dark:hover:text-cream-100 ${
+                            className={`-my-2 inline-flex min-h-[38px] items-center gap-1 transition-colors hover:text-ink-800 dark:hover:text-cream-100 ${
                               active ? 'text-ink-950 dark:text-cream-200' : ''}`}>
                       {label}
                       <span className="text-[9px]">

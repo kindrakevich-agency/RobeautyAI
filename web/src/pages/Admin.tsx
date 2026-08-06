@@ -407,13 +407,13 @@ function Dialogs() {
                 }}>{busy ? t('common.running') : t('dialogs.analyze')}</Button>} />
       <div className="mb-4 flex flex-wrap gap-2">
         <button onClick={() => setChannel('')}
-                className={`rounded-full px-3 py-1.5 text-xs font-semibold ${
+                className={`inline-flex min-h-[38px] items-center rounded px-3.5 text-xs font-semibold ${
                   !channel ? 'bg-ink-900 text-white' : 'border border-ink-200 text-ink-400'}`}>
           {t('dialogs.filterAll')}
         </button>
         {Object.entries(d.by_channel).map(([c, n]) => (
           <button key={c} onClick={() => setChannel(c)}
-                  className={`rounded-full px-3 py-1.5 text-xs font-semibold ${
+                  className={`inline-flex min-h-[38px] items-center rounded px-3.5 text-xs font-semibold ${
                     channel === c ? 'bg-ink-900 text-white' : 'border border-ink-200 text-ink-400'}`}>
             {CHANNEL_LABEL[c] ?? c} · {n as number}
           </button>
@@ -692,7 +692,7 @@ function Analytics() {
         <div className="mt-3 flex flex-wrap gap-2">
           {presets.map((p) => (
             <button key={p} onClick={() => { const x = t(`analytics.presets.${p}`); setQ(x); void ask(x) }}
-                    className="rounded-full border border-ink-200/60 px-3 py-1.5 text-xs text-ink-600 transition-colors hover:border-ink-700 dark:border-ink-700/60 dark:text-ink-300 hover:text-ink-950">
+                    className="inline-flex min-h-[38px] items-center rounded border border-ink-200/60 px-3.5 text-left text-xs text-ink-600 transition-colors hover:border-ink-700 dark:border-ink-700/60 dark:text-ink-300 hover:text-ink-950">
               {t(`analytics.presets.${p}`)}
             </button>
           ))}
