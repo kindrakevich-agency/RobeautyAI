@@ -159,13 +159,13 @@ export default function Home() {
               <button key={k} type="button"
                       onClick={() => window.dispatchEvent(
                         new CustomEvent('rb-open-widget', { detail: t(`home.try.${k}`) }))}
-                      className="group border border-ink-200 bg-white px-4 py-4 text-left transition-colors
-                                 hover:border-ink-900 dark:border-ink-800 dark:bg-ink-900
-                                 dark:hover:border-cream-200">
+                      className="group flex min-h-[7.5rem] flex-col border border-ink-200 bg-white px-4 py-4
+                                 text-left transition-colors hover:border-ink-900
+                                 dark:border-ink-800 dark:bg-ink-900 dark:hover:border-cream-200">
                 <span className="block text-[13px] leading-snug text-ink-800 dark:text-cream-100">
                   {t(`home.try.${k}`)}
                 </span>
-                <span className="mt-2.5 block text-[10px] font-bold tracking-display text-ink-400
+                <span className="mt-auto pt-3 block text-[10px] font-bold tracking-display text-ink-400
                                  uppercase transition-colors group-hover:text-ink-900
                                  dark:group-hover:text-cream-200">
                   {t('home.tryAsk')} →
