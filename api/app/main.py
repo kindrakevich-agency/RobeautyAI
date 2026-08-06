@@ -42,8 +42,12 @@ def admin_auth(creds: HTTPBasicCredentials | None = Depends(security)) -> str:
 def health() -> dict:
     with db.engine.connect() as conn:
         chunks = conn.exec_driver_sql("SELECT count(*) FROM chunks").scalar()
-    return {"status": "ok", "chunks": chunks,
-            "llm": bool(config.OPENAI_API_KEY)}
+        products = conn.exec_driver_sql("SELECT count(*) FROM products").scalar()
+        # Скільки товарів має польський переклад — головна метрика локалізації.
+        translated = conn.exec_driver_sql(
+            "SELECT count(*) FROM product_i18n WHERE lang = 'pl'").scalar()
+    return {"status": "ok", "chunks": chunks, "products": products,
+            "translated_pl": translated, "llm": bool(config.OPENAI_API_KEY)}
 
 
 # ---------- онбординг першого запуску ----------

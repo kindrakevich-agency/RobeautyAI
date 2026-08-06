@@ -280,7 +280,7 @@
     }
   },
   "home": {
-    "title": "Konsultant AI, który poleca wyłącznie to, co naprawdę jest w katalogu",
+    "title": "Konsultant, który poleca wyłącznie to, co naprawdę jest w katalogu",
     "lede": "Stanowisko demo na bazie prawdziwego katalogu RoBeauty: dobór pielęgnacji do typu skóry i problemu, karty produktów z cenami i składem, uczciwe „nie wiem” zamiast zmyślonej odpowiedzi.",
     "cta": "Kliknij przycisk w prawym dolnym rogu i sprawdź",
     "points": {
@@ -300,6 +300,26 @@
         "title": "Przekazanie człowiekowi",
         "text": "Pytania medyczne, reklamacje i nietypowe przypadki trafiają do doradcy — z całym kontekstem rozmowy."
       }
+    },
+    "eyebrow": "Konsultant AI · wersja demo",
+    "ctaButton": "Zadaj pytanie",
+    "ctaHint": "Odpowiedź z cenami, składem i linkami do produktów.",
+    "compositionTitle": "Skład",
+    "tryTitle": "Sprawdź na prawdziwych pytaniach",
+    "tryAsk": "Zapytaj",
+    "try": {
+      "dry": "Co polecacie do suchej skóry twarzy?",
+      "retinol": "Czy macie produkt z retinolem i jak go wprowadzać?",
+      "gift": "Czy jest zestaw na prezent do około 2000 UAH?"
+    },
+    "spec": {
+      "title": "Specyfikacja stanowiska",
+      "catalog": "Produktów w katalogu",
+      "chunks": "Fragmentów wiedzy",
+      "langs": "Języki · przetłumaczono",
+      "sources": "Źródła",
+      "sourcesValue": "pod każdą odpowiedzią",
+      "note": "Liczby czytane z bazy na żywo. Katalog i ceny — z robeauty.me."
     }
   }
 }

@@ -151,10 +151,23 @@ export default function Widget() {
   const [busy, setBusy] = useState(false)
   const [convId, setConvId] = useState<number | null>(null)
   const scrollRef = useRef<HTMLDivElement>(null)
+  const askRef = useRef<((t: string) => void) | null>(null)
 
   useEffect(() => {
     scrollRef.current?.scrollTo({ top: scrollRef.current.scrollHeight, behavior: 'smooth' })
   }, [msgs, busy])
+
+  // Головна відкриває консультанта своїми кнопками й може одразу підставити
+  // питання — щоб перший крок коштував один клік, а не набирання тексту.
+  useEffect(() => {
+    const onOpen = (e: Event) => {
+      setOpen(true)
+      const q = (e as CustomEvent<string>).detail
+      if (q) setTimeout(() => void askRef.current?.(q), 260)
+    }
+    window.addEventListener('rb-open-widget', onOpen)
+    return () => window.removeEventListener('rb-open-widget', onOpen)
+  }, [])
 
   const ask = async (text: string) => {
     if (!text.trim() || busy) return
@@ -174,9 +187,10 @@ export default function Widget() {
       setBusy(false)
     }
   }
+  askRef.current = ask
 
   const docked = 'fixed bottom-24 right-5 h-[min(680px,calc(100dvh-7rem))] ' +
-    'w-[min(390px,calc(100vw-2.5rem))] rounded-[1.75rem] border border-ink-200/70 shadow-pop ' +
+    'w-[min(390px,calc(100vw-2.5rem))] rounded-lg border border-ink-200 shadow-pop ' +
     'dark:border-ink-700'
   const fullscreen = 'fixed inset-0 h-dvh w-screen rounded-none border-0'
 
