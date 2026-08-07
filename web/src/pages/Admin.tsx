@@ -70,6 +70,8 @@ type Dash = {
   conversations: { by_channel: Record<string, number>; escalated: number }
   identities_linked: number
   localization: { products: number; translated: number; approved: number }
+  waiting_human?: number
+  unanswered?: number
   eval: { p_at_5: number | null; judge_pass_rate: number | null }
   api_costs: { total_usd: number; tokens: number; calls: number; by_purpose: { purpose: string; cost: number }[] }
 }
@@ -93,16 +95,39 @@ function Dashboard() {
       </div>
 
       <div className="mb-4 grid grid-cols-1 gap-4 lg:grid-cols-2">
+        {/* Замість звіту про локалізацію — те, що чекає дії сьогодні.
+            «20 / 179» читалося як поломка, хоча агент переклав усі 179:
+            просто людина ще не встигла їх затвердити. Для цього є свій
+            розділ; на головному екрані має бути робота, а не статистика. */}
         <Card>
-          <div className="text-[11px] font-semibold uppercase tracking-[0.07em] text-ink-600 dark:text-ink-300">
-            {t('dashboard.plProgress')}
+          <div className="text-[11px] font-bold tracking-display text-ink-500
+                          uppercase dark:text-ink-400">
+            {t('dashboard.todo')}
           </div>
-          <div className="mt-2 text-2xl font-semibold text-ink-900 dark:text-cream-50">
-            {d.localization.approved} / {d.localization.products}
-          </div>
-          <div className="mt-3 h-2 overflow-hidden rounded-full bg-ink-100 dark:bg-ink-800">
-            <div className="h-full bg-ink-700"
-                 style={{ width: `${(d.localization.approved / Math.max(1, d.localization.products)) * 100}%` }} />
+          <div className="mt-3 space-y-3">
+            <Link to="/admin/tickets" className="block">
+              <div className="flex items-baseline gap-2">
+                <span className="font-display text-3xl font-bold tabular-nums
+                                 text-ink-950 dark:text-cream-50">{d.waiting_human ?? 0}</span>
+                <span className="text-sm font-semibold text-brand-600 hover:underline
+                                 dark:text-brand-400">{t('dashboard.waitingHuman')} →</span>
+              </div>
+              <p className="mt-0.5 text-[11px] leading-relaxed text-ink-600 dark:text-ink-300">
+                {t('dashboard.waitingHumanWhat')}
+              </p>
+            </Link>
+            <div>
+              <div className="flex items-baseline gap-2">
+                <span className="font-display text-3xl font-bold tabular-nums
+                                 text-ink-950 dark:text-cream-50">{d.unanswered ?? 0}</span>
+                <span className="text-sm font-semibold text-ink-800 dark:text-cream-100">
+                  {t('dashboard.unanswered')}
+                </span>
+              </div>
+              <p className="mt-0.5 text-[11px] leading-relaxed text-ink-600 dark:text-ink-300">
+                {t('dashboard.unansweredWhat')}
+              </p>
+            </div>
           </div>
         </Card>
         <Card>

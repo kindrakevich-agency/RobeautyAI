@@ -93,7 +93,12 @@
     "buyTitle": "Widżet SaaS",
     "buyItems": "Stała opłata miesięczna · limit wiadomości i stron · dane w cudzej chmurze · tylko czat",
     "buildTitle": "Własna warstwa danych",
-    "buildItems": "Płatność za faktyczne użycie · bez limitów · dane w waszym Postgresie · czat plus sześciu agentów operacyjnych"
+    "buildItems": "Płatność za faktyczne użycie · bez limitów · dane w waszym Postgresie · czat plus sześciu agentów operacyjnych",
+    "todo": "Co czeka na działanie",
+    "waitingHuman": "zgłoszeń do doradcy",
+    "waitingHumanWhat": "Pytania, których konsultant świadomie nie wziął na siebie: medyczne, reklamacje, prośby o człowieka. Każde ze szkicem odpowiedzi.",
+    "unanswered": "pytań bez odpowiedzi",
+    "unansweredWhat": "Klient zapytał, a w bazie wiedzy tego nie ma. Każde takie pytanie pokazuje, czego brakuje katalogowi."
   },
   "orders": {
     "title": "Potwierdzanie zamówień",

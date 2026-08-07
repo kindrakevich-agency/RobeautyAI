@@ -724,6 +724,13 @@ def admin_dashboard(_: str = Depends(admin_auth)) -> dict:
         pl_approved = s.scalar(select(func.count()).where(
             ProductI18n.lang == "pl", ProductI18n.status == "approved"))
         products_total = s.scalar(select(func.count()).select_from(Product))
+        # Те, з чим менеджер щось робить сьогодні. Локалізація на дашборді
+        # показувала «20 / 179» і читалася як поломка, хоча агент переклав
+        # усі 179 — просто людина ще не встигла їх затвердити. Для цього
+        # є власний розділ; на головному екрані потрібна дія, а не звіт.
+        waiting_human = s.scalar(select(func.count()).where(
+            Ticket.status == "new")) or 0
+        unanswered = s.scalar(select(func.count()).select_from(Unanswered)) or 0
         last_eval = s.scalar(select(EvalRun).order_by(
             EvalRun.started_at.desc()).limit(1))
         usage = s.execute(select(
@@ -745,6 +752,8 @@ def admin_dashboard(_: str = Depends(admin_auth)) -> dict:
         "uah_at_risk": round(at_risk),
         "conversations": {"by_channel": conv_by_channel, "escalated": escalated},
         "identities_linked": identities,
+        "waiting_human": waiting_human,
+        "unanswered": unanswered,
         "localization": {"products": products_total, "translated": pl_total,
                          "approved": pl_approved},
         "eval": {"p_at_5": last_eval.p_at_5 if last_eval else None,
