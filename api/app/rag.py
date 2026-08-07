@@ -288,6 +288,45 @@ def _polish(reply: str, lang: str) -> str:
     return reply.strip()
 
 
+def price_table(chunks: list[dict], lang: str, extra_ids: list[int] | None = None) -> str:
+    """Авторитетний прайс для товарів, згаданих у знайдених фрагментах.
+
+    Заміряно: модель називала 616 грн там, де ціна 690, і «ціна не вказана»
+    там, де 950. Причина — вона витягувала числа з тексту лендінгів, де поруч
+    стоять акційні ціни й ціни інших товарів із апсел-блоків. Тому ціни
+    подаються окремим блоком прямо з бази, а промпт забороняє брати їх
+    звідкись іще. Для факту, який визначає покупку, здогадка неприпустима.
+    """
+    ids = [c["ref_id"] for c in chunks if c["ref_type"] == "product"]
+    ids += extra_ids or []
+    if not ids:
+        return ""
+    seen, lines = set(), []
+    with db.get_session() as s:
+        for pid in ids:
+            if pid in seen:
+                continue
+            seen.add(pid)
+            p_ = s.get(Product, pid)
+            if p_ is None or not p_.price:
+                continue
+            tr = s.scalar(select(ProductI18n).where(
+                ProductI18n.product_id == pid, ProductI18n.lang == lang)) or s.scalar(
+                select(ProductI18n).where(
+                    ProductI18n.product_id == pid, ProductI18n.lang == "uk"))
+            title = tr.title if tr else p_.sku
+            row = f"- {title}: {int(p_.price)} грн"
+            if p_.volume:
+                row += f", {p_.volume}"
+            if p_.upsell_price and p_.upsell_price < p_.price:
+                row += (f" (у складі набору — {int(p_.upsell_price)} грн; "
+                        f"окремо коштує {int(p_.price)} грн)")
+            lines.append(row)
+    if not lines:
+        return ""
+    return ("\n\nЦІНИ (єдине джерело; інших цін не називай):\n"
+            + "\n".join(lines))
+
 def answer(question: str, history: list[dict], lang: str) -> dict:
     if MEDICAL_RE.search(question):
         return {"reply": REFUSAL.get(lang, REFUSAL["uk"]), "escalate": True,
@@ -310,6 +349,7 @@ def answer(question: str, history: list[dict], lang: str) -> dict:
                 "sources": [], "products": []}
 
     context = "\n\n---\n\n".join(c["text"][:2000] for c in chunks)
+    context += price_table(chunks, lang)
     messages = [{"role": "system", "content": _system_prompt(lang)},
                 *history[-6:],
                 {"role": "user", "content":
