@@ -15,7 +15,7 @@ export function renderMarkdown(src: string): string {
 
   let listTag: 'ul' | 'ol' = 'ul'
 
-  const closeList = () => {
+  const closeList = => {
     if (inList) { out.push(`</${listTag}>`); inList = false }
   }
 

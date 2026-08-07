@@ -24,7 +24,7 @@ const LOOP = 'M4 16 C4 7 13 7 16 16 C19 25 28 25 28 16 C28 7 19 7 16 16 C13 25 4
 const CHARS_PER_TICK = 3
 const TICK_MS = 16
 
-const reduceMotion = () =>
+const reduceMotion = =>
   window.matchMedia?.('(prefers-reduced-motion: reduce)').matches ?? false
 
 /** Відповідь проявляється посимвольно — так само, як у консультанті DEMAX. */
@@ -37,13 +37,13 @@ function useTypewriter(target: string, animate: boolean): string {
     if (!animate || reduceMotion()) { setShown(target); return }
     if (ref.current.length >= target.length) { setShown(target); return }
     let timer: ReturnType<typeof setTimeout> | undefined
-    const tick = () => {
+    const tick = => {
       const next = Math.min(target.length, ref.current.length + CHARS_PER_TICK)
       setShown(target.slice(0, next))
       if (next < target.length) timer = setTimeout(tick, TICK_MS)
     }
     timer = setTimeout(tick, TICK_MS)
-    return () => { if (timer) clearTimeout(timer) }
+    return => { if (timer) clearTimeout(timer) }
   }, [target, animate])
 
   return shown
@@ -64,7 +64,7 @@ function TypingIndicator() {
   )
 }
 
-function Fab({ open, onClick }: { open: boolean; onClick: () => void }) {
+function Fab({ open, onClick }: { open: boolean; onClick: => void }) {
   return (
     <button type="button" onClick={onClick} aria-label={open ? 'close chat' : 'open chat'}
             className="fixed right-5 bottom-5 z-[95] grid size-14 place-items-center rounded-full
@@ -218,7 +218,7 @@ function Bubble({ m, convId, onEscalate }: {
             {m.products?.length ? <Cards items={m.products} /> : null}
             {m.sources?.length ? <Sources items={m.sources} /> : null}
             {m.offerHuman && convId && (
-              <button onClick={async () => {
+              <button onClick={async => {
                 await api.escalate({ conversation_id: convId })
                 onEscalate(t('chat.humanCalled'))
               }} className="mt-2 rounded-full border border-ink-200 px-3 py-1 text-[11px]
@@ -274,7 +274,7 @@ export default function Widget() {
       if (q) setTimeout(() => void askRef.current?.(q), 260)
     }
     window.addEventListener('rb-open-widget', onOpen)
-    return () => window.removeEventListener('rb-open-widget', onOpen)
+    return => window.removeEventListener('rb-open-widget', onOpen)
   }, [])
 
   const ask = async (text: string) => {

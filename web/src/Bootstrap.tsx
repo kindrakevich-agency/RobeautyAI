@@ -26,7 +26,7 @@ const ICON: Record<Step['status'], string> = {
   pending: '○', running: '◐', done: '●', failed: '✕',
 }
 
-export default function Bootstrap({ onReady }: { onReady: () => void }) {
+export default function Bootstrap({ onReady }: { onReady: => void }) {
   const { t } = useTranslation()
   const [s, setS] = useState<State | null>(null)
   const [key, setKey] = useState('')
@@ -34,7 +34,7 @@ export default function Bootstrap({ onReady }: { onReady: () => void }) {
 
   useEffect(() => {
     let stop = false
-    const poll = async () => {
+    const poll = async => {
       try {
         const r = await fetch('/api/bootstrap').then((x) => x.json() as Promise<State>)
         if (stop) return
@@ -44,10 +44,10 @@ export default function Bootstrap({ onReady }: { onReady: () => void }) {
       if (!stop) setTimeout(poll, 1200)
     }
     void poll()
-    return () => { stop = true }
+    return => { stop = true }
   }, [onReady])
 
-  const saveKey = async () => {
+  const saveKey = async => {
     await fetch('/api/bootstrap/key', {
       method: 'POST', headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ api_key: key }),
@@ -55,7 +55,7 @@ export default function Bootstrap({ onReady }: { onReady: () => void }) {
     setKeySaved(true)
   }
 
-  const start = () => fetch('/api/bootstrap/start', { method: 'POST' })
+  const start = => fetch('/api/bootstrap/start', { method: 'POST' })
 
   const needKey = s && !s.has_llm_key && !keySaved
 
@@ -66,7 +66,6 @@ export default function Bootstrap({ onReady }: { onReady: () => void }) {
           <div className="font-display text-xl font-semibold tracking-[0.02em] text-ink-950 dark:text-cream-50">
             RoBeauty
           </div>
-          <Badge tone="brand">{t('demoBadge')}</Badge>
         </div>
         <h1 className="font-display text-lg font-semibold text-ink-950 dark:text-cream-50">{t('boot.title')}</h1>
         <p className="mt-1 text-sm leading-relaxed text-ink-600 dark:text-ink-300">{t('boot.intro')}</p>

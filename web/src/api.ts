@@ -4,9 +4,9 @@ const BASE = import.meta.env.VITE_API_BASE ?? ''
 export function setAdminCreds(user: string, pass: string) {
   sessionStorage.setItem('rb-admin', btoa(`${user}:${pass}`))
 }
-export const hasAdminCreds = () => Boolean(sessionStorage.getItem('rb-admin'))
+export const hasAdminCreds = => Boolean(sessionStorage.getItem('rb-admin'))
 
-export const clearAdminCreds = () => sessionStorage.removeItem('rb-admin')
+export const clearAdminCreds = => sessionStorage.removeItem('rb-admin')
 
 /** Подія «сесія протухла» — оболонка адмінки повертає екран входу. */
 export const AUTH_FAILED = 'rb-auth-failed'
