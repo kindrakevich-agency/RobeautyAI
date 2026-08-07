@@ -7,7 +7,9 @@ import pl from './pl.json'
 // Жодного хардкод-рядка в компонентах, усе через t().
 i18n.use(initReactI18next).init({
   resources: { uk: { t: uk }, pl: { t: pl } },
-  lng: localStorage.getItem('rb-lang') || 'pl',
+  // Українська за замовчуванням: бренд український, і стенд
+  // передусім показують українською. Польська — перемикачем.
+  lng: localStorage.getItem('rb-lang') || 'uk',
   fallbackLng: 'uk',
   defaultNS: 't',
   interpolation: { escapeValue: false },
