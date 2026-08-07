@@ -27,7 +27,8 @@
     "openAdmin": "Panel",
     "greeting": "Cześć! Dobiorę pielęgnację pod Twoją skórę",
     "failed": "Nie udało się uzyskać odpowiedzi",
-    "copy": "Kopiuj"
+    "copy": "Kopiuj",
+    "reset": "Zacznij nową rozmowę"
   },
   "nav": {
     "dashboard": "Pulpit",

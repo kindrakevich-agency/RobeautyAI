@@ -189,13 +189,18 @@ const QUICK: Record<string, string[]> = {
 }
 
 
-function Bubble({ m, convId, onEscalate }: {
+function Bubble({ m, convId, onEscalate, onTyped }: {
   m: Msg; convId: number | null; onEscalate: (text: string) => void
+  onTyped?: () => void
 }) {
   const { t } = useTranslation()
   const [copied, setCopied] = useState(false)
   const shown = useTypewriter(m.text, !!m.animate)
   const typing = shown.length < m.text.length
+
+  useEffect(() => {
+    if (m.animate && !typing) onTyped?.()
+  }, [typing, m.animate, onTyped])
 
   if (m.role === 'user') {
     return (
@@ -252,14 +257,56 @@ function Bubble({ m, convId, onEscalate }: {
   )
 }
 
+
+/* ---------- збереження розмови ---------- */
+//
+// Розмова має переживати закриття вікна й перезавантаження сторінки.
+// Без цього клієнт, який відкрив чат удруге, бачить порожній екран і
+// починає спочатку — а на оновленні втрачає всю переписку. У віджеті
+// DEMAX це було, і саме цю частину я не переніс.
+
+const STORE_KEY = 'rb-chat'
+const MAX_KEEP = 40
+
+type Saved = { convId: number | null; msgs: Msg[]; open: boolean }
+
+function loadChat(): Saved {
+  try {
+    const raw = localStorage.getItem(STORE_KEY)
+    if (!raw) return { convId: null, msgs: [], open: false }
+    const d = JSON.parse(raw) as Saved
+    // Збережені повідомлення не анімуємо: ефект набору доречний для нової
+    // відповіді, а не для тієї, яку клієнт уже читав.
+    return {
+      convId: d.convId ?? null,
+      msgs: (d.msgs || []).map((m) => ({ ...m, animate: false })),
+      open: Boolean(d.open),
+    }
+  } catch {
+    return { convId: null, msgs: [], open: false }
+  }
+}
+
+function saveChat(d: Saved): void {
+  try {
+    localStorage.setItem(STORE_KEY, JSON.stringify({
+      ...d, msgs: d.msgs.slice(-MAX_KEEP),
+    }))
+  } catch { /* приватний режим або переповнене сховище — не критично */ }
+}
+
 export default function Widget() {
   const { t, i18n } = useTranslation()
-  const [open, setOpen] = useState(false)
+  const saved = useRef(loadChat()).current
+  const [open, setOpen] = useState(saved.open)
   const [full, setFull] = useState(false)
-  const [msgs, setMsgs] = useState<Msg[]>([])
+  const [msgs, setMsgs] = useState<Msg[]>(saved.msgs)
   const [input, setInput] = useState('')
   const [busy, setBusy] = useState(false)
-  const [convId, setConvId] = useState<number | null>(null)
+  const [convId, setConvId] = useState<number | null>(saved.convId)
+
+  // Пишемо стан при кожній зміні: закриття вкладки може статися будь-коли.
+  useEffect(() => { saveChat({ convId, msgs, open }) }, [convId, msgs, open])
   const scrollRef = useRef<HTMLDivElement>(null)
   const askRef = useRef<((t: string) => void) | null>(null)
 
@@ -317,6 +364,15 @@ export default function Widget() {
                              ${full ? fullscreen : docked}`}>
           <header className="flex items-center gap-1 border-b border-ink-200 bg-cream-50/80 px-4 py-3
                              backdrop-blur-md dark:border-ink-700 dark:bg-ink-900/80">
+            <button onClick={() => {
+                      setMsgs([]); setConvId(null); setInput('')
+                    }} aria-label={t('chat.reset')} title={t('chat.reset')}
+                    className="rounded-lg p-1 text-ink-600 hover:bg-ink-100
+                               dark:text-ink-300 dark:hover:bg-ink-800">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                   strokeWidth="1.8" strokeLinecap="round"><polyline points="23 4 23 10 17 10" />
+                <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10" /></svg>
+            </button>
             <button onClick={() => setFull((v) => !v)} aria-label="expand"
                     className="rounded-lg p-1 text-ink-600 dark:text-ink-300 hover:bg-ink-100 dark:hover:bg-ink-800">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"
@@ -374,8 +430,11 @@ export default function Widget() {
           ) : (
             <div ref={scrollRef} className="no-scrollbar flex-1 space-y-3 overflow-y-auto px-4 py-3" aria-live="polite">
               {msgs.map((m, i) => (
-                <Bubble key={i} m={m} convId={convId} onEscalate={(text) =>
-                  setMsgs((x) => [...x, { role: 'assistant', text }])} />
+                <Bubble key={i} m={m} convId={convId}
+                        onTyped={() => setMsgs((x) => x.map((y, k) =>
+                          k === i ? { ...y, animate: false } : y))}
+                        onEscalate={(text) =>
+                          setMsgs((x) => [...x, { role: 'assistant', text }])} />
               ))}
               {busy && <TypingIndicator />}
             </div>

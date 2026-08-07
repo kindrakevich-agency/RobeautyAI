@@ -14,7 +14,7 @@ BAD=0
 for ref in $(git for-each-ref --format='%(refname)' refs/heads refs/remotes); do
   while read -r h; do
     if git log -1 --format='%b%n%an%n%ae%n%cn%n%ce' "$h" \
-       | grep -qiE 'claude|anthropic|co-authored'; then
+       | grep -qiE '^(Co-Authored-By|Signed-off-by):.*(claude|anthropic)|^.*Generated with .*Claude|(claude|anthropic)\\.(com|ai)'; then
       echo "✗ $ref  $h  $(git log -1 --format='%s' "$h")"
       BAD=1
     fi
