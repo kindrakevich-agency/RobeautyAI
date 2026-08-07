@@ -39,6 +39,13 @@ class TestРеєстрІВалюта:
         # Перший варіант шаблону з'їдав крапку разом зі скороченням «грн.»
         assert _polish("Ціна 690 грн.", "uk").endswith("грн.")
 
+    def test_слово_інструкція_не_протікає(self):
+        # Модель дослівно повторювала «LINK [Назва](url)» з промпта.
+        assert _polish("LINK [Крем](https://robeauty.me/x) — 690 грн", "uk") \
+            .startswith("[Крем]")
+        assert _polish("Посилання [Крем](https://robeauty.me/x)", "uk") \
+            .startswith("[Крем]")
+
     def test_польська_версія_має_свою_валюту(self):
         assert "UAH" in _polish("Cena 690 грн.", "pl")
 

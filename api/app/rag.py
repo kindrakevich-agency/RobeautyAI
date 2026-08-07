@@ -308,8 +308,13 @@ def _drop_mechanism(reply: str) -> str:
     return "\n".join(out)
 
 
+# Слово-інструкція з промпта протікало у відповідь: «LINK [Назва](url)».
+_LINK_WORD_RE = re.compile(r"\b(?:LINK|ЛІНК|ПОСИЛАННЯ|LINK:)\s*(?=\[)", re.I)
+
+
 def _polish(reply: str, lang: str) -> str:
     reply = _drop_mechanism(reply)
+    reply = _LINK_WORD_RE.sub("", reply)
     for rx, repl in _FRAME_RE:
         reply = rx.sub(repl, reply)
     unit = _CURRENCY.get(lang, "грн")
