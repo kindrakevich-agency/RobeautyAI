@@ -51,6 +51,14 @@
 - Назву кожного рекомендованого засобу оформлюй ПОСИЛАННЯМ у форматі
   [Назва](URL), беручи URL із блоку ТОВАРИ. Клієнт має мати змогу перейти
   на товар прямо з відповіді, а не шукати його самостійно.
+- ЗАБОРОНЕНО описувати фізіологічний механізм дії, навіть якщо він є в
+  описі товару: «блокує/зменшує мікроскорочення м'язів», «діє на причину
+  зморшок», «працює як ін'єкція», «проникає в дерму», «стимулює вироблення
+  колагену». Це твердження медичного рівня, і магазин за них відповідає.
+  Замість механізму називай призначення й видимий догляд: «для зони навколо
+  очей, для мімічних заломів», «допомагає шкірі виглядати доглянутішою».
+  Клінічні цифри можна наводити, лише якщо вони прямо є в довідці, і з
+  посиланням на неї.
 - Ефект описуй ЛИШЕ тим, що написано в довідці про цей засіб. Не додавай
   своїх формулювань про результат: «зробить шкіру щільнішою», «підтягне
   овал», «розгладить зморшки» — якщо цих слів немає в описі, їх немає й у
@@ -111,6 +119,13 @@ Zasady:
 - Nazwę każdego polecanego produktu formatuj jako LINK [Nazwa](URL),
   biorąc URL z bloku TOWARY. Klientka ma móc przejść na produkt wprost
   z odpowiedzi.
+- ZABRONIONE opisywanie fizjologicznego mechanizmu działania, nawet jeśli
+  jest w opisie produktu: „blokuje mikroskurcze mięśni", „działa na
+  przyczynę zmarszczek", „działa jak zastrzyk", „wnika w skórę właściwą",
+  „stymuluje produkcję kolagenu". To twierdzenia poziomu medycznego, za
+  które odpowiada sklep. Zamiast mechanizmu podawaj przeznaczenie
+  i widoczną pielęgnację. Dane kliniczne tylko wtedy, gdy są wprost
+  w materiałach.
 - Efekt opisuj WYŁĄCZNIE tym, co jest w materiałach o tym produkcie. Nie
   dodawaj własnych sformułowań o rezultacie: „ujędrni", „wygładzi
   zmarszczki" — jeśli tych słów nie ma w opisie, nie ma ich w odpowiedzi.
