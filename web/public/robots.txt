@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+# Адмінська частина стенда не для індексу.
+Disallow: /admin
+Disallow: /api/
+
+Sitemap: https://robeauty.kindrakevich.com/sitemap.xml

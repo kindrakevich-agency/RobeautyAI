@@ -3,13 +3,93 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>RoBeauty AI Operations — демо</title>
+
+    <title>AI-консультант RoBeauty — підбір догляду за каталогом бренду</title>
+    <meta
+      name="description"
+      content="Консультант знає весь каталог RoBeauty: підбирає догляд за типом шкіри й проблемою, показує ціну, об'єм і склад, дає посилання на сторінку кожного засобу. Коли даних немає — каже прямо."
+    />
+    <link rel="canonical" href="https://robeauty.kindrakevich.com/" />
+    <meta name="robots" content="index, follow, max-image-preview:large" />
+    <meta name="theme-color" content="#191A1B" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#F2F2F0" media="(prefers-color-scheme: light)" />
+
+    <!-- Дві мови інтерфейсу: показуємо пошуковикам обидві версії однієї сторінки. -->
+    <link rel="alternate" hreflang="uk" href="https://robeauty.kindrakevich.com/?lang=uk" />
+    <link rel="alternate" hreflang="pl" href="https://robeauty.kindrakevich.com/?lang=pl" />
+    <link rel="alternate" hreflang="x-default" href="https://robeauty.kindrakevich.com/" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="RoBeauty AI" />
+    <meta property="og:locale" content="uk_UA" />
+    <meta property="og:locale:alternate" content="pl_PL" />
+    <meta property="og:url" content="https://robeauty.kindrakevich.com/" />
+    <meta
+      property="og:title"
+      content="AI-консультант RoBeauty — підбір догляду за каталогом бренду"
+    />
+    <meta
+      property="og:description"
+      content="Підбір догляду за типом шкіри й проблемою, картки товарів із цінами й складом, посилання на кожен засіб. Коли даних немає — каже прямо."
+    />
+    <meta property="og:image" content="https://robeauty.kindrakevich.com/og.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:type" content="image/png" />
+    <meta
+      property="og:image:alt"
+      content="RoBeauty AI — консультант поверх каталогу бренду"
+    />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta
+      name="twitter:title"
+      content="AI-консультант RoBeauty — підбір догляду за каталогом бренду"
+    />
+    <meta
+      name="twitter:description"
+      content="Підбір догляду за типом шкіри й проблемою, картки товарів із цінами й складом, посилання на кожен засіб."
+    />
+    <meta name="twitter:image" content="https://robeauty.kindrakevich.com/og.png" />
+
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "RoBeauty AI",
+        "url": "https://robeauty.kindrakevich.com/",
+        "applicationCategory": "BusinessApplication",
+        "operatingSystem": "Web",
+        "inLanguage": ["uk", "pl"],
+        "description": "AI-консультант поверх каталогу RoBeauty: підбір догляду за типом шкіри й проблемою, картки товарів із цінами й складом, передача менеджеру.",
+        "offers": { "@type": "Offer", "price": "0", "priceCurrency": "UAH" },
+        "author": {
+          "@type": "Organization",
+          "name": "kindrakevich.com",
+          "url": "https://kindrakevich.com"
+        }
+      }
+    </script>
+
     <script>
       // Дефолт — темна тема; читаємо вибір до першого кадру, щоб не блимало світлим.
       try {
         var t = localStorage.getItem('rb-theme') || 'dark'
         if (t === 'dark') document.documentElement.classList.add('dark')
       } catch (e) {}
+      // Адмінка не має потрапляти в індекс: тут один index.html на всі
+      // маршрути, тож ставимо noindex ще до рендера. На рівні nginx той
+      // самий заборон дублюється заголовком X-Robots-Tag.
+      if (location.pathname.indexOf('/admin') === 0) {
+        var m = document.createElement('meta')
+        m.name = 'robots'
+        m.content = 'noindex, nofollow'
+        document.head.appendChild(m)
+      }
     </script>
   </head>
   <body class="bg-[#191A1B]">
