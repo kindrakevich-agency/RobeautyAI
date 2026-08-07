@@ -51,7 +51,7 @@ def _weight_kg(items: list, products_by_sku: dict) -> float:
             raw = json.dumps([(p.volume or ""),
                               json.dumps(p.raw or {}, ensure_ascii=False)],
                              ensure_ascii=False)
-            m = re.search(r"[Вв]ага\W{0,4}(\d{2,4})", raw)
+            m = re.search(r"[Вв]ага\W{0,6}(\d{2,4})", raw)
             if m:
                 grams = float(m.group(1))
             else:
