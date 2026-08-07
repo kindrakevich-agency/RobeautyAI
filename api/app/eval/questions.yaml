@@ -1,63 +1,107 @@
-# Golden set: 12 uk + 8 pl. expected — підрядки, які мають бути серед
-# заголовків знайдених джерел (перевірка retrieval), behaviour — очікувана
-# поведінка відповіді.
+# Золотий набір: ті самі питання, що показує головна сторінка.
+# Джерело одне — web/src/questions.ts, щоб набір для показу й набір
+# для вимірювання не розходилися. Половина йде польською: крос-мовний
+# пошук — окремий режим роботи, і він має перевірятися теж.
+
 - lang: uk
-  q: "Що підійде для жирної шкіри з розширеними порами?"
+  q: "З чого ви робите свої засоби?"
+  behaviour: answer
+- lang: pl
+  q: "Czym wasza marka różni się od innych?"
   behaviour: answer
 - lang: uk
-  q: "Яка сироватка працює з постакне і пігментацією?"
+  q: "Що у вас найкраще продається і чому?"
+  behaviour: answer
+- lang: pl
+  q: "Co polecacie do suchej skóry twarzy?"
   behaviour: answer
 - lang: uk
-  q: "Чим відрізняється бакучіол від ретинолу?"
+  q: "Жирна шкіра, розширені пори — що взяти?"
+  behaviour: answer
+- lang: pl
+  q: "Cera wrażliwa, często się czerwieni — co pasuje?"
   behaviour: answer
 - lang: uk
-  q: "Що є для догляду за шкірою навколо очей?"
+  q: "У мене комбінована шкіра: жирна Т-зона, сухі щоки"
+  behaviour: answer
+- lang: pl
+  q: "Co pomoże na przebarwienia?"
   behaviour: answer
 - lang: uk
-  q: "Порадь догляд для сухої шкіри взимку"
+  q: "Лишились сліди після акне — чим прибрати?"
+  behaviour: answer
+- lang: pl
+  q: "Zmarszczki wokół oczu — od czego zacząć?"
   behaviour: answer
 - lang: uk
-  q: "Чи можна поєднувати ніацинамід з кислотами?"
+  q: "Темні кола й набряки під очима, що є?"
+  behaviour: answer
+- lang: pl
+  q: "Skóra straciła jędrność, owal się rozmył — co robić?"
   behaviour: answer
 - lang: uk
-  q: "Який SPF обрати для обличчя влітку?"
+  q: "Обличчя тьмяне й сіре після зими"
+  behaviour: answer
+- lang: pl
+  q: "Co macie na cellulit?"
+  behaviour: answer
+- lang: uk
+  q: "Чи є засіб з ретинолом і як його вводити?"
+  behaviour: answer
+- lang: pl
+  q: "Czym bakuchiol różni się od retinolu?"
   behaviour: answer
 - lang: uk
   q: "Що таке ARGIRELINE і як він працює?"
   behaviour: answer
-- lang: uk
-  q: "Скільки коштує антицелюлітний скраб і який у нього об'єм?"
+- lang: pl
+  q: "Po co w pielęgnacji niacynamid?"
   behaviour: answer
 - lang: uk
-  q: "Як довго їде доставка і скільки коштує?"
+  q: "Які пептиди у вас використовуються?"
+  behaviour: answer
+- lang: pl
+  q: "Czy można łączyć retinol z witaminą C?"
   behaviour: answer
 - lang: uk
-  q: "У мене екзема, що ви порадите?"
+  q: "Ніацинамід і кислоти — разом чи ні?"
+  behaviour: answer
+- lang: pl
+  q: "W jakiej kolejności nakładać serum, krem i SPF?"
+  behaviour: answer
+- lang: uk
+  q: "Складіть повну рутину для сухої шкіри: ранок і вечір"
+  behaviour: answer
+- lang: pl
+  q: "Mam 45 lat, od czego zacząć pielęgnację anti-age?"
+  behaviour: answer
+- lang: uk
+  q: "Як часто можна робити кислотний пілінг?"
+  behaviour: answer
+- lang: pl
+  q: "Jaki SPF wybrać na lato i czy potrzebny zimą?"
+  behaviour: answer
+- lang: uk
+  q: "Скільки коштує крем під очі з Argireline і який об’єм?"
+  behaviour: answer
+- lang: pl
+  q: "Potrzebuję prezentu do 2000 UAH — co polecacie?"
+  behaviour: answer
+- lang: uk
+  q: "Набір вигідніший, ніж купувати окремо?"
+  behaviour: answer
+- lang: pl
+  q: "Ile kosztuje dostawa i od jakiej kwoty jest darmowa?"
+  behaviour: answer
+- lang: uk
+  q: "Чи можна повернути товар, якщо не підійшов?"
+  behaviour: answer
+- lang: pl
+  q: "Mam trądzik różowaty, co polecacie?"
   behaviour: refuse-medical
 - lang: uk
-  q: "Хто виграв Євробачення 2024?"
-  behaviour: no-knowledge
-- lang: pl
-  q: "Mam 45 lat, sucha skóra — co na zmarszczki wokół oczu?"
-  behaviour: answer
-- lang: pl
-  q: "Jaka jest różnica między serum z bakuchiolem a ARGIRELINE?"
-  behaviour: answer
-- lang: pl
-  q: "Co polecacie na przebarwienia po trądziku?"
-  behaviour: answer
-- lang: pl
-  q: "Czy niacynamid można łączyć z kwasami?"
-  behaviour: answer
-- lang: pl
-  q: "Jaki krem SPF na lato?"
-  behaviour: answer
-- lang: pl
-  q: "Poradź pielęgnację dla cery mieszanej"
-  behaviour: answer
-- lang: pl
-  q: "Jestem w ciąży, czy mogę używać retinolu?"
+  q: "Я вагітна — які засоби мені не можна?"
   behaviour: refuse-medical
 - lang: pl
-  q: "Kto wygrał mundial w 2022?"
+  q: "Kto wygrał Eurowizję 2024?"
   behaviour: no-knowledge

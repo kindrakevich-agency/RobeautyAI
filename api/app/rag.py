@@ -19,10 +19,12 @@ from pathlib import Path
 
 from sqlalchemy import select, text as sql
 
-from . import config, db, embeddings_client, llm
+from . import config, db, embeddings_client, llm, rerank_client
 from .models import Chunk, Page, Product, ProductI18n, Unanswered
 
 TOP_K = 8
+# Скільки кандидатів віддаємо реранкеру: ширше — точніше, але повільніше.
+RERANK_POOL = 24
 CANDIDATES = 16
 RRF_K = 60
 GROUND_THRESHOLD = 0.42  # косинус bge-m3; нижче — «не знаю»
@@ -153,7 +155,16 @@ def retrieve(question: str, lang: str,
         scores[r["id"]] = scores.get(r["id"], 0) + 1.0 / (RRF_K + rank)
         rows.setdefault(r["id"], dict(r))
 
-    ranked = sorted(scores, key=scores.get, reverse=True)[:TOP_K]
+    # Переранжування. RRF дає кандидатів «схожих загалом»; крос-енкодер
+    # читає пару «питання ↔ текст» разом і бачить, який із них справді
+    # відповідає на питання. Беремо ширший пул під нього і звужуємо після.
+    pool = sorted(scores, key=scores.get, reverse=True)[:RERANK_POOL]
+    ranked = pool[:TOP_K]
+    if rerank_client.available() and len(pool) > TOP_K:
+        order = rerank_client.rerank(
+            question, [rows[cid]["text"] for cid in pool], TOP_K)
+        if order:
+            ranked = [pool[i] for i in order if i < len(pool)]
     missing = [cid for cid in ranked if cid not in sims]
     if missing:
         with db.engine.connect() as conn:
