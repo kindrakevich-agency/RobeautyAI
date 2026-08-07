@@ -8,14 +8,14 @@ from __future__ import annotations
 import re
 import secrets
 
-from fastapi import Depends, FastAPI, HTTPException
+from fastapi import Depends, FastAPI, HTTPException, Response
 from fastapi.security import HTTPBasic, HTTPBasicCredentials
 from pydantic import BaseModel, Field
 from sqlalchemy import func, select, text as sql_text
 
 from . import bootstrap, config, db, llm, rag
 from .agents import dialogs as dialogs_agent
-from .models import Conversation, Message, Product, ProductI18n, Ticket
+from .models import Conversation, Dispatch, Message, Product, ProductI18n, Ticket
 
 import os
 
@@ -158,6 +158,23 @@ def dispatch_queue(_: str = Depends(admin_auth)) -> dict:
 @app.post("/api/admin/dispatch/{order_id}/create")
 def dispatch_create(order_id: int, _: str = Depends(admin_auth)) -> dict:
     return dispatch_agent.create_simulated(order_id)
+
+
+@app.get("/api/admin/dispatch/{order_id}/ttn.pdf")
+def dispatch_pdf(order_id: int, _: str = Depends(admin_auth)) -> Response:
+    """PDF накладної: A4, кирилиця, справжній Code 128, водяний знак ДЕМО."""
+    from . import ttn_pdf
+    with db.get_session() as s:
+        disp = s.scalar(select(Dispatch).where(Dispatch.order_id == order_id))
+    if disp is None:
+        raise HTTPException(404, "ТТН ще не створено")
+    item = dispatch_agent.draft_for(order_id)
+    if item is None:
+        raise HTTPException(404, "замовлення не знайдено")
+    pdf = ttn_pdf.build(item, disp.ttn_number)
+    return Response(content=pdf, media_type="application/pdf",
+                    headers={"Content-Disposition":
+                             f'inline; filename="ttn-{disp.ttn_number}.pdf"'})
 
 
 class ParseIn(BaseModel):

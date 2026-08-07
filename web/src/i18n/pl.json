@@ -530,7 +530,7 @@
     "seats": "Miejsc",
     "cost": "Wartość deklarowana",
     "cod": "Pobranie",
-    "open": "Pokaż list",
+    "open": "List (PDF)",
     "note": "Makieta demonstracyjna: pokazuje, jakie dane trafią do panelu Nowej Poczty. Prawdziwy dokument tworzy wywołanie InternetDocument.save z kluczem konta."
   }
 }

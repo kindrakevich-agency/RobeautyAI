@@ -113,14 +113,15 @@ def _np_payload(order: Order, customer: Customer | None, weight: float,
     }
 
 
-def queue() -> dict:
+def queue(include_dispatched: bool = False) -> dict:
     """Черга дня відправки: оплачені/підтверджені замовлення без ТТН."""
     with db.get_session() as s:
         done = {d.order_id for d in s.scalars(select(Dispatch))}
         shipped = {sh.order_id for sh in s.scalars(select(Shipment))}
         orders = [o for o in s.scalars(
             select(Order).order_by(Order.created_at.desc()).limit(60))
-            if o.id not in done and o.id not in shipped]
+            if (include_dispatched or o.id not in done)
+            and o.id not in shipped]
         # Продукти для оцінки ваги
         products = {p.sku: p for p in s.scalars(select(Product))}
         customers = {c.id: c for c in s.scalars(select(Customer))}
@@ -154,6 +155,7 @@ def queue() -> dict:
                 "total": o.total, "payment": o.payment,
                 "weight_kg": weight,
                 "decision": decision, "reason": reason,
+                "date": o.created_at.strftime("%d.%m.%Y") if o.created_at else "",
                 "payload": _np_payload(o, cust, weight,
                                        city.get("ref", ""), wh.get("ref", "")),
             })
@@ -162,6 +164,15 @@ def queue() -> dict:
             "ready": ready, "needs_human": len(items) - ready,
             "rules": {"pickup_risky": PICKUP_RISKY, "cod_ceiling": COD_CEILING,
                       "new_cod_ceiling": NEW_COD_CEILING}}
+
+
+def draft_for(order_id: int) -> dict | None:
+    """Елемент черги для одного замовлення, незалежно від статусу ТТН."""
+    q = queue(include_dispatched=True)
+    for x in q["items"]:
+        if x["order_id"] == order_id:
+            return x
+    return None
 
 
 def create_simulated(order_id: int) -> dict:

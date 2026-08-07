@@ -11,3 +11,4 @@ lxml==5.*
 
 # Тести
 pytest>=8.0
+reportlab>=4.0
