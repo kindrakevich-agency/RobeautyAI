@@ -238,6 +238,7 @@ def admin_conversation(conv_id: int, _: str = Depends(admin_auth)) -> dict:
                 "escalated": conv.escalated, "analysis": conv.analysis,
                 "messages": [{"role": m.role, "content": m.content,
                               "products": m.product_refs,
+                              "sources": m.source_refs,
                               "at": str(m.created_at)} for m in msgs]}
 
 

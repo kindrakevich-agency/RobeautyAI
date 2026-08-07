@@ -10,6 +10,7 @@ import json
 from sqlalchemy import select
 
 from . import config, db
+from .textclean import html_to_text
 from .models import Page, Product, ProductI18n
 
 
@@ -41,7 +42,7 @@ def main() -> None:
                                    title="", description="")
                 s.add(i18n)
             i18n.title = p.get("title") or p["sku"]
-            i18n.description = p.get("text_api") or p.get("descr_api") or ""
+            i18n.description = html_to_text(p.get("text_api") or p.get("descr_api"))
         for pg in catalog["pages"]:
             row = s.scalar(select(Page).where(Page.url == pg["url"]))
             if row is None:

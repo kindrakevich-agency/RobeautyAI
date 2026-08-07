@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { renderMarkdown } from '../markdown'
 import { Link, NavLink, Route, Routes, useNavigate, useParams } from 'react-router-dom'
 import { AUTH_FAILED, api, clearAdminCreds, hasAdminCreds, setAdminCreds } from '../api'
 import {
@@ -364,7 +365,8 @@ function Shipments() {
               <ul className="mt-3 space-y-2 border-l-2 border-ink-200 pl-3">
                 {s.reminders.map((r: any, i: number) => (
                   <li key={i} className="text-xs leading-relaxed text-ink-600 dark:text-ink-300">
-                    <span className="font-semibold text-ink-900 dark:text-cream-50">#{r.day}</span> {r.text}
+                    <span className="font-semibold text-ink-900 dark:text-cream-50">#{r.day}</span>{' '}
+                    <span className="rb-md" dangerouslySetInnerHTML={{ __html: renderMarkdown(r.text) }} />
                   </li>
                 ))}
               </ul>
@@ -460,7 +462,8 @@ function Dialogs() {
               </div>
               {sel.analysis && (
                 <div className="mb-3 rounded-xl bg-cream-100 p-3 text-xs dark:bg-ink-800/60 leading-relaxed text-ink-600 dark:text-ink-300">
-                  <b>{t('dialogs.summary')}:</b> {sel.analysis.summary}
+                  <b>{t('dialogs.summary')}:</b>{' '}
+                  <span className="rb-md" dangerouslySetInnerHTML={{ __html: renderMarkdown(sel.analysis.summary) }} />
                   {sel.analysis.satisfaction ? <> · {t('dialogs.satisfaction')}: {sel.analysis.satisfaction}/5</> : null}
                 </div>
               )}
@@ -468,22 +471,67 @@ function Dialogs() {
                 {sel.messages.map((m: any, i: number) => (
                   <div key={i} className={`rounded-xl px-3 py-2 text-sm ${
                     m.role === 'user' ? 'bg-ink-100 text-ink-800 dark:bg-ink-800 dark:text-cream-100'
-                      : m.role === 'human_agent' ? 'bg-emerald-50 text-emerald-900'
-                      : 'border border-ink-200 text-ink-600 dark:border-ink-700/60 dark:text-ink-300'}`}>
-                    {m.content}
+                      : m.role === 'human_agent' ? 'bg-good-500/10 text-good-500 dark:bg-good-300/10 dark:text-good-300'
+                      : 'border border-ink-200 text-ink-700 dark:border-ink-700/60 dark:text-ink-300'}`}>
+                    {m.role === 'user' ? (
+                      <div className="whitespace-pre-wrap">{m.content}</div>
+                    ) : (
+                      /* Відповідь асистента приходить із розміткою — у стенограмі
+                         вона малювалася сирою, зірочками й дефісами. */
+                      <div className="rb-md" dangerouslySetInnerHTML={{
+                        __html: renderMarkdown(m.content) }} />
+                    )}
+                    {m.products?.length ? (
+                      <div className="mt-2 flex flex-wrap gap-1.5">
+                        {m.products.map((p: any, k: number) => (
+                          <a key={k} href={p.url ?? undefined} target="_blank" rel="noreferrer"
+                             className="inline-flex max-w-64 items-center gap-1.5 rounded border
+                                        border-ink-200 bg-white px-2 py-1 text-[11px] text-ink-700
+                                        hover:border-ink-700 dark:border-ink-700 dark:bg-ink-800
+                                        dark:text-ink-300">
+                            {p.image ? <img src={p.image} alt="" className="size-5 rounded object-cover" /> : null}
+                            <span className="truncate">{p.title}</span>
+                            {p.price ? <b className="shrink-0">{Math.round(p.price)} {t('common.uah')}</b> : null}
+                          </a>
+                        ))}
+                      </div>
+                    ) : null}
+                    {m.sources?.length ? (
+                      <div className="mt-1.5 flex flex-wrap gap-1">
+                        {m.sources.map((sc: any, k: number) => (
+                          <a key={k} href={sc.url ?? undefined} target="_blank" rel="noreferrer"
+                             className="max-w-56 truncate rounded-full bg-ink-100 px-2 py-0.5
+                                        text-[10px] text-ink-600 hover:text-ink-950
+                                        dark:bg-ink-800 dark:text-ink-300">
+                            {sc.title}
+                          </a>
+                        ))}
+                      </div>
+                    ) : null}
                   </div>
                 ))}
               </div>
-              <div className="mt-3 flex gap-2">
-                <input value={reply} onChange={(e) => setReply(e.target.value)}
-                       placeholder={t('dialogs.replyPlaceholder')}
-                       className="min-w-0 flex-1 rounded-full border border-ink-200 bg-white px-3 py-2 text-sm outline-none focus:border-ink-700 dark:border-ink-700 dark:bg-ink-800 dark:text-cream-100" />
-                <Button onClick={async () => {
-                  if (!reply.trim()) return
-                  await api.admin.post(`/api/admin/conversations/${sel.id}/reply`, { content: reply })
-                  setReply(''); await open(sel.id)
-                }}>{t('common.send')}</Button>
-              </div>
+              {/* Дописати в розмову можна лише там, де в клієнта лишається
+                  адреса: месенджери. Веб-чат анонімний і вже закритий — там
+                  поле «надіслати» вело б у нікуди, тому його немає. */}
+              {sel.channel === 'web' ? (
+                <p className="mt-3 rounded border border-ink-200 bg-cream-100 px-3 py-2 text-xs
+                              leading-relaxed text-ink-600 dark:border-ink-700 dark:bg-ink-800
+                              dark:text-ink-300">
+                  {t('dialogs.webNoReply')}
+                </p>
+              ) : (
+                <div className="mt-3 flex gap-2">
+                  <input value={reply} onChange={(e) => setReply(e.target.value)}
+                         placeholder={t('dialogs.replyPlaceholder')}
+                         className="min-w-0 flex-1 rounded-full border border-ink-200 bg-white px-3 py-2 text-sm outline-none focus:border-ink-700 dark:border-ink-700 dark:bg-ink-800 dark:text-cream-100" />
+                  <Button onClick={async () => {
+                    if (!reply.trim()) return
+                    await api.admin.post(`/api/admin/conversations/${sel.id}/reply`, { content: reply })
+                    setReply(''); await open(sel.id)
+                  }}>{t('common.send')}</Button>
+                </div>
+              )}
             </Card>
           ) : <Empty text={t('common.empty')} />}
         </div>
@@ -518,7 +566,8 @@ function Tickets() {
       </>} />
       {digest && (
         <Card className="mb-4">
-          <div className="whitespace-pre-wrap text-sm leading-relaxed text-ink-700 dark:text-ink-300">{digest}</div>
+          <div className="rb-md text-sm leading-relaxed text-ink-700 dark:text-ink-300"
+               dangerouslySetInnerHTML={{ __html: renderMarkdown(digest) }} />
         </Card>
       )}
       {!d ? <Loading error={err} onRetry={load} /> : (
@@ -532,7 +581,8 @@ function Tickets() {
                 {x.priority && <Badge tone={x.priority === 'high' ? 'warn' : 'neutral'}>{x.priority}</Badge>}
                 <Badge>{x.lang}</Badge>
               </div>
-              <p className="mt-2 text-sm text-ink-800 dark:text-cream-100">{x.text}</p>
+              <div className="rb-md mt-2 text-sm text-ink-800 dark:text-cream-100"
+                 dangerouslySetInnerHTML={{ __html: renderMarkdown(x.text) }} />
               {x.draft_reply && (
                 <div className="mt-2 rounded-xl bg-cream-100 p-3 dark:bg-ink-800/60">
                   <div className="text-[11px] font-semibold uppercase tracking-[0.02em]r text-ink-600 dark:text-ink-300">
@@ -703,7 +753,8 @@ function Analytics() {
         <Card>
           {res.error ? <p className="text-sm text-ink-950 dark:text-cream-200">{res.error}</p> : (
             <>
-              <p className="text-base leading-relaxed text-ink-800 dark:text-cream-100">{res.answer}</p>
+              <div className="rb-md text-base leading-relaxed text-ink-800 dark:text-cream-100"
+                 dangerouslySetInnerHTML={{ __html: renderMarkdown(res.answer) }} />
               <button onClick={() => setShowSql((v) => !v)}
                       className="mt-3 text-xs font-semibold text-ink-900 dark:text-cream-50 hover:underline">
                 {showSql ? '▾' : '▸'} {t('analytics.showSql')}
