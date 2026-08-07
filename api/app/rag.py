@@ -275,7 +275,41 @@ _FRAME_RE = [
 _CURRENCY = {"uk": "грн", "pl": "UAH"}
 
 
+# Твердження про фізіологічний механізм — найризикованіший клас для
+# магазину косметики: за них відповідає продавець, а не автор опису
+# товару. Промпт це забороняє, але заборона в промпті вже двічі не
+# трималася (валюта, ціна), тож речення з таким твердженням прибираються
+# детерміновано. Втратити речення краще, ніж лишити медичну обіцянку.
+MECHANISM_RE = re.compile(
+    r"мікроскороченн|скороченн\s+м.?яз|на\s+м.?язи|"
+    r"причин[ауоию]\w*(?:\s+\w+){0,2}\s+(?:зморш|залом)|"
+    r"як\s+ін.?єкц|замін(?:ює|ник)\s+ін.?єкц|ботокс[уа]?\s+ефект|"
+    r"проника[єют]+\s+(?:в|у)\s+(?:дерм|глибок)|"
+    r"стимул[юєуь]+\w*\s+вироблення\s+колаген|"
+    r"лік(?:ує|уванн)|усува[єют]+\s+назавжди|"
+    r"mikroskurcz|na\s+mięśni|jak\s+zastrzyk|wnika\w*\s+w\s+skórę\s+właściw|"
+    r"stymul\w+\s+produkcj\w+\s+kolagen|lecz(?:y|enie)",
+    re.I)
+
+_SENT_SPLIT = re.compile(r"(?<=[.!?…])\s+")
+
+
+def _drop_mechanism(reply: str) -> str:
+    out = []
+    for para in reply.split("\n"):
+        if not MECHANISM_RE.search(para):
+            out.append(para)
+            continue
+        kept = [x for x in _SENT_SPLIT.split(para) if not MECHANISM_RE.search(x)]
+        joined = " ".join(kept).strip()
+        # Порожній пункт списку прибираємо цілком, щоб не лишався голий дефіс.
+        if joined and joined not in {"-", "•", "*"}:
+            out.append(joined)
+    return "\n".join(out)
+
+
 def _polish(reply: str, lang: str) -> str:
+    reply = _drop_mechanism(reply)
     for rx, repl in _FRAME_RE:
         reply = rx.sub(repl, reply)
     unit = _CURRENCY.get(lang, "грн")
