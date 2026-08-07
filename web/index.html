@@ -4,8 +4,15 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>RoBeauty AI Operations — демо</title>
+    <script>
+      // Дефолт — темна тема; читаємо вибір до першого кадру, щоб не блимало світлим.
+      try {
+        var t = localStorage.getItem('rb-theme') || 'dark'
+        if (t === 'dark') document.documentElement.classList.add('dark')
+      } catch (e) {}
+    </script>
   </head>
-  <body>
+  <body class="bg-[#191A1B]">
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>

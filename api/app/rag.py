@@ -71,8 +71,11 @@ def _fts_query(question: str) -> str | None:
     return " | ".join(sorted(terms)) or None
 
 
-def retrieve(question: str, lang: str) -> list[dict]:
+def retrieve(question: str, lang: str,
+             out_vec: list | None = None) -> list[dict]:
     qvec = embeddings_client.embed([question])[0]
+    if out_vec is not None:
+        out_vec.append(qvec)
     # Мовний пул для векторного пошуку. Для польської шукаємо в ОБОХ мовах
     # одразу: затверджених польських перекладів завжди менше, ніж українських
     # карток, і обмеження лише своєю мовою відрізало б 98% каталогу. Один
@@ -148,7 +151,8 @@ def sources_for(chunks: list[dict], lang: str) -> list[dict]:
     return out
 
 
-def _product_ids_direct(question: str, limit: int) -> list[int]:
+def _product_ids_direct(question: str, limit: int,
+                        qvec: list[float] | None = None) -> list[int]:
     """Пошук ТІЛЬКИ по товарних чанках.
 
     Оглядові й контентні сторінки довші, тож у загальному топі вони регулярно
@@ -156,7 +160,8 @@ def _product_ids_direct(question: str, limit: int) -> list[int]:
     картки, хоча товар у каталозі є. Тому коли товарів у топі немає, шукаємо
     їх окремим запитом по підмножині чанків.
     """
-    qvec = embeddings_client.embed([question])[0]
+    if qvec is None:
+        qvec = embeddings_client.embed([question])[0]
     with db.engine.connect() as conn:
         rows = conn.execute(sql(
             "SELECT ref_id, 1 - (embedding <=> CAST(:v AS vector)) AS sim "
@@ -175,10 +180,11 @@ def _product_ids_direct(question: str, limit: int) -> list[int]:
 
 
 def product_cards(chunks: list[dict], lang: str, limit: int = 3,
-                  question: str | None = None) -> list[dict]:
+                  question: str | None = None,
+                  qvec: list[float] | None = None) -> list[dict]:
     ids = [c["ref_id"] for c in chunks if c["ref_type"] == "product"][:limit]
     if not ids and question:
-        ids = _product_ids_direct(question, limit)
+        ids = _product_ids_direct(question, limit, qvec)
     cards = []
     with db.get_session() as s:
         for pid in ids:
@@ -248,7 +254,8 @@ def answer(question: str, history: list[dict], lang: str) -> dict:
         return {"reply": REFUSAL.get(lang, REFUSAL["uk"]), "escalate": True,
                 "reason": "medical", "sources": [], "products": []}
 
-    chunks = retrieve(question, lang)
+    vec_box: list = []
+    chunks = retrieve(question, lang, vec_box)
     top_sim = max((c["sim"] for c in chunks), default=0.0)
     if not chunks or top_sim < GROUND_THRESHOLD:
         with db.get_session() as s:
@@ -269,4 +276,5 @@ def answer(question: str, history: list[dict], lang: str) -> dict:
     return {"reply": _polish(reply, lang), "escalate": False,
             "confidence": round(min(0.98, 0.5 + top_sim / 2), 2),
             "sources": sources_for(chunks, lang),
-            "products": product_cards(chunks, lang, question=question)}
+            "products": product_cards(chunks, lang, question=question,
+                                  qvec=vec_box[0] if vec_box else None)}

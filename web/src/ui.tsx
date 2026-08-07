@@ -7,7 +7,10 @@ import { setLang } from './i18n'
 /* ---------- тема ---------- */
 
 export function useDark() {
-  const [dark, setDark] = useState(() => localStorage.getItem('rb-theme') === 'dark')
+  // Темна тема за замовчуванням: стенд дивляться переважно ввечері,
+  // і світле тепле тло на весь екран втомлює очі.
+  const [dark, setDark] = useState(
+    () => (localStorage.getItem('rb-theme') ?? 'dark') === 'dark')
   useEffect(() => {
     document.documentElement.classList.toggle('dark', dark)
     localStorage.setItem('rb-theme', dark ? 'dark' : 'light')
