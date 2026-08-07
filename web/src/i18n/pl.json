@@ -341,5 +341,25 @@
     "subtitle": "Ten sam zestaw, co na stronie głównej. Kliknij pytanie — bot odpowie tutaj.",
     "ask": "Zapytaj",
     "sources": "źródeł"
+  },
+  "analysis": {
+    "intent": {
+      "purchase": "Zakup",
+      "advice": "Konsultacja",
+      "complaint": "Reklamacja",
+      "delivery": "Dostawa",
+      "other": "Inne"
+    },
+    "sentiment": {
+      "positive": "Pozytywny",
+      "neutral": "Neutralny",
+      "negative": "Negatywny"
+    },
+    "outcome": {
+      "answered": "Odpowiedziano",
+      "escalated": "Do doradcy",
+      "lost_interest": "Stracono zainteresowanie",
+      "lead_left": "Zostawiono kontakt"
+    }
   }
 }

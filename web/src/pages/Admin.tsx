@@ -462,12 +462,12 @@ function Dialogs() {
 
               {c.analysis ? (
                 <div className="mt-2 flex flex-wrap gap-1.5">
-                  {c.analysis.intent && <Badge>{c.analysis.intent}</Badge>}
+                  {c.analysis.intent && <Badge>{t(`analysis.intent.${c.analysis.intent}`, { defaultValue: c.analysis.intent })}</Badge>}
                   <Badge tone={c.analysis.sentiment === 'negative' ? 'bad'
                     : c.analysis.sentiment === 'positive' ? 'good' : 'neutral'}>
-                    {c.analysis.sentiment}
+                    {t(`analysis.sentiment.${c.analysis.sentiment}`, { defaultValue: c.analysis.sentiment })}
                   </Badge>
-                  {c.analysis.outcome && <Badge>{c.analysis.outcome}</Badge>}
+                  {c.analysis.outcome && <Badge>{t(`analysis.outcome.${c.analysis.outcome}`, { defaultValue: c.analysis.outcome })}</Badge>}
                   {c.analysis.satisfaction
                     ? <Badge tone={c.analysis.satisfaction >= 4 ? 'good'
                         : c.analysis.satisfaction <= 2 ? 'bad' : 'warn'}>
