@@ -29,9 +29,14 @@ def _gallery(edition: dict, api_product: dict) -> list[str]:
         # мініатюри Tilda (-100x100) у галереї не потрібні
         if re.search(r"-\d{2,3}x\d{2,3}\.", url):
             return
+        # логотип бренду не є фото товару
+        if re.search(r"logo|placeholder|\bicon\b", url, re.I):
+            return
         seen.add(url)
         out.append(url)
 
+    # Store API для частини товарів віддає логотип бренду замість фото —
+    # такі URL відсіюємо тут, а справжні добираємо app.scraper.recover_images.
     add(edition.get("img"))
 
     # gallery приходить JSON-РЯДКОМ, а не списком: ітерація по ньому дає
