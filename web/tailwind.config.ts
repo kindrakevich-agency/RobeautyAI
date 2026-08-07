@@ -33,8 +33,12 @@ export default {
         crit: { 500: '#8E3030', 300: '#EA9C9C' },
       },
       fontFamily: {
-        sans: ['Montserrat', 'ui-sans-serif', 'system-ui', 'sans-serif'],
-        display: ['Montserrat', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+        // Пара, а не одна гарнітура двічі: Inter несе весь текст інтерфейсу
+        // (вужчий, нейтральний, добре читається на 12–15px), Montserrat
+        // лишається на заголовках — там потрібен широкий геометричний
+        // малюнок фірмового Century Gothic.
+        sans: ['Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+        display: ['Montserrat', 'Inter', 'ui-sans-serif', 'sans-serif'],
       },
       borderRadius: {
         // Радіус кнопок на robeauty.me — 5px. Картки трохи більші, не більше.
