@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { NavLink, Outlet } from 'react-router-dom'
 import {
   Activity, BadgeCheck, BarChart3, Boxes, Languages, LayoutDashboard, Menu,
-  MessageCircleQuestion, MessagesSquare, PackageCheck, RefreshCw, ShoppingBag, Truck, X,
+  MessageCircleQuestion, MessagesSquare, PackageCheck, RefreshCw, Send, ShoppingBag, Truck, X,
 } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import { clearAdminCreds } from './api'
@@ -25,6 +25,7 @@ const groups: { title: string; items: Item[] }[] = [
     items: [
       { to: '/admin/orders', key: 'orders', icon: PackageCheck },
       { to: '/admin/shipments', key: 'shipments', icon: Truck },
+      { to: '/admin/dispatch', key: 'dispatch', icon: Send },
       { to: '/admin/tickets', key: 'tickets', icon: BadgeCheck },
     ],
   },

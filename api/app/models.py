@@ -178,6 +178,21 @@ class Shipment(Base):
     reminders: Mapped[list] = mapped_column(JSONB, default=list)
 
 
+class Dispatch(Base):
+    """Створена (на стенді — симульована) ТТН для замовлення.
+
+    Симуляція позначена явно: номер має префікс DEMO, а поле simulated
+    не дає видати демо за бойовий виклик."""
+    __tablename__ = "dispatches"
+    id: Mapped[int] = mapped_column(primary_key=True)
+    order_id: Mapped[int] = mapped_column(
+        ForeignKey("orders.id", ondelete="CASCADE"), unique=True)
+    ttn_number: Mapped[str] = mapped_column(Text)
+    simulated: Mapped[bool] = mapped_column(Boolean, default=True)
+    created_at: Mapped[dt.datetime] = mapped_column(
+        DateTime(timezone=True), default=now)
+
+
 class SyncLog(Base):
     __tablename__ = "sync_log"
     id: Mapped[int] = mapped_column(primary_key=True)

@@ -5,6 +5,7 @@
 
 from __future__ import annotations
 
+import re
 import secrets
 
 from fastapi import Depends, FastAPI, HTTPException
@@ -144,6 +145,30 @@ def showcase(lang: str = "uk", limit: int = 8) -> dict:
     return {"items": items}
 
 
+# ---------- агент відправлень: черга дня і розбір месенджера ----------
+
+from .agents import dispatch as dispatch_agent  # noqa: E402
+
+
+@app.get("/api/admin/dispatch")
+def dispatch_queue(_: str = Depends(admin_auth)) -> dict:
+    return dispatch_agent.queue()
+
+
+@app.post("/api/admin/dispatch/{order_id}/create")
+def dispatch_create(order_id: int, _: str = Depends(admin_auth)) -> dict:
+    return dispatch_agent.create_simulated(order_id)
+
+
+class ParseIn(BaseModel):
+    text: str = Field(min_length=5, max_length=3000)
+
+
+@app.post("/api/admin/dispatch/parse")
+def dispatch_parse(body: ParseIn, _: str = Depends(admin_auth)) -> dict:
+    return dispatch_agent.parse_message(body.text)
+
+
 # ---------- онбординг першого запуску ----------
 
 @app.get("/api/bootstrap")
@@ -182,6 +207,34 @@ class ChatIn(BaseModel):
     lang: str | None = None  # явний перемикач у віджеті; інакше автодетект
 
 
+# Телефон у повідомленні — це лід. Людина, яка кидає номер у чат, не хоче
+# переписки: вона хоче, щоб їй передзвонили. Правило перевірене на
+# практиці інших магазинів; без нього номер тонув у історії діалогу, і
+# менеджер його не бачив.
+PHONE_RE = re.compile(r"(?:\+?38)?\s*\(?0\d{2}\)?[\s.-]?\d{3}[\s.-]?\d{2}[\s.-]?\d{2}\b")
+
+LEAD_REPLY = {
+    "uk": ("Дякую! Передаю ваш номер менеджеру — зателефонуємо найближчим "
+           "часом у робочі години (ПН–ПТ 9:00–21:00, СБ–НД 11:00–20:00). "
+           "Якщо зручніше писати — я тут і охоче підберу догляд."),
+    "pl": ("Dziękuję! Przekazuję Twój numer doradcy — oddzwonimy wkrótce "
+           "w godzinach pracy. Jeśli wolisz pisać — jestem tu i chętnie "
+           "dobiorę pielęgnację."),
+}
+
+
+def _extract_phone(text: str) -> str | None:
+    m = PHONE_RE.search(text or "")
+    if not m:
+        return None
+    digits = re.sub(r"\D", "", m.group(0))
+    if len(digits) == 10 and digits.startswith("0"):
+        return "+38" + digits
+    if len(digits) == 12 and digits.startswith("380"):
+        return "+" + digits
+    return None
+
+
 @app.post("/api/chat")
 def chat(body: ChatIn) -> dict:
     lang = body.lang if body.lang in ("uk", "pl") else rag.detect_lang(body.text)
@@ -201,7 +254,30 @@ def chat(body: ChatIn) -> dict:
         s.commit()
         conv_id = conv.id
 
+    phone = _extract_phone(body.text)
+    if phone:
+        with db.get_session() as s:
+            s.add(Ticket(source="chat", category="lead", lang=lang,
+                         status="new",
+                         payload={"conversation_id": conv_id, "phone": phone,
+                                  "text": body.text[:500]}))
+            s.commit()
+        # Коротке повідомлення з номером — людина просто лишає контакт;
+        # відповідаємо підтвердженням і не мучимо перепискою.
+        rest = PHONE_RE.sub("", body.text).strip(" ,.!—-")
+        if len(rest) < 25:
+            reply = LEAD_REPLY.get(lang, LEAD_REPLY["uk"])
+            with db.get_session() as s:
+                s.add(Message(conversation_id=conv_id, role="assistant",
+                              content=reply))
+                s.commit()
+            return {"conversation_id": conv_id, "lang": lang, "reply": reply,
+                    "escalate": False, "reason": "lead",
+                    "sources": [], "products": []}
+
     result = rag.answer(body.text, history, lang)
+    if phone:
+        result["reply"] += "\n\n" + LEAD_REPLY.get(lang, LEAD_REPLY["uk"])
 
     with db.get_session() as s:
         s.add(Message(conversation_id=conv_id, role="assistant",

@@ -948,6 +948,187 @@ function QuestionsPage() {
   )
 }
 
+
+/* ---------- відправлення: черга дня + розбір месенджера ---------- */
+
+function DispatchPage() {
+  const { t } = useTranslation()
+  const [d, setD] = useState<any>(null)
+  const [err, setErr] = useState<string | null>(null)
+  const [openJson, setOpenJson] = useState<number | null>(null)
+  const [made, setMade] = useState<Record<number, string>>({})
+  const [raw, setRaw] = useState(t('dispatch.sample'))
+  const [parsed, setParsed] = useState<any>(null)
+  const [parsing, setParsing] = useState(false)
+
+  const load = () => api.admin.get('/api/admin/dispatch').then(setD).catch((e) => setErr(String(e.message)))
+  useEffect(() => { void load() }, [])
+  if (!d) return <Loading error={err} onRetry={load} />
+
+  return (
+    <>
+      <PageHead title={t('dispatch.title')} subtitle={t('dispatch.subtitle')} />
+
+      <div className="mb-4 flex flex-wrap items-center gap-3">
+        <Badge tone="good">{d.ready} {t('dispatch.ready')}</Badge>
+        <Badge tone="warn">{d.needs_human} {t('dispatch.needsHuman')}</Badge>
+        <span className="text-[11px] text-ink-500 dark:text-ink-400">
+          {t('dispatch.mode')}: {d.mode === 'live' ? t('dispatch.modeLive') : t('dispatch.modeDemo')}
+        </span>
+      </div>
+
+      <div className="space-y-3">
+        {d.items.map((x: any) => (
+          <Card key={x.order_id}>
+            <div className="flex flex-wrap items-center gap-2">
+              <span className="font-semibold text-ink-950 dark:text-cream-50">{x.number}</span>
+              <span className="text-sm text-ink-700 dark:text-ink-300">{x.customer}</span>
+              <Badge>{x.city} · {x.warehouse}</Badge>
+              <Badge tone={x.payment === 'cod' ? 'warn' : 'good'}>
+                {x.payment === 'cod' ? t('dispatch.cod') : t('dispatch.card')}
+              </Badge>
+              <span className="ml-auto font-semibold tabular-nums text-ink-950 dark:text-cream-50">
+                {Math.round(x.total)} {t('common.uah')}
+              </span>
+            </div>
+
+            <div className="mt-2 flex flex-wrap items-center gap-2">
+              <Badge tone={x.decision === 'auto' ? 'good' : 'warn'}>
+                {x.decision === 'auto' ? t('dispatch.auto') : t('dispatch.human')}
+              </Badge>
+              <span className="text-[13px] text-ink-700 dark:text-ink-300">{x.reason}</span>
+              <span className="text-[11px] text-ink-500 dark:text-ink-400">
+                · {t('dispatch.weight')}: ~{x.weight_kg} {t('dispatch.kg')}
+              </span>
+            </div>
+
+            <div className="mt-3 flex flex-wrap items-center gap-2">
+              {made[x.order_id] ? (
+                <Badge tone="good">{t('dispatch.created')}: {made[x.order_id]}</Badge>
+              ) : (
+                <Button onClick={async () => {
+                  const r = await api.admin.post<any>(`/api/admin/dispatch/${x.order_id}/create`, {})
+                  setMade((m) => ({ ...m, [x.order_id]: r.ttn }))
+                }}>{t('dispatch.create')}</Button>
+              )}
+              <Button variant="ghost"
+                      onClick={() => setOpenJson(openJson === x.order_id ? null : x.order_id)}>
+                {t('dispatch.showJson')}
+              </Button>
+            </div>
+            {openJson === x.order_id && (
+              <pre className="mt-3 overflow-x-auto rounded bg-ink-950 p-3 text-[11px] leading-relaxed text-cream-100">
+{JSON.stringify(x.payload, null, 2)}
+              </pre>
+            )}
+          </Card>
+        ))}
+        {!d.items.length && <Empty text={t('dispatch.empty')} />}
+      </div>
+
+      {/* --- розбір сирого повідомлення --- */}
+      <Card className="mt-6">
+        <SectionTitle>{t('dispatch.parseTitle')}</SectionTitle>
+        <p className="mb-3 text-[13px] leading-relaxed text-ink-600 dark:text-ink-300">
+          {t('dispatch.parseHint')}
+        </p>
+        <textarea value={raw} onChange={(e) => setRaw(e.target.value)} rows={3}
+                  className="w-full rounded border border-ink-200 bg-cream-50 px-3 py-2 text-sm
+                             outline-none focus:border-brand-500 dark:border-ink-700
+                             dark:bg-ink-800 dark:text-cream-100" />
+        <Button className="mt-2" disabled={parsing} onClick={async () => {
+          setParsing(true)
+          try { setParsed(await api.admin.post('/api/admin/dispatch/parse', { text: raw })) }
+          finally { setParsing(false) }
+        }}>{parsing ? t('common.running') : t('dispatch.parse')}</Button>
+
+        {parsed && !parsed.error && (
+          <div className="mt-4 grid gap-4 lg:grid-cols-2">
+            <div className="space-y-2">
+              {(['name', 'phone', 'city'] as const).map((k) => (
+                <div key={k} className="flex items-center gap-2 text-sm">
+                  <Badge tone={parsed.fields[k].ok ? 'good' : 'warn'}>
+                    {t(`dispatch.f.${k}`)}
+                  </Badge>
+                  <span className="text-ink-900 dark:text-cream-100">
+                    {parsed.fields[k].value ?? '—'}
+                  </span>
+                  {parsed.fields[k].note && (
+                    <span className="text-[11px] text-warn-500 dark:text-warn-300">
+                      {parsed.fields[k].note}
+                    </span>
+                  )}
+                </div>
+              ))}
+              <div className="text-sm">
+                <div className="mb-1 flex items-center gap-2">
+                  <Badge tone={parsed.fields.warehouse.status === 'matched' ? 'good' : 'warn'}>
+                    {t('dispatch.f.warehouse')}
+                  </Badge>
+                  {parsed.fields.warehouse.status === 'matched' ? (
+                    <span className="text-ink-900 dark:text-cream-100">
+                      №{parsed.fields.warehouse.value.number}, {parsed.fields.warehouse.value.address}
+                    </span>
+                  ) : (
+                    <span className="text-[12px] text-ink-600 dark:text-ink-300">
+                      {t('dispatch.chooseWh')}
+                    </span>
+                  )}
+                </div>
+                {parsed.fields.warehouse.status === 'ambiguous' && (
+                  <div className="ml-1 space-y-1">
+                    {parsed.fields.warehouse.options.map((o: any) => (
+                      <label key={o.ref} className="flex items-center gap-2 text-[13px]
+                                                    text-ink-800 dark:text-cream-100">
+                        <input type="radio" name="wh" className="accent-brand-600" />
+                        №{o.number} — {o.address}
+                      </label>
+                    ))}
+                  </div>
+                )}
+              </div>
+              <div className="pt-1">
+                {parsed.products.map((pr: any, i: number) => (
+                  <div key={i} className="flex items-center gap-2 text-sm">
+                    <Badge tone={pr.confidence === 'high' ? 'good'
+                      : pr.confidence === 'low' ? 'warn' : 'bad'}>
+                      {t('dispatch.f.product')}
+                    </Badge>
+                    <span className="text-ink-900 dark:text-cream-100">
+                      {pr.title ?? `«${pr.mention}» — ${t('dispatch.notFound')}`}
+                    </span>
+                    {pr.price != null && <b className="tabular-nums">{Math.round(pr.price)} {t('common.uah')}</b>}
+                  </div>
+                ))}
+                {parsed.total > 0 && (
+                  <div className="mt-1 text-sm font-semibold text-ink-950 dark:text-cream-50">
+                    {t('dispatch.total')}: {Math.round(parsed.total)} {t('common.uah')}
+                  </div>
+                )}
+              </div>
+            </div>
+
+            <div className="rounded-xl border border-brand-500/40 bg-brand-600/5 p-3">
+              <div className="text-[10px] font-bold tracking-display text-brand-600
+                              uppercase dark:text-brand-400">
+                {t('dispatch.replyDraft')}
+              </div>
+              <p className="mt-1.5 text-sm leading-relaxed whitespace-pre-wrap
+                            text-ink-900 dark:text-cream-100">{parsed.reply_draft}</p>
+              <button onClick={() => { void navigator.clipboard?.writeText(parsed.reply_draft) }}
+                      className="mt-2 text-[11px] font-semibold text-brand-600
+                                 hover:underline dark:text-brand-400">
+                {t('tickets.copyDraft')}
+              </button>
+            </div>
+          </div>
+        )}
+        {parsed?.error && <p className="mt-3 text-sm text-crit-500 dark:text-crit-300">{parsed.error}</p>}
+      </Card>
+    </>
+  )
+}
+
 function EvalPage() {
   const { t } = useTranslation()
   const [d, setD] = useState<any>(null)
@@ -1097,6 +1278,7 @@ export default function Admin() {
         <Route path="analytics" element={<Analytics />} />
         <Route path="eval" element={<EvalPage />} />
         <Route path="questions" element={<QuestionsPage />} />
+        <Route path="dispatch" element={<DispatchPage />} />
       </Route>
     </Routes>
   )

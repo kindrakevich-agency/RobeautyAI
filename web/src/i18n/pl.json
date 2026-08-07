@@ -46,7 +46,8 @@
     "groupOperations": "Operacje",
     "groupContent": "Treści",
     "groupInsights": "Analityka",
-    "questions": "Test pytań"
+    "questions": "Test pytań",
+    "dispatch": "Wysyłki"
   },
   "common": {
     "run": "Uruchom agenta",
@@ -483,5 +484,39 @@
     },
     "howMeasured": "Jak to mierzymy: bot dostaje {{n}} pytań — tych samych, które są na stronie głównej. Odpowiedzi czyta osobny model, któremu nie mówi się, kto je napisał, i który widzi te same fragmenty bazy wiedzy.",
     "history": "Poprzednie pomiary"
+  },
+  "dispatch": {
+    "title": "Wysyłki",
+    "subtitle": "Wcześniej menedżer ręcznie przenosił każde zamówienie do panelu Nowej Poczty. Teraz agent sam przygotowuje list i decyduje o najważniejszym: czy bezpiecznie wysyłać za pobraniem. Ryzykowne przypadki zostawia człowiekowi.",
+    "ready": "gotowe do wysyłki",
+    "needsHuman": "wymagają człowieka",
+    "mode": "Baza oddziałów",
+    "modeLive": "API Nowej Poczty na żywo",
+    "modeDemo": "wycinek demo (z kluczem NP ten sam kod działa w całym kraju)",
+    "cod": "Za pobraniem",
+    "card": "Opłacone kartą",
+    "auto": "Wysyłamy",
+    "human": "Potrzebny człowiek",
+    "weight": "waga",
+    "kg": "kg",
+    "create": "Utwórz list (symulacja)",
+    "created": "List",
+    "showJson": "Pokaż wywołanie API",
+    "empty": "Kolejka pusta — wszystko wysłane.",
+    "parseTitle": "Zamówienie z komunikatora",
+    "parseHint": "Wklej surową wiadomość klienta — agent wyciągnie imię, telefon, produkty i adres, znajdzie oddział i przygotuje odpowiedź. Czego nie jest pewien — zaznacza i zostawia człowiekowi, zamiast zgadywać.",
+    "sample": "Dzień dobry! Poproszę toner i piankę. Ola Kowalenko, 066 342 34 12, Nowa Praga, oddział koło rynku",
+    "parse": "Rozbierz",
+    "f": {
+      "name": "Imię",
+      "phone": "Telefon",
+      "city": "Miasto",
+      "warehouse": "Oddział",
+      "product": "Produkt"
+    },
+    "chooseWh": "numeru nie podano — wybierz z listy:",
+    "notFound": "nie znaleziono w katalogu",
+    "total": "Razem",
+    "replyDraft": "Gotowa odpowiedź dla klienta"
   }
 }
