@@ -14,7 +14,7 @@ import Widget from '../Widget'
  * ВЕЛИКИМИ літерами з розрядкою, моноширинні числа в колонку.
  *
  * Усі числа в панелі — живі, з /api/health. Нічого не намальовано «для краси»:
- * на демо-стенді підроблена цифра коштувала б довіри до всього іншого.
+ * підроблена цифра коштувала б довіри до всього іншого.
  */
 
 type Health = { chunks: number; products: number; translated_pl: number }
@@ -146,7 +146,6 @@ export default function Home() {
             </div>
           ))}
         </section>
-        <p className="pt-3 text-[10px] text-ink-600 dark:text-ink-300">{t('home.spec.note')}</p>
 
         {/* ---------- склад ---------- */}
         <section className="border-t border-ink-200 py-14 dark:border-ink-800">

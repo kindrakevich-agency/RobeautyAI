@@ -87,7 +87,7 @@ function Sidebar({ onNavigate, onLogout }: { onNavigate?: () => void; onLogout: 
         <button onClick={onLogout} className="font-semibold hover:text-ink-800 dark:hover:text-cream-100">
           {t('common.logout')}
         </button>
-        <br />robeauty.kindrakevich.com · demo
+        <br />robeauty.kindrakevich.com
       </div>
     </div>
   )
@@ -130,7 +130,6 @@ export default function Shell({ onLogout }: { onLogout: () => void }) {
             <a href="/" className="mr-1 hidden items-center gap-1.5 text-xs font-semibold text-ink-600 hover:text-ink-950 sm:flex dark:text-ink-300">
               <ShoppingBag size={14} /> {t('nav.backToChat')}
             </a>
-            <Badge tone="brand">{t('demoBadge')}</Badge>
             <LangSwitch />
             <ThemeToggle />
           </div>

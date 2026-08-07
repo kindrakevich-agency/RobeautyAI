@@ -66,7 +66,6 @@ export default function Bootstrap({ onReady }: { onReady: () => void }) {
           <div className="font-display text-xl font-semibold tracking-[0.02em] text-ink-950 dark:text-cream-50">
             RoBeauty
           </div>
-          <Badge tone="brand">{t('demoBadge')}</Badge>
         </div>
         <h1 className="font-display text-lg font-semibold text-ink-950 dark:text-cream-50">{t('boot.title')}</h1>
         <p className="mt-1 text-sm leading-relaxed text-ink-600 dark:text-ink-300">{t('boot.intro')}</p>
