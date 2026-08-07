@@ -319,6 +319,8 @@ def _polish(reply: str, lang: str) -> str:
     # Прибираємо подвійні пробіли, що лишилися після вирізаних зворотів.
     reply = re.sub(r"[ \t]{2,}", " ", reply)
     reply = re.sub(r"\s+([,.:;!?»)])", r"\1", reply)
+    # Після вирізаного звороту лишалася висяча пунктуація: «, ціна 690 грн».
+    reply = re.sub(r"(^|\n)\s*[,;:—–-]\s*", r"\1", reply)
     return reply.strip()
 
 
