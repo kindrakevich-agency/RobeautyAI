@@ -64,6 +64,36 @@ RELEVANCE = """Питання клієнта косметичного бренд
 на кожен фрагмент, у тому ж порядку."""
 
 
+def judge_answer(q: str, a: str, sources: str, lang: str,
+                 votes: int = 3) -> dict[str, bool]:
+    """Вердикт за більшістю з кількох голосів.
+
+    Заміряно: на одному й тому самому вході суддя дає різні відповіді —
+    з п'яти викликів чотири «спирається на джерела» і один ні. Це відома
+    властивість оцінювання моделлю, і лікується вона не промптом, а
+    повторенням: беремо непарну кількість голосів і рахуємо більшість.
+    Інакше метрика міряє власний шум, а не якість бота.
+    """
+    tally = {"grounded": 0, "helpful": 0, "correct_language": 0}
+    got = 0
+    for _ in range(votes):
+        try:
+            v = llm.chat_json([{"role": "user", "content": JUDGE.format(
+                q=q, a=a, sources=sources, lang=lang)}],
+                purpose="judge", max_tokens=200)
+        except Exception as e:  # noqa: BLE001
+            print(f"    суддя впав: {str(e)[:80]}", file=sys.stderr)
+            continue
+        if not v:
+            continue
+        got += 1
+        for k in tally:
+            tally[k] += int(bool(v.get(k)))
+    if not got:
+        return dict.fromkeys(tally, False)
+    return {k: n * 2 > got for k, n in tally.items()}
+
+
 def judge_relevance(question: str, chunks: list[dict]) -> list[int]:
     """Сліпа розмітка релевантності знайдених фрагментів.
 
@@ -144,11 +174,7 @@ def main() -> None:
             srcs = "\n---\n".join(x["text"][:900] for x in ctx_all)
             srcs += rag.price_table(ctx_all, c["lang"], mentions_in=srcs)
             srcs = srcs or "(немає)"
-            verdict = llm.chat_json([{"role": "user", "content": JUDGE.format(
-                q=c["q"], a=reply[:1500], sources=srcs,
-                lang=c["lang"])}],
-                purpose="judge", model=None, max_tokens=200)
-            marks = {k: bool(verdict.get(k)) for k in dims}
+            marks = judge_answer(c["q"], reply[:1500], srcs, c["lang"])
             for k, v in marks.items():
                 dims[k] += int(v)
             dims_n += 1
