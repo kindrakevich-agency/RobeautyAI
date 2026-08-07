@@ -46,11 +46,11 @@ def _weight_kg(items: list, products_by_sku: dict) -> float:
         qty = int(it.get("qty") or 1)
         grams = 300.0  # запасне значення на позицію
         if p is not None:
-            # ensure_ascii=False і у внутрішньому dumps: інакше кирилиця
-            # екранується і «Вага:» не знаходиться регуляркою.
-            raw = json.dumps([(p.volume or ""),
-                              json.dumps(p.raw or {}, ensure_ascii=False)],
-                             ensure_ascii=False)
+            # Один dumps, без вкладеного: подвійне екранування лапок
+            # розтягувало відстань між «Вага» і числом, і регулярка
+            # не діставала.
+            raw = (p.volume or "") + " " + json.dumps(p.raw or {},
+                                                      ensure_ascii=False)
             m = re.search(r"[Вв]ага\W{0,6}(\d{2,4})", raw)
             if m:
                 grams = float(m.group(1))
@@ -203,11 +203,17 @@ def _match_products(mentions: list[str]) -> list[dict]:
         titles = [(t.product_id, t.title) for t in s.scalars(
             select(ProductI18n).where(ProductI18n.lang == "uk"))]
         products = {p.id: p for p in s.scalars(select(Product))}
+    def stems(text: str) -> set[str]:
+        # Основа слова — перші 5 літер: «пінку»/«пінка» → «пінка»-подібне,
+        # «тонером»/«тонер» → спільна основа. Грубо, але для збігу назв
+        # товарів достатньо, і без словника морфології.
+        return {w[:5] for w in re.findall(r"[\w’']{4,}", text.lower())}
+
     for m in mentions or []:
-        words = {w for w in re.findall(r"[\w’']{4,}", m.lower())}
+        words = stems(m)
         best, score = None, 0
         for pid, title in titles:
-            tw = {w for w in re.findall(r"[\w’']{4,}", title.lower())}
+            tw = stems(title)
             inter = len(words & tw)
             if inter > score:
                 best, score = pid, inter
