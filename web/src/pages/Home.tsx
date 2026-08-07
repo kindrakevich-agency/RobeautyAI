@@ -7,6 +7,17 @@ import { CATEGORY_LABEL, QUESTIONS, type QCategory } from '../questions'
 
 // Порядок розділів на сторінці: від того, що питають найчастіше,
 // до перевірки меж — щоб було видно, де консультант зупиняється.
+// Порядок агентів: від того, що приносить гроші найшвидше.
+const AGENTS: { id: string; metric?: string; of?: string; money?: boolean }[] = [
+  { id: 'orders', metric: 'orders_auto', of: 'orders' },
+  { id: 'shipments', metric: 'uah_at_risk', money: true },
+  { id: 'chat', metric: 'answers' },
+  { id: 'tickets', metric: 'tickets' },
+  { id: 'i18n', metric: 'translated', of: 'products' },
+  { id: 'sync', metric: 'sync_conflicts' },
+  { id: 'analytics' },
+]
+
 const ORDER: QCategory[] = ['skin', 'concern', 'ingredient', 'combine',
   'routine', 'price', 'brand', 'logistics', 'boundary']
 
@@ -24,6 +35,7 @@ const ORDER: QCategory[] = ['skin', 'concern', 'ingredient', 'combine',
  */
 
 type Health = { chunks: number; products: number; translated_pl: number }
+type Impact = Record<string, number>
 type Item = { sku: string; title: string; price: number; volume: string | null
               image: string; url: string | null }
 
@@ -31,9 +43,11 @@ export default function Home() {
   const { t, i18n } = useTranslation()
   const [h, setH] = useState<Health | null>(null)
   const [items, setItems] = useState<Item[]>([])
+  const [imp, setImp] = useState<Impact | null>(null)
 
   useEffect(() => {
     fetch('/api/health').then((r) => r.json()).then(setH).catch(() => {})
+    fetch('/api/impact').then((r) => r.json()).then(setImp).catch(() => {})
   }, [])
 
   // Фото — прямими посиланнями з robeauty.me, нічого не перезаливаємо.
@@ -176,6 +190,59 @@ export default function Home() {
                 </p>
               </div>
             ))}
+          </div>
+        </section>
+
+        {/* Головне заперечення клієнта — «це ж просто чат». Тому окремим
+            розділом показуємо решту агентів парами «було руками → стало»,
+            і кожну пару підпираємо живим числом із /api/impact. */}
+        <section className="border-t border-ink-200 py-14 dark:border-ink-800">
+          <h2 className="rb-display text-[11px] text-ink-500 dark:text-ink-400">
+            {t('impact.title')}
+          </h2>
+          <p className="mt-3 max-w-[62ch] text-[15px] leading-relaxed text-ink-600 dark:text-ink-300">
+            {t('impact.lede')}
+          </p>
+
+          <div className="mt-7 divide-y divide-ink-200 border-t border-ink-200
+                          dark:divide-ink-800 dark:border-ink-800">
+            {AGENTS.map((a) => {
+              const raw = a.metric ? imp?.[a.metric] : undefined
+              const of = a.of ? imp?.[a.of] : undefined
+              const num = raw == null ? null
+                : a.money ? Math.round(raw).toLocaleString('uk-UA')
+                : of ? `${raw} / ${of}` : raw.toLocaleString('uk-UA')
+              return (
+                <div key={a.id} className="grid gap-4 py-6 sm:grid-cols-[1fr_1fr_auto] sm:gap-8">
+                  <div>
+                    <div className="text-[10px] font-bold tracking-display text-ink-400 uppercase">
+                      {t('impact.was')}
+                    </div>
+                    <p className="mt-1.5 text-[13px] leading-[1.6] text-ink-600 dark:text-ink-300">
+                      {t(`impact.agents.${a.id}.was`)}
+                    </p>
+                  </div>
+                  <div>
+                    <div className="text-[10px] font-bold tracking-display text-brand-600
+                                    uppercase dark:text-brand-400">
+                      {t('impact.now')}
+                    </div>
+                    <p className="mt-1.5 text-[13px] leading-[1.6] text-ink-900 dark:text-cream-100">
+                      {t(`impact.agents.${a.id}.now`)}
+                    </p>
+                  </div>
+                  <div className="sm:w-40 sm:text-right">
+                    {num !== null && (
+                      <div className="font-display text-[26px] leading-none font-bold tabular-nums
+                                      text-ink-950 dark:text-cream-50">{num}</div>
+                    )}
+                    <div className="mt-1.5 text-[11px] leading-snug text-ink-500 dark:text-ink-400">
+                      {t(`impact.agents.${a.id}.unit`)}
+                    </div>
+                  </div>
+                </div>
+              )
+            })}
           </div>
         </section>
 

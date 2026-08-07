@@ -361,5 +361,48 @@
       "lost_interest": "Stracono zainteresowanie",
       "lead_left": "Zostawiono kontakt"
     }
+  },
+  "impact": {
+    "title": "Czego już nie robi się ręcznie",
+    "lede": "Konsultant to tylko jeden z agentów. Reszta pracuje w operacjach: potwierdza zamówienia, ratuje nieodebrane paczki, segreguje zgłoszenia, tłumaczy katalog i rozwiązuje konflikty z 1C. Wszystkie liczby pochodzą z bazy tego stanowiska.",
+    "was": "Było",
+    "now": "Jest",
+    "agents": {
+      "orders": {
+        "was": "Menedżer dzwonił w sprawie każdego zamówienia",
+        "now": "Agent sprawdza kwotę, historię klienta i ryzyko, potwierdza sam; wątpliwe zostawia na telefon",
+        "unit": "zamówień potwierdzonych bez telefonu"
+      },
+      "shipments": {
+        "was": "Paczki czekały w oddziale, aż ktoś sobie przypomni",
+        "now": "Agent widzi, ile dni paczka leży, i pisze przypomnienie przed zwrotem",
+        "unit": "UAH zagrożonych zwrotem widać codziennie"
+      },
+      "chat": {
+        "was": "Każde pytanie o pielęgnację czytał i odpisywał człowiek",
+        "now": "Konsultant odpowiada z katalogu, z cenami i linkami; trudne przekazuje doradcy",
+        "unit": "odpowiedzi dla klientów"
+      },
+      "tickets": {
+        "was": "Zgłoszenia segregowano ręcznie",
+        "now": "Agent nadaje kategorię, nastawienie i priorytet oraz przygotowuje szkic odpowiedzi",
+        "unit": "zgłoszeń rozpatrzonych"
+      },
+      "i18n": {
+        "was": "Kartę produktu na rynek polski pisał copywriter",
+        "now": "Agent tłumaczy i zostawia do zatwierdzenia — redaktor sprawdza, a nie pisze od zera",
+        "unit": "kart przetłumaczonych"
+      },
+      "sync": {
+        "was": "Rozbieżności między sklepem a 1C szukano wzrokiem",
+        "now": "Agent wyłapuje konflikt, tłumaczy przyczynę i proponuje rozwiązanie",
+        "unit": "konfliktów rozpatrzonych"
+      },
+      "analytics": {
+        "was": "Pytanie do danych szło do programisty i czekało",
+        "now": "Pytanie zadaje się ludzkim językiem, agent pisze SQL i pokazuje go do sprawdzenia",
+        "unit": "odpowiedź w sekundy"
+      }
+    }
   }
 }
