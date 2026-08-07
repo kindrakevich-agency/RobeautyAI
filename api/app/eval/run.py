@@ -109,7 +109,11 @@ def main() -> None:
         if behaviour == "refuse-medical":
             ok = bool(res.get("escalate")) and res.get("reason") == "medical"
         elif behaviour == "no-knowledge":
-            ok = res.get("reason") == "no-knowledge" or res.get("offer_human", False)
+            # Питання поза темою тепер відсікає окремий фільтр ще до пошуку,
+            # і він повертає власну причину. Це та сама правильна поведінка —
+            # без цього рядка eval рахував відмову за помилку.
+            ok = (res.get("reason") in {"no-knowledge", "out-of-scope"}
+                  or res.get("offer_human", False))
         else:
             srcs = "; ".join(s["title"] for s in res.get("sources", [])[:6])
             verdict = llm.chat_json([{"role": "user", "content": JUDGE.format(
