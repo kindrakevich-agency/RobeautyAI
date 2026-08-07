@@ -143,7 +143,11 @@
     "replyAsHuman": "Odpowiedz jako człowiek",
     "replyPlaceholder": "Twoja odpowiedź do klienta…",
     "analysisPending": "analiza jeszcze nie wykonana",
-    "webNoReply": "Czat na stronie jest anonimowy i już zakończony — nie da się do niego dopisać. Odpowiedź po fakcie działa w komunikatorach, gdzie zostaje adres klienta."
+    "webNoReply": "Czat na stronie jest anonimowy i już zakończony — nie da się do niego dopisać. Odpowiedź po fakcie działa w komunikatorach, gdzie zostaje adres klienta.",
+    "noPreview": "brak pytania klienta",
+    "msgs": "wiadomości",
+    "shown": "pokazano produktów",
+    "escalated": "do doradcy"
   },
   "tickets": {
     "title": "Zgłoszenia",

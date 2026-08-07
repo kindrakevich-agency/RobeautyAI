@@ -386,7 +386,7 @@ const CHANNEL_LABEL: Record<string, string> = {
 }
 
 function Dialogs() {
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
   const [d, setD] = useState<any>(null)
   const [sel, setSel] = useState<any>(null)
   const [channel, setChannel] = useState('')
@@ -394,11 +394,15 @@ function Dialogs() {
   const [reply, setReply] = useState('')
 
   const [err, setErr] = useState<string | null>(null)
+  const [page, setPage] = useState(0)
+  const PER = 25
   const load = () => api.admin
-    .get(`/api/admin/conversations${channel ? `?channel=${channel}` : ''}`)
+    .get(`/api/admin/conversations?offset=${page * PER}&limit=${PER}`
+         + (channel ? `&channel=${channel}` : ''))
     .then(setD)
     .catch((e) => setErr(String(e.message)))
-  useEffect(() => { void load() }, [channel])
+  useEffect(() => { void load() }, [channel, page])
+  useEffect(() => { setPage(0) }, [channel])
   const open = (id: number) => api.admin.get(`/api/admin/conversations/${id}`).then(setSel)
 
   if (!d) return <Loading error={err} onRetry={load} />
@@ -427,28 +431,70 @@ function Dialogs() {
         <div className="space-y-2">
           {d.items.map((c: any) => (
             <button key={c.id} onClick={() => open(c.id)}
-                    className="block w-full rounded-xl border border-ink-200 bg-cream-50 p-3 text-left shadow-card transition-colors hover:border-brand-500 dark:border-ink-700/60 dark:bg-ink-900">
+                    className={`block w-full rounded-xl border p-3 text-left shadow-card transition-colors
+                                hover:border-brand-500 dark:bg-ink-900 ${
+                      sel?.id === c.id ? 'border-brand-500 bg-cream-100 dark:border-brand-400'
+                        : 'border-ink-200 bg-cream-50 dark:border-ink-700/60'}`}>
               <div className="flex flex-wrap items-center gap-2">
                 <Badge>{CHANNEL_LABEL[c.channel] ?? c.channel}</Badge>
                 <span className="text-xs text-ink-600 dark:text-ink-300">{c.handle ?? '—'}</span>
-                {c.escalated && <Badge tone="warn">esc</Badge>}
+                {c.escalated && <Badge tone="warn">{t('dialogs.escalated')}</Badge>}
                 {c.customer_id && <Badge tone="good">#{c.customer_id}</Badge>}
+                <span className="ml-auto text-[11px] text-ink-500 dark:text-ink-400">
+                  {c.started_at ? new Date(c.started_at).toLocaleString(
+                    i18n.language === 'pl' ? 'pl-PL' : 'uk-UA',
+                    { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' }) : ''}
+                </span>
               </div>
-              <div className="mt-1.5 text-sm text-ink-800 dark:text-cream-100">
-                {c.analysis?.topic ?? <span className="text-ink-600 dark:text-ink-300">{t('dialogs.analysisPending')}</span>}
+
+              {/* Головне в картці — з чим прийшов клієнт. Раніше тут стояв
+                  лише статус аналізу, тож усі розмови виглядали однаково. */}
+              <div className="mt-1.5 line-clamp-2 text-sm text-ink-900 dark:text-cream-100">
+                {c.preview || <span className="text-ink-500 dark:text-ink-400">{t('dialogs.noPreview')}</span>}
               </div>
-              {c.analysis && (
-                <div className="mt-1 flex flex-wrap gap-1.5">
-                  <Badge>{c.analysis.intent}</Badge>
+
+              <div className="mt-1.5 flex flex-wrap items-center gap-x-3 gap-y-1
+                              text-[11px] text-ink-600 dark:text-ink-300">
+                <span>{c.messages} {t('dialogs.msgs')}</span>
+                {c.products > 0 && <span>{t('dialogs.shown')}: {c.products}</span>}
+                <span className="uppercase">{c.lang}</span>
+              </div>
+
+              {c.analysis ? (
+                <div className="mt-2 flex flex-wrap gap-1.5">
+                  {c.analysis.intent && <Badge>{c.analysis.intent}</Badge>}
                   <Badge tone={c.analysis.sentiment === 'negative' ? 'bad'
                     : c.analysis.sentiment === 'positive' ? 'good' : 'neutral'}>
                     {c.analysis.sentiment}
                   </Badge>
-                  <Badge>{c.analysis.outcome}</Badge>
+                  {c.analysis.outcome && <Badge>{c.analysis.outcome}</Badge>}
+                  {c.analysis.satisfaction
+                    ? <Badge tone={c.analysis.satisfaction >= 4 ? 'good'
+                        : c.analysis.satisfaction <= 2 ? 'bad' : 'warn'}>
+                        {c.analysis.satisfaction}/5
+                      </Badge>
+                    : null}
+                </div>
+              ) : (
+                <div className="mt-2 text-[11px] text-ink-500 dark:text-ink-400">
+                  {t('dialogs.analysisPending')}
                 </div>
               )}
             </button>
           ))}
+
+          {/* Розмов накопичуються сотні — без сторінок список неможливо гортати. */}
+          {d.total > PER && (
+            <div className="flex items-center justify-between gap-2 pt-1">
+              <Button variant="ghost" disabled={page === 0}
+                      onClick={() => setPage((p) => Math.max(0, p - 1))}>←</Button>
+              <span className="text-[11px] text-ink-600 dark:text-ink-300">
+                {page * PER + 1}–{Math.min((page + 1) * PER, d.total)} / {d.total}
+              </span>
+              <Button variant="ghost" disabled={(page + 1) * PER >= d.total}
+                      onClick={() => setPage((p) => p + 1)}>→</Button>
+            </div>
+          )}
         </div>
 
         <div className="min-w-0">
@@ -786,20 +832,6 @@ function Analytics() {
 function QuestionsPage() {
   const { t, i18n } = useTranslation()
   const lang = i18n.language === 'pl' ? 'pl' : 'uk'
-  const [open, setOpen] = useState<string | null>(null)
-  const [answers, setAnswers] = useState<Record<string, any>>({})
-  const [busy, setBusy] = useState<string | null>(null)
-
-  const ask = async (q: Question) => {
-    const text = lang === 'pl' ? q.pl : q.uk
-    setBusy(q.id); setOpen(q.id)
-    try {
-      const r = await api.chat({ text, lang })
-      setAnswers((a) => ({ ...a, [q.id]: r }))
-    } catch (e) {
-      setAnswers((a) => ({ ...a, [q.id]: { reply: String((e as Error).message) } }))
-    } finally { setBusy(null) }
-  }
 
   const byCat = QUESTIONS.reduce<Record<string, Question[]>>((acc, q) => {
     (acc[q.cat] ||= []).push(q); return acc
@@ -814,39 +846,25 @@ function QuestionsPage() {
             <div className="mb-3 text-[11px] font-bold tracking-display text-brand-600 uppercase dark:text-brand-400">
               {CATEGORY_LABEL[cat as QCategory][lang]}
             </div>
-            <div className="space-y-2">
-              {items.map((q) => (
-                <div key={q.id} className="rounded border border-ink-200 dark:border-ink-800">
-                  <button onClick={() => void ask(q)}
-                          className="flex w-full items-center gap-3 px-3.5 py-3 text-left">
+            <div className="grid gap-2 sm:grid-cols-2">
+              {items.map((q) => {
+                const text = lang === 'pl' ? q.pl : q.uk
+                return (
+                  <button key={q.id}
+                          onClick={() => window.dispatchEvent(
+                            new CustomEvent('rb-open-widget', { detail: text }))}
+                          className="group flex items-start gap-2 rounded border border-ink-200
+                                     px-3.5 py-3 text-left transition-colors
+                                     hover:border-brand-500 dark:border-ink-800
+                                     dark:hover:border-brand-400">
                     <span className="min-w-0 flex-1 text-sm text-ink-800 dark:text-cream-100">
-                      {lang === 'pl' ? q.pl : q.uk}
+                      {text}
                     </span>
-                    <span className="shrink-0 text-[10px] font-bold tracking-display uppercase text-ink-500">
-                      {busy === q.id ? t('common.running') : t('questions.ask')}
-                    </span>
+                    <span aria-hidden className="mt-0.5 shrink-0 text-ink-400 transition-colors
+                                                 group-hover:text-brand-600 dark:group-hover:text-brand-400">→</span>
                   </button>
-                  {open === q.id && answers[q.id] && (
-                    <div className="border-t border-ink-200 px-3.5 py-3 dark:border-ink-800">
-                      <div className="rb-md text-sm leading-relaxed text-ink-700 dark:text-ink-300"
-                           dangerouslySetInnerHTML={{ __html: renderMarkdown(answers[q.id].reply || '') }} />
-                      <div className="mt-2 flex flex-wrap gap-1.5">
-                        {(answers[q.id].products || []).map((pr: any, k: number) => (
-                          <span key={k} className="rounded bg-ink-100 px-2 py-0.5 text-[11px]
-                                                   text-ink-700 dark:bg-ink-800 dark:text-ink-300">
-                            {pr.title} · {Math.round(pr.price)} {t('common.uah')}
-                          </span>
-                        ))}
-                        <span className="rounded bg-ink-100 px-2 py-0.5 text-[11px] text-ink-600
-                                         dark:bg-ink-800 dark:text-ink-400">
-                          {t('questions.sources')}: {(answers[q.id].sources || []).length}
-                          {answers[q.id].reason ? ` · ${answers[q.id].reason}` : ''}
-                        </span>
-                      </div>
-                    </div>
-                  )}
-                </div>
-              ))}
+                )
+              })}
             </div>
           </Card>
         ))}

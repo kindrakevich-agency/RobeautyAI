@@ -206,23 +206,56 @@ def escalate(body: EscalateIn) -> dict:
 
 @app.get("/api/admin/conversations")
 def admin_conversations(_: str = Depends(admin_auth), channel: str | None = None,
-                        escalated: bool | None = None) -> dict:
+                        escalated: bool | None = None,
+                        offset: int = 0, limit: int = 25) -> dict:
+    """Список розмов із тим, що справді допомагає обрати, яку відкрити.
+
+    Раніше картка показувала лише канал і «аналіз ще не робили» — усі
+    виглядали однаково, і сенсу в списку не було. Тепер видно перше
+    питання клієнта, скільки було реплік, чи показував бот товари, чи
+    дійшло до менеджера і що дав аналіз.
+    """
     with db.get_session() as s:
-        q = select(Conversation).order_by(Conversation.started_at.desc()).limit(200)
+        base = select(Conversation)
         if channel:
-            q = q.where(Conversation.channel == channel)
+            base = base.where(Conversation.channel == channel)
         if escalated is not None:
-            q = q.where(Conversation.escalated == escalated)
-        rows = s.scalars(q).all()
+            base = base.where(Conversation.escalated == escalated)
+        total = s.scalar(select(func.count()).select_from(base.subquery())) or 0
+        rows = s.scalars(base.order_by(Conversation.started_at.desc())
+                         .offset(max(0, offset)).limit(min(100, max(1, limit)))).all()
         counts = dict(s.execute(
             select(Conversation.channel, func.count()).group_by(
                 Conversation.channel)).all())
-        return {"by_channel": counts, "items": [{
-            "id": c.id, "channel": c.channel, "lang": c.lang,
-            "handle": c.external_handle, "customer_id": c.customer_id,
-            "started_at": str(c.started_at), "escalated": c.escalated,
-            "analysis": c.analysis,
-        } for c in rows]}
+
+        ids = [c.id for c in rows]
+        first_q: dict[int, str] = {}
+        n_msgs: dict[int, int] = {}
+        n_prod: dict[int, int] = {}
+        last_at: dict[int, str] = {}
+        if ids:
+            for m in s.scalars(select(Message).where(
+                    Message.conversation_id.in_(ids)).order_by(Message.id)).all():
+                n_msgs[m.conversation_id] = n_msgs.get(m.conversation_id, 0) + 1
+                last_at[m.conversation_id] = str(m.created_at)
+                if m.role == "user" and m.conversation_id not in first_q:
+                    first_q[m.conversation_id] = (m.content or "")[:160]
+                if m.product_refs:
+                    n_prod[m.conversation_id] = (n_prod.get(m.conversation_id, 0)
+                                                 + len(m.product_refs))
+
+        return {"by_channel": counts, "total": total,
+                "offset": offset, "limit": limit,
+                "items": [{
+                    "id": c.id, "channel": c.channel, "lang": c.lang,
+                    "handle": c.external_handle, "customer_id": c.customer_id,
+                    "started_at": str(c.started_at), "escalated": c.escalated,
+                    "analysis": c.analysis,
+                    "preview": first_q.get(c.id),
+                    "messages": n_msgs.get(c.id, 0),
+                    "products": n_prod.get(c.id, 0),
+                    "last_at": last_at.get(c.id),
+                } for c in rows]}
 
 
 @app.get("/api/admin/conversations/{conv_id}")

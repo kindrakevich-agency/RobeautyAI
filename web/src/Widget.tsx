@@ -104,8 +104,10 @@ function Cards({ items }: { items: ProductCard[] }) {
     <div className="mt-2.5">
       <div ref={rail} className="no-scrollbar flex snap-x snap-mandatory gap-2 overflow-x-auto pb-1">
         {items.map((p) => (
-          <div key={p.sku} className="flex w-[168px] shrink-0 snap-start flex-col rounded-xl
-                                      border border-ink-200 bg-cream-50 p-2 dark:border-ink-700 dark:bg-ink-800">
+          <a key={p.sku} href={p.url ?? '#'} target="_blank" rel="noreferrer"
+             className="flex w-[168px] shrink-0 snap-start flex-col rounded-xl border border-ink-200
+                        bg-cream-50 p-2 transition-colors hover:border-brand-500
+                        dark:border-ink-700 dark:bg-ink-800 dark:hover:border-brand-400">
             {p.image && !broken[p.sku] && (
               <img src={p.image} alt="" loading="lazy" referrerPolicy="no-referrer"
                    onError={() => setBroken((b) => ({ ...b, [p.sku]: true }))}
@@ -122,11 +124,11 @@ function Cards({ items }: { items: ProductCard[] }) {
                 {p.ingredients.join(' · ')}
               </div>
             ) : null}
-            <a href={p.url ?? '#'} target="_blank" rel="noreferrer"
-               className="mt-auto pt-1.5 text-[10px] font-semibold text-ink-900 hover:underline dark:text-cream-200">
+            <span className="mt-auto pt-1.5 text-[10px] font-semibold text-ink-900
+                             group-hover:underline dark:text-cream-200">
               {t('chat.more')} →
-            </a>
-          </div>
+            </span>
+          </a>
         ))}
       </div>
       {items.length > 1 && (
