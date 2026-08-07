@@ -177,8 +177,10 @@ export default function Home() {
             <h2 className="rb-display text-[11px] text-ink-600 dark:text-ink-300">
               {t('home.catalogTitle')}
             </h2>
-            <div className="no-scrollbar -mx-5 mt-6 flex snap-x snap-mandatory gap-3
-                            overflow-x-auto px-5 pb-1">
+            {/* Смуга тримається спільної сітки: раніше вона виривалася на всю
+                ширину через -mx-5, і сусідні блоки поруч читалися вужчими. */}
+            <div className="no-scrollbar mt-6 flex snap-x snap-mandatory gap-3
+                            overflow-x-auto pb-1">
               {items.slice(1).map((it) => (
                 <a key={it.sku} href={it.url || '#'} target="_blank" rel="noreferrer"
                    className="group w-[46%] shrink-0 snap-start sm:w-[23%]">
