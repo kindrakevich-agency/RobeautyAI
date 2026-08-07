@@ -68,7 +68,7 @@ function Fab({ open, onClick }: { open: boolean; onClick: () => void }) {
   return (
     <button type="button" onClick={onClick} aria-label={open ? 'close chat' : 'open chat'}
             className="fixed right-5 bottom-5 z-[95] grid size-14 place-items-center rounded-full
-                       bg-ink-900 text-white shadow-pop dark:bg-cream-100 dark:text-ink-950 outline-none transition-transform
+                       bg-brand-600 text-white shadow-pop dark:bg-brand-500 dark:text-white outline-none transition-transform
                        hover:scale-105 dark:bg-ink-800 dark:text-cream-100">
       {!open && (
         <>
@@ -135,7 +135,7 @@ function Cards({ items }: { items: ProductCard[] }) {
             <button key={d} onClick={() => rail.current?.scrollBy({ left: d * 180, behavior: 'smooth' })}
                     aria-label={d < 0 ? '←' : '→'}
                     className="rounded-full border border-ink-200 px-2 py-0.5 text-[10px] text-ink-600
-                               hover:border-ink-700 hover:text-ink-950 dark:text-cream-50 dark:border-ink-700">
+                               hover:border-brand-500 hover:text-ink-950 dark:text-cream-50 dark:border-ink-700">
               {d < 0 ? '←' : '→'}
             </button>
           ))}
@@ -198,7 +198,7 @@ function Bubble({ m, convId, onEscalate }: {
   if (m.role === 'user') {
     return (
       <div className="flex justify-end">
-        <div className="min-w-0 max-w-[92%] rounded-2xl bg-ink-900 px-3.5 py-2.5 text-[13px]
+        <div className="min-w-0 max-w-[92%] rounded-2xl bg-brand-600 px-3.5 py-2.5 text-[13px]
                         leading-relaxed whitespace-pre-wrap text-white">{m.text}</div>
       </div>
     )
@@ -222,7 +222,7 @@ function Bubble({ m, convId, onEscalate }: {
                 await api.escalate({ conversation_id: convId })
                 onEscalate(t('chat.humanCalled'))
               }} className="mt-2 rounded-full border border-ink-200 px-3 py-1 text-[11px]
-                            font-semibold text-ink-600 hover:border-ink-700 hover:text-ink-950
+                            font-semibold text-ink-600 hover:border-brand-500 hover:text-ink-950
                             dark:border-ink-700 dark:text-ink-300">
                 {t('chat.callHuman')}
               </button>
@@ -361,7 +361,7 @@ export default function Widget() {
                     <button key={q} onClick={() => ask(q)}
                             className="w-full rounded-xl border border-ink-200 px-3 py-2.5 text-left
                                        text-xs leading-snug text-ink-600 transition-colors
-                                       hover:border-ink-700 hover:text-ink-950
+                                       hover:border-brand-500 hover:text-ink-950
                                        dark:border-ink-700 dark:text-ink-300">
                       {q}
                     </button>
@@ -385,11 +385,11 @@ export default function Widget() {
             <input value={input} onChange={(e) => setInput(e.target.value)}
                    placeholder={t('chat.placeholder')}
                    className="min-w-0 flex-1 rounded-full border border-ink-200 bg-cream-50 px-3.5 py-2 dark:border-ink-700 dark:bg-ink-800
-                              text-[13px] outline-none focus:border-ink-700 dark:border-ink-700
+                              text-[13px] outline-none focus:border-brand-500 dark:border-ink-700
                               dark:bg-ink-800 dark:text-cream-100" />
             <button type="submit" disabled={busy} aria-label={t('chat.send')}
-                    className="grid size-9 shrink-0 place-items-center rounded-full bg-ink-900 text-white
-                               transition-colors hover:bg-ink-950 disabled:opacity-50">
+                    className="grid size-9 shrink-0 place-items-center rounded-full bg-brand-600 text-white
+                               transition-colors hover:bg-brand-700 disabled:opacity-50">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"
                    strokeLinecap="round"><line x1="22" y1="2" x2="11" y2="13" /><polygon points="22 2 15 22 11 13 2 9 22 2" /></svg>
             </button>

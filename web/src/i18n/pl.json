@@ -44,7 +44,8 @@
     "groupOverview": "Przegląd",
     "groupOperations": "Operacje",
     "groupContent": "Treści",
-    "groupInsights": "Analityka"
+    "groupInsights": "Analityka",
+    "questions": "Test pytań"
   },
   "common": {
     "run": "Uruchom agenta",
@@ -330,5 +331,11 @@
       "sourcesValue": "pod każdą odpowiedzią"
     },
     "catalogTitle": "Katalog, na którym to działa"
+  },
+  "questions": {
+    "title": "Test na prawdziwych pytaniach",
+    "subtitle": "Ten sam zestaw, co na stronie głównej. Kliknij pytanie — bot odpowie tutaj.",
+    "ask": "Zapytaj",
+    "sources": "źródeł"
   }
 }

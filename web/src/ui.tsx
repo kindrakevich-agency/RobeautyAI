@@ -45,7 +45,7 @@ export function Stat({ label, value, hint, accent = false }: {
   return (
     <Card className={`animate-rise relative overflow-hidden ${accent ? '' : ''}`}>
       {accent && (
-        <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-ink-700 to-cream-200" />
+        <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-brand-600 to-gold-400" />
       )}
       <div className="text-[11px] font-bold uppercase tracking-[0.07em] text-ink-600 dark:text-ink-300">
         {label}
@@ -71,8 +71,8 @@ export function Button({
     'text-[11px] font-bold uppercase tracking-display transition-all ' +
     'active:scale-[.98] disabled:opacity-50'
   const style = variant === 'solid'
-    ? 'bg-ink-900 text-white shadow-sm hover:bg-ink-950'
-    : 'border border-ink-200 text-ink-600 hover:border-ink-700 hover:text-ink-950 dark:text-cream-50 ' +
+    ? 'bg-brand-600 text-white shadow-sm hover:bg-brand-700'
+    : 'border border-ink-200 text-ink-600 hover:border-brand-500 hover:text-ink-950 dark:text-cream-50 ' +
       'dark:border-ink-700 dark:text-ink-300 dark:hover:text-cream-200'
   return (
     <button type={type} onClick={onClick} disabled={disabled} className={`${base} ${style} ${className}`}>
@@ -105,7 +105,7 @@ export function Input(props: React.InputHTMLAttributes<HTMLInputElement>) {
     <input {...rest}
            className={`min-w-0 rounded border border-ink-200 bg-cream-50 px-3.5 py-2 text-sm
                        text-ink-900 outline-none transition-colors placeholder:text-ink-600
-                       focus:border-ink-700 dark:border-ink-700 dark:bg-ink-800
+                       focus:border-brand-500 dark:border-ink-700 dark:bg-ink-800
                        dark:text-cream-100 ${className}`} />
   )
 }

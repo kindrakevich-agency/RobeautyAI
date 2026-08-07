@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { NavLink, Outlet } from 'react-router-dom'
 import {
   Activity, BadgeCheck, BarChart3, Boxes, Languages, LayoutDashboard, Menu,
-  MessagesSquare, PackageCheck, RefreshCw, ShoppingBag, Truck, X,
+  MessageCircleQuestion, MessagesSquare, PackageCheck, RefreshCw, ShoppingBag, Truck, X,
 } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import { clearAdminCreds } from './api'
@@ -40,6 +40,7 @@ const groups: { title: string; items: Item[] }[] = [
     items: [
       { to: '/admin/analytics', key: 'analytics', icon: BarChart3 },
       { to: '/admin/eval', key: 'eval', icon: Activity },
+      { to: '/admin/questions', key: 'questions', icon: MessageCircleQuestion },
       { to: '/admin/sync', key: 'sync', icon: RefreshCw },
     ],
   },

@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
 import { Disclaimer, LangSwitch, ThemeToggle } from '../ui'
 import Widget from '../Widget'
+import { sample } from '../questions'
 
 /**
  * Публічна сторона стенда.
@@ -206,20 +207,20 @@ export default function Home() {
           <h2 className="rb-display text-[11px] text-ink-600 dark:text-ink-300">
             {t('home.tryTitle')}
           </h2>
-          <div className="mt-5 grid gap-2.5 sm:grid-cols-3">
-            {(['dry', 'retinol', 'gift'] as const).map((k) => (
-              <button key={k} type="button"
+          <div className="mt-5 grid gap-2.5 sm:grid-cols-2 lg:grid-cols-3">
+            {sample(6, i18n.language).map((q) => (
+              <button key={q} type="button"
                       onClick={() => window.dispatchEvent(
-                        new CustomEvent('rb-open-widget', { detail: t(`home.try.${k}`) }))}
-                      className="group flex min-h-[7.5rem] flex-col border border-ink-200 bg-cream-50 px-4 py-4
-                                 text-left transition-colors hover:border-ink-900
-                                 dark:border-ink-800 dark:bg-ink-900 dark:hover:border-cream-200">
+                        new CustomEvent('rb-open-widget', { detail: q }))}
+                      className="group flex min-h-[7.5rem] flex-col border border-ink-200 bg-cream-50
+                                 px-4 py-4 text-left transition-colors hover:border-brand-500
+                                 dark:border-ink-800 dark:bg-ink-900 dark:hover:border-brand-400">
                 <span className="block text-[13px] leading-snug text-ink-800 dark:text-cream-100">
-                  {t(`home.try.${k}`)}
+                  {q}
                 </span>
-                <span className="mt-auto pt-3 block text-[10px] font-bold tracking-display text-ink-700
-                                 uppercase transition-colors group-hover:text-ink-900 dark:text-cream-50
-                                 dark:group-hover:text-cream-200">
+                <span className="mt-auto block pt-3 text-[10px] font-bold tracking-display
+                                 text-ink-500 uppercase transition-colors group-hover:text-brand-600
+                                 dark:group-hover:text-brand-400">
                   {t('home.tryAsk')} →
                 </span>
               </button>

@@ -62,7 +62,7 @@ export default function SystemInsights() {
               onClick={() => { setOpen(true); setTimeout(() => inputRef.current?.focus(), 40) }}
               className="group flex min-w-0 shrink-0 items-center justify-center gap-2.5 rounded-full
                          border border-transparent bg-cream-50/70 p-2 dark:bg-ink-800/70 text-left text-sm transition-colors
-                         hover:border-ink-700/40 sm:w-full sm:max-w-md sm:shrink sm:justify-start
+                         hover:border-brand-500/40 sm:w-full sm:max-w-md sm:shrink sm:justify-start
                          sm:py-2 sm:pr-3 sm:pl-3.5 dark:bg-ink-800/70">
         <Sparkles size={15} className="shrink-0 text-ink-900 dark:text-cream-200" />
         <span className="hidden min-w-0 flex-1 truncate text-ink-600 sm:block dark:text-ink-300">
@@ -106,7 +106,7 @@ export default function SystemInsights() {
                                 onClick={() => { const x = t(`insights.presets.${p.key}.q`); setQ(x); void run(x) }}
                                 className="group flex items-center gap-3 rounded-xl border border-ink-200
                                            px-3.5 py-3 text-left transition-all hover:-translate-y-0.5
-                                           hover:border-ink-700 hover:shadow-card dark:border-ink-700">
+                                           hover:border-brand-500 hover:shadow-card dark:border-ink-700">
                           <span className="flex size-8 shrink-0 items-center justify-center rounded-lg
                                            bg-ink-900/10 text-ink-950 transition-colors
                                            group-hover:bg-ink-900 group-hover:text-white
