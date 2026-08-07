@@ -295,7 +295,8 @@ def _redact_prices(text: str) -> str:
     return PRICE_IN_TEXT.sub("(ціна — див. блок ЦІНИ)", text)
 
 
-def price_table(chunks: list[dict], lang: str, extra_ids: list[int] | None = None) -> str:
+def price_table(chunks: list[dict], lang: str, extra_ids: list[int] | None = None,
+                mentions_in: str | None = None) -> str:
     """Авторитетний прайс для товарів, згаданих у знайдених фрагментах.
 
     Заміряно: модель називала 616 грн там, де ціна 690, і «ціна не вказана»
@@ -306,6 +307,18 @@ def price_table(chunks: list[dict], lang: str, extra_ids: list[int] | None = Non
     """
     ids = [c["ref_id"] for c in chunks if c["ref_type"] == "product"]
     ids += extra_ids or []
+    # Товар часто знаходиться сторінковим фрагментом, і тоді його ціни в
+    # таблиці не було — бот чесно писав «не можу назвати точно», що для
+    # продажу не краще за вигадану цифру. Тому додатково шукаємо товари,
+    # чиї назви згадані в самому тексті знайдених фрагментів.
+    if mentions_in:
+        low = mentions_in.lower()
+        with db.get_session() as s:
+            for tr in s.scalars(select(ProductI18n).where(ProductI18n.lang == "uk")):
+                key = re.sub(r"[^\w\s]", " ", (tr.title or "").lower())
+                words = [w for w in key.split() if len(w) > 4][:3]
+                if words and all(w in low for w in words):
+                    ids.append(tr.product_id)
     if not ids:
         return ""
     seen, lines = set(), []
@@ -360,8 +373,9 @@ def answer(question: str, history: list[dict], lang: str) -> dict:
     context = "\n\n---\n\n".join(
         (c["text"][:2000] if c["ref_type"] == "product"
          else _redact_prices(c["text"][:2000])) for c in chunks)
-    context += price_table(chunks, lang, extra_ids=_product_ids_direct(
-        question, 6, vec_box[0] if vec_box else None))
+    context += price_table(chunks, lang, mentions_in=context,
+                           extra_ids=_product_ids_direct(
+                               question, 8, vec_box[0] if vec_box else None))
     messages = [{"role": "system", "content": _system_prompt(lang)},
                 *history[-6:],
                 {"role": "user", "content":
