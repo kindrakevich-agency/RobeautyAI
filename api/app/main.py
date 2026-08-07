@@ -55,6 +55,42 @@ def health() -> dict:
             "translated_pl": translated, "llm": bool(config.OPENAI_API_KEY)}
 
 
+# ---------- що вже не роблять руками ----------
+
+@app.get("/api/impact")
+def impact() -> dict:
+    """Цифри для розділу про заміну ручної роботи.
+
+    Публічні й лише агреговані — жодних персональних даних. Беруться з
+    бази наживо: на сторінці не має бути жодного намальованого числа.
+    """
+    with db.engine.connect() as c:
+        q = lambda sql_text_: c.exec_driver_sql(sql_text_).scalar() or 0  # noqa: E731
+        orders = q("SELECT count(*) FROM orders")
+        auto = q("SELECT count(*) FROM orders WHERE confirm_decision = 'auto'")
+        convs = q("SELECT count(*) FROM conversations")
+        esc = q("SELECT count(*) FROM conversations WHERE escalated")
+        msgs = q("SELECT count(*) FROM messages WHERE role = 'assistant'")
+        shipments = q("SELECT count(*) FROM shipments")
+        at_risk = q("SELECT coalesce(sum(o.total), 0) FROM shipments s "
+                    "JOIN orders o ON o.id = s.order_id WHERE s.days_waiting >= 3")
+        tickets = q("SELECT count(*) FROM tickets")
+        products = q("SELECT count(*) FROM products")
+        translated = q("SELECT count(*) FROM product_i18n WHERE lang = 'pl'")
+        conflicts = q("SELECT count(*) FROM sync_log WHERE status = 'conflict'")
+        cost = c.exec_driver_sql(
+            "SELECT coalesce(sum(cost_usd), 0) FROM api_usage").scalar() or 0
+    return {
+        "orders": orders, "orders_auto": auto,
+        "conversations": convs, "escalated": esc, "answers": msgs,
+        "shipments": shipments, "uah_at_risk": int(at_risk),
+        "tickets": tickets,
+        "products": products, "translated": translated,
+        "sync_conflicts": conflicts,
+        "llm_cost_usd": round(float(cost), 2),
+    }
+
+
 # ---------- вітрина для публічної сторінки ----------
 
 @app.get("/api/showcase")
