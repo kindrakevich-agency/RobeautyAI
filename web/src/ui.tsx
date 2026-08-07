@@ -44,7 +44,7 @@ export function Stat({ label, value, hint, accent = false }: {
       {accent && (
         <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-ink-700 to-cream-200" />
       )}
-      <div className="text-[11px] font-bold uppercase tracking-[0.14em] text-ink-600 dark:text-ink-300">
+      <div className="text-[11px] font-bold uppercase tracking-[0.07em] text-ink-600 dark:text-ink-300">
         {label}
       </div>
       <div className="mt-2 font-display text-3xl font-semibold tabular-nums text-ink-950 dark:text-cream-50">
@@ -186,7 +186,7 @@ export function Table({ head, children, sort, onSort }: {
               const key = typeof h === 'string' ? undefined : h.sortKey
               const active = key && sort?.key === key
               return (
-                <th key={i} className="px-4 py-3 text-[11px] font-bold uppercase tracking-[0.1em] text-ink-600 dark:text-ink-300">
+                <th key={i} className="px-4 py-3 text-[11px] font-bold uppercase tracking-[0.05em] text-ink-600 dark:text-ink-300">
                   {key ? (
                     <button onClick={() => toggle(key)}
                             className={`-my-2 inline-flex min-h-[38px] items-center gap-1 transition-colors hover:text-ink-800 dark:hover:text-cream-100 ${

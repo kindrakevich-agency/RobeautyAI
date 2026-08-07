@@ -13,12 +13,56 @@ import { renderMarkdown } from './markdown'
 type Msg = {
   role: 'user' | 'assistant'
   text: string
+  animate?: boolean
   sources?: Source[]
   products?: ProductCard[]
   offerHuman?: boolean
 }
 
 const LOOP = 'M4 16 C4 7 13 7 16 16 C19 25 28 25 28 16 C28 7 19 7 16 16 C13 25 4 25 4 16 Z'
+
+const CHARS_PER_TICK = 3
+const TICK_MS = 16
+
+const reduceMotion = () =>
+  window.matchMedia?.('(prefers-reduced-motion: reduce)').matches ?? false
+
+/** Відповідь проявляється посимвольно — так само, як у консультанті DEMAX. */
+function useTypewriter(target: string, animate: boolean): string {
+  const [shown, setShown] = useState(animate && !reduceMotion() ? '' : target)
+  const ref = useRef(shown)
+  ref.current = shown
+
+  useEffect(() => {
+    if (!animate || reduceMotion()) { setShown(target); return }
+    if (ref.current.length >= target.length) { setShown(target); return }
+    let timer: ReturnType<typeof setTimeout> | undefined
+    const tick = () => {
+      const next = Math.min(target.length, ref.current.length + CHARS_PER_TICK)
+      setShown(target.slice(0, next))
+      if (next < target.length) timer = setTimeout(tick, TICK_MS)
+    }
+    timer = setTimeout(tick, TICK_MS)
+    return () => { if (timer) clearTimeout(timer) }
+  }, [target, animate])
+
+  return shown
+}
+
+/** Поки консультант думає — знак Мебіуса промальовується по колу. */
+function TypingIndicator() {
+  const { t } = useTranslation()
+  return (
+    <div role="status" aria-label={t('chat.thinking')} className="flex items-center px-1 py-1.5">
+      <svg width="40" height="40" viewBox="0 0 32 32" fill="none" aria-hidden>
+        <path d={LOOP} stroke="currentColor" strokeWidth="2.6" strokeLinecap="round"
+              className="text-ink-300 dark:text-ink-700" fill="none" opacity="0.35" />
+        <path className="rb-loop-draw text-ink-900 dark:text-cream-100" d={LOOP} pathLength={100}
+              stroke="currentColor" strokeWidth="3" strokeLinecap="round" fill="none" />
+      </svg>
+    </div>
+  )
+}
 
 function Fab({ open, onClick }: { open: boolean; onClick: () => void }) {
   return (
@@ -142,6 +186,70 @@ const QUICK: Record<string, string[]> = {
   ],
 }
 
+
+function Bubble({ m, convId, onEscalate }: {
+  m: Msg; convId: number | null; onEscalate: (text: string) => void
+}) {
+  const { t } = useTranslation()
+  const [copied, setCopied] = useState(false)
+  const shown = useTypewriter(m.text, !!m.animate)
+  const typing = shown.length < m.text.length
+
+  if (m.role === 'user') {
+    return (
+      <div className="flex justify-end">
+        <div className="min-w-0 max-w-[92%] rounded-2xl bg-ink-900 px-3.5 py-2.5 text-[13px]
+                        leading-relaxed whitespace-pre-wrap text-white">{m.text}</div>
+      </div>
+    )
+  }
+
+  return (
+    <div>
+      <div className="min-w-0 max-w-[92%] rounded-2xl border border-ink-200 bg-white px-3.5 py-2.5
+                      text-[13px] leading-relaxed text-ink-800 dark:border-ink-700 dark:bg-ink-900
+                      dark:text-cream-100">
+        <div className="rb-md" dangerouslySetInnerHTML={{ __html: renderMarkdown(shown) }} />
+        {typing && (
+          <span aria-hidden className="ml-0.5 inline-block h-3 w-1 animate-pulse bg-ink-400" />
+        )}
+        {!typing && (
+          <>
+            {m.products?.length ? <Cards items={m.products} /> : null}
+            {m.sources?.length ? <Sources items={m.sources} /> : null}
+            {m.offerHuman && convId && (
+              <button onClick={async () => {
+                await api.escalate({ conversation_id: convId })
+                onEscalate(t('chat.humanCalled'))
+              }} className="mt-2 rounded-full border border-ink-200 px-3 py-1 text-[11px]
+                            font-semibold text-ink-600 hover:border-ink-700 hover:text-ink-950
+                            dark:border-ink-700 dark:text-ink-300">
+                {t('chat.callHuman')}
+              </button>
+            )}
+            <div className="mt-2 flex items-center gap-1 text-ink-400">
+              <button type="button" aria-label={t('chat.copy')} title={t('chat.copy')}
+                      onClick={() => { void navigator.clipboard?.writeText(m.text)
+                        setCopied(true); setTimeout(() => setCopied(false), 1500) }}
+                      className="rounded p-1 transition-colors hover:bg-ink-100 hover:text-ink-800
+                                 dark:hover:bg-ink-800 dark:hover:text-cream-100">
+                {copied ? (
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                       strokeWidth="2" strokeLinecap="round"><polyline points="20 6 9 17 4 12" /></svg>
+                ) : (
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                       strokeWidth="1.8" strokeLinecap="round"><rect x="9" y="9" width="13" height="13" rx="2" />
+                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" /></svg>
+                )}
+              </button>
+            </div>
+          </>
+        )}
+      </div>
+    </div>
+  )
+}
+
 export default function Widget() {
   const { t, i18n } = useTranslation()
   const [open, setOpen] = useState(false)
@@ -178,7 +286,7 @@ export default function Widget() {
       const r: ChatResponse = await api.chat({ text, conversation_id: convId, lang: i18n.language })
       setConvId(r.conversation_id)
       setMsgs((m) => [...m, {
-        role: 'assistant', text: r.reply, sources: r.sources,
+        role: 'assistant', text: r.reply, animate: true, sources: r.sources,
         products: r.products, offerHuman: r.offer_human || r.escalate,
       }])
     } catch {
@@ -192,7 +300,7 @@ export default function Widget() {
   // До sm — завжди на весь екран: вузька панель на телефоні не поміщається.
   const docked = 'fixed inset-0 h-dvh w-screen rounded-none border-0 ' +
     'sm:inset-auto sm:bottom-24 sm:right-5 sm:h-[min(680px,calc(100dvh-7rem))] ' +
-    'sm:w-[min(390px,calc(100vw-2.5rem))] sm:rounded-lg sm:border sm:border-ink-200 ' +
+    'sm:w-[min(390px,calc(100vw-2.5rem))] sm:rounded-[1.75rem] sm:border sm:border-ink-200 ' +
     'sm:shadow-pop sm:dark:border-ink-700'
   const fullscreen = 'fixed inset-0 h-dvh w-screen rounded-none border-0'
 
@@ -264,43 +372,10 @@ export default function Widget() {
           ) : (
             <div ref={scrollRef} className="no-scrollbar flex-1 space-y-3 overflow-y-auto px-4 py-3" aria-live="polite">
               {msgs.map((m, i) => (
-                <div key={i} className={m.role === 'user' ? 'flex justify-end' : ''}>
-                  <div className={`min-w-0 max-w-[92%] rounded-2xl px-3.5 py-2.5 text-[13px] leading-relaxed ${
-                    m.role === 'user'
-                      ? 'bg-ink-900 text-white'
-                      : 'border border-ink-200 bg-white text-ink-800 dark:border-ink-700 dark:bg-ink-900 dark:text-cream-100'}`}>
-                    {m.role === 'assistant' ? (
-                      <div className="rb-md" dangerouslySetInnerHTML={{ __html: renderMarkdown(m.text) }} />
-                    ) : (
-                      <div className="whitespace-pre-wrap">{m.text}</div>
-                    )}
-                    {m.role === 'assistant' && (
-                      <>
-                        {m.products?.length ? <Cards items={m.products} /> : null}
-                        {m.sources?.length ? <Sources items={m.sources} /> : null}
-                        {m.offerHuman && convId && (
-                          <button onClick={async () => {
-                            await api.escalate({ conversation_id: convId })
-                            setMsgs((x) => [...x, { role: 'assistant', text: t('chat.humanCalled') }])
-                          }} className="mt-2 rounded-full border border-ink-200 px-3 py-1 text-[11px]
-                                        font-semibold text-ink-600 hover:border-ink-700 hover:text-ink-950
-                                        dark:border-ink-700 dark:text-ink-300">
-                            {t('chat.callHuman')}
-                          </button>
-                        )}
-                      </>
-                    )}
-                  </div>
-                </div>
+                <Bubble key={i} m={m} convId={convId} onEscalate={(text) =>
+                  setMsgs((x) => [...x, { role: 'assistant', text }])} />
               ))}
-              {busy && (
-                <div className="flex gap-1 px-1 py-2">
-                  {[0, 1, 2].map((i) => (
-                    <span key={i} className="size-1.5 animate-bounce rounded-full bg-ink-300"
-                          style={{ animationDelay: `${i * 0.15}s` }} />
-                  ))}
-                </div>
-              )}
+              {busy && <TypingIndicator />}
             </div>
           )}
 
@@ -309,7 +384,7 @@ export default function Widget() {
                            dark:border-ink-700 dark:bg-ink-900">
             <input value={input} onChange={(e) => setInput(e.target.value)}
                    placeholder={t('chat.placeholder')}
-                   className="min-w-0 flex-1 rounded border border-ink-200 bg-white px-3.5 py-2 dark:border-ink-700 dark:bg-ink-800
+                   className="min-w-0 flex-1 rounded-full border border-ink-200 bg-white px-3.5 py-2 dark:border-ink-700 dark:bg-ink-800
                               text-[13px] outline-none focus:border-ink-700 dark:border-ink-700
                               dark:bg-ink-800 dark:text-cream-100" />
             <button type="submit" disabled={busy} aria-label={t('chat.send')}

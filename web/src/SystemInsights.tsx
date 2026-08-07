@@ -96,7 +96,7 @@ export default function SystemInsights() {
               <div className="overflow-y-auto px-5 py-4">
                 {!report && !loading && (
                   <>
-                    <div className="mb-2.5 text-[11px] font-bold tracking-widest text-ink-700 dark:text-ink-300 uppercase">
+                    <div className="mb-2.5 text-[11px] font-bold tracking-[0.07em] text-ink-700 dark:text-ink-300 uppercase">
                       {t('insights.quick')}
                     </div>
                     <div className="grid gap-2 sm:grid-cols-2">
@@ -128,7 +128,7 @@ export default function SystemInsights() {
                 )}
                 {report && !loading && (
                   <>
-                    <div className="mb-3 flex items-center gap-2 text-[11px] font-bold tracking-widest
+                    <div className="mb-3 flex items-center gap-2 text-[11px] font-bold tracking-[0.07em]
                                     text-ink-950 uppercase dark:text-cream-200">
                       <Sparkles size={12} /> {t('insights.briefing')}
                     </div>

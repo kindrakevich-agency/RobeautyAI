@@ -56,7 +56,7 @@ function Sidebar({ onNavigate, onLogout }: { onNavigate?: () => void; onLogout: 
           <span className="font-bold">RO</span><span className="font-normal">BEAUTY</span>
         </div>
         <div className="h-[15px] w-px bg-ink-300 dark:bg-ink-700" />
-        <div className="text-[8px] font-bold leading-[1.3] tracking-[0.16em] text-ink-700 uppercase dark:text-ink-300">
+        <div className="text-[8px] font-bold leading-[1.3] tracking-[0.07em] text-ink-700 uppercase dark:text-ink-300">
           AI<br />OPERATIONS
         </div>
       </div>
@@ -64,7 +64,7 @@ function Sidebar({ onNavigate, onLogout }: { onNavigate?: () => void; onLogout: 
       <nav className="flex-1 space-y-5 px-3 pb-6">
         {groups.map((g) => (
           <div key={g.title}>
-            <div className="px-3 pb-1.5 text-[10px] font-bold tracking-[0.18em] text-ink-700 uppercase dark:text-ink-300">
+            <div className="px-3 pb-1.5 text-[10px] font-bold tracking-[0.08em] text-ink-700 uppercase dark:text-ink-300">
               {t(g.title)}
             </div>
             {g.items.map((it) => (

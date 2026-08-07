@@ -44,7 +44,9 @@ export default {
         card: '0 1px 2px rgb(25 26 27 / 0.04), 0 4px 16px -6px rgb(25 26 27 / 0.08)',
         pop: '0 4px 12px -2px rgb(25 26 27 / 0.10), 0 16px 44px -10px rgb(25 26 27 / 0.20)',
       },
-      letterSpacing: { display: '0.06em' },
+      // Бренд не розріджує кнопки: заміряно letter-spacing: normal
+      // на «ДО КОШИКУ». Лишаємо мінімум, щоб ВЕЛИКІ літери не злипались.
+      letterSpacing: { display: '0.03em' },
       keyframes: {
         rise: { from: { opacity: '0', transform: 'translateY(8px)' }, to: { opacity: '1', transform: 'none' } },
       },

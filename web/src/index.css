@@ -57,6 +57,20 @@
    «БЕСТСЕЛЕРИ» і кнопки на robeauty.me. */
 .rb-display {
   text-transform: uppercase;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.03em;
   font-weight: 700;
+}
+
+/* Індикатор «консультант думає»: знак Мебіуса промальовується по колу.
+   Перенесено з віджета DEMAX — саме цей рух і читається як «він думає». */
+@keyframes rb-loop-draw {
+  0%   { stroke-dashoffset: 0; }
+  100% { stroke-dashoffset: -200; }
+}
+.rb-loop-draw {
+  stroke-dasharray: 28 72;
+  animation: rb-loop-draw 1.6s linear infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .rb-loop-draw { animation: none; }
 }

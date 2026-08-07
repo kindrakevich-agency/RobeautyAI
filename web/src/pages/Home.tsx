@@ -50,7 +50,7 @@ export default function Home() {
               <span className="font-bold">RO</span><span className="font-normal">BEAUTY</span>
             </div>
             <div className="h-[15px] w-px bg-ink-300 dark:bg-ink-700" />
-            <div className="text-[8px] font-bold leading-[1.3] tracking-[0.16em] text-ink-700 uppercase dark:text-ink-300">
+            <div className="text-[8px] font-bold leading-[1.3] tracking-[0.07em] text-ink-700 uppercase dark:text-ink-300">
               AI<br />CONSULTANT
             </div>
           </div>
@@ -70,7 +70,7 @@ export default function Home() {
           <div className="animate-rise min-w-0">
             <div className="flex items-center gap-3">
               <span className="h-px w-8 bg-ink-900 dark:bg-cream-200" />
-              <span className="text-[10px] font-bold tracking-[0.2em] text-ink-700 uppercase dark:text-ink-300">
+              <span className="text-[10px] font-bold tracking-[0.08em] text-ink-700 uppercase dark:text-ink-300">
                 {t('home.eyebrow')}
               </span>
             </div>
@@ -136,7 +136,7 @@ export default function Home() {
             ['sources', t('home.spec.sourcesValue')],
           ].map(([k, v]) => (
             <div key={String(k)} className="min-w-0 bg-cream-100 px-4 py-5 dark:bg-ink-950">
-              <div className="text-[9px] font-bold tracking-[0.16em] text-ink-700 uppercase dark:text-ink-300">
+              <div className="text-[9px] font-bold tracking-[0.07em] text-ink-700 uppercase dark:text-ink-300">
                 {t(`home.spec.${k}`)}
               </div>
               <div className="mt-2 font-display text-[16px] leading-tight font-bold tabular-nums

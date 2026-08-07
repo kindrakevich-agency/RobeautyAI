@@ -63,7 +63,7 @@ export default function Bootstrap({ onReady }: { onReady: () => void }) {
     <div className="flex min-h-screen items-center justify-center bg-cream-200 px-4 py-10 dark:bg-ink-950">
       <Card className="w-full max-w-xl animate-rise">
         <div className="mb-4 flex items-center gap-2">
-          <div className="font-display text-xl font-semibold tracking-wide text-ink-950 dark:text-cream-50">
+          <div className="font-display text-xl font-semibold tracking-[0.02em] text-ink-950 dark:text-cream-50">
             RoBeauty
           </div>
           <Badge tone="brand">{t('demoBadge')}</Badge>

@@ -16,10 +16,10 @@ function Login({ onDone }: { onDone: () => void }) {
   return (
     <div className="flex min-h-screen items-center justify-center bg-cream-100 px-4 dark:bg-ink-950">
       <Card className="w-full max-w-sm animate-rise">
-        <div className="font-display text-xl font-semibold tracking-wide text-ink-950 dark:text-cream-50">
+        <div className="font-display text-xl font-semibold tracking-[0.02em] text-ink-950 dark:text-cream-50">
           RoBeauty
         </div>
-        <div className="mt-1 mb-5 text-[10px] font-bold tracking-[0.2em] text-ink-900 uppercase dark:text-cream-200">
+        <div className="mt-1 mb-5 text-[10px] font-bold tracking-[0.08em] text-ink-900 uppercase dark:text-cream-200">
           AI Operations
         </div>
         <form onSubmit={(e) => { e.preventDefault(); setAdminCreds(u, p); onDone() }} className="space-y-3">
@@ -92,7 +92,7 @@ function Dashboard() {
 
       <div className="mb-4 grid grid-cols-1 gap-4 lg:grid-cols-2">
         <Card>
-          <div className="text-[11px] font-semibold uppercase tracking-widest text-ink-600 dark:text-ink-300">
+          <div className="text-[11px] font-semibold uppercase tracking-[0.07em] text-ink-600 dark:text-ink-300">
             {t('dashboard.plProgress')}
           </div>
           <div className="mt-2 text-2xl font-semibold text-ink-900 dark:text-cream-50">
@@ -104,7 +104,7 @@ function Dashboard() {
           </div>
         </Card>
         <Card>
-          <div className="text-[11px] font-semibold uppercase tracking-widest text-ink-600 dark:text-ink-300">
+          <div className="text-[11px] font-semibold uppercase tracking-[0.07em] text-ink-600 dark:text-ink-300">
             {t('dashboard.evalTitle')}
           </div>
           {d.eval.p_at_5 == null ? (
@@ -121,7 +121,7 @@ function Dashboard() {
       </div>
 
       <Card>
-        <div className="text-[11px] font-semibold uppercase tracking-widest text-ink-600 dark:text-ink-300">
+        <div className="text-[11px] font-semibold uppercase tracking-[0.07em] text-ink-600 dark:text-ink-300">
           {t('dashboard.costsTitle')}
         </div>
         <p className="mt-1 text-xs text-ink-600 dark:text-ink-300">{t('dashboard.costsHint')}</p>
@@ -200,7 +200,7 @@ function ProductDetail() {
   const row = (label: string, value: any) => value && (
     Array.isArray(value) ? value.length > 0 : true) ? (
       <div className="border-t border-ink-100 py-2.5">
-        <div className="text-[11px] font-semibold uppercase tracking-wider text-ink-600 dark:text-ink-300">{label}</div>
+        <div className="text-[11px] font-semibold uppercase tracking-[0.02em]r text-ink-600 dark:text-ink-300">{label}</div>
         <div className="mt-0.5 text-sm leading-relaxed text-ink-700 dark:text-ink-300">
           {Array.isArray(value) ? value.join(' · ') : value}
         </div>
@@ -259,7 +259,7 @@ function ProductDetail() {
 
           {p.titles && (
             <Card className="mt-4">
-              <div className="text-[11px] font-semibold uppercase tracking-widest text-ink-600 dark:text-ink-300">
+              <div className="text-[11px] font-semibold uppercase tracking-[0.07em] text-ink-600 dark:text-ink-300">
                 {t('products.descriptions')}
               </div>
               {Object.entries(p.titles).map(([lang, v]: any) => (
@@ -535,7 +535,7 @@ function Tickets() {
               <p className="mt-2 text-sm text-ink-800 dark:text-cream-100">{x.text}</p>
               {x.draft_reply && (
                 <div className="mt-2 rounded-xl bg-cream-100 p-3 dark:bg-ink-800/60">
-                  <div className="text-[11px] font-semibold uppercase tracking-wider text-ink-600 dark:text-ink-300">
+                  <div className="text-[11px] font-semibold uppercase tracking-[0.02em]r text-ink-600 dark:text-ink-300">
                     {t('tickets.draft')}
                   </div>
                   <p className="mt-1 text-sm leading-relaxed text-ink-600 dark:text-ink-300">{x.draft_reply}</p>
@@ -634,14 +634,14 @@ function Localization() {
             </div>
             <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
               <div className="min-w-0">
-                <div className="text-[11px] font-semibold uppercase tracking-wider text-ink-600 dark:text-ink-300">
+                <div className="text-[11px] font-semibold uppercase tracking-[0.02em]r text-ink-600 dark:text-ink-300">
                   {t('localization.sourceUk')}
                 </div>
                 <div className="mt-1 text-sm font-medium text-ink-800 dark:text-cream-100">{x.uk_title}</div>
                 <p className="mt-1 line-clamp-4 text-xs leading-relaxed text-ink-600 dark:text-ink-300">{x.uk_description}</p>
               </div>
               <div className="min-w-0">
-                <div className="text-[11px] font-semibold uppercase tracking-wider text-ink-900 dark:text-cream-200">
+                <div className="text-[11px] font-semibold uppercase tracking-[0.02em]r text-ink-900 dark:text-cream-200">
                   {t('localization.targetPl')}
                 </div>
                 <div className="mt-1 text-sm font-medium text-ink-800 dark:text-cream-100">{x.pl_title}</div>
@@ -736,7 +736,7 @@ function EvalPage() {
     <>
       <PageHead title={t('evalPage.title')} subtitle={t('evalPage.subtitle')} />
       <Card className="mb-4">
-        <div className="text-[11px] font-semibold uppercase tracking-widest text-ink-600 dark:text-ink-300">
+        <div className="text-[11px] font-semibold uppercase tracking-[0.07em] text-ink-600 dark:text-ink-300">
           {t('evalPage.runs')}
         </div>
         {d.runs.length ? (
@@ -756,7 +756,7 @@ function EvalPage() {
       </Card>
 
       <Card>
-        <div className="text-[11px] font-semibold uppercase tracking-widest text-ink-600 dark:text-ink-300">
+        <div className="text-[11px] font-semibold uppercase tracking-[0.07em] text-ink-600 dark:text-ink-300">
           {t('evalPage.gaps')}
         </div>
         <p className="mt-1 text-xs text-ink-600 dark:text-ink-300">{t('evalPage.gapsHint')}</p>
