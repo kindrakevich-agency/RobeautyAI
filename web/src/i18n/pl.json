@@ -99,7 +99,14 @@
     "waitingHuman": "zgłoszeń do doradcy",
     "waitingHumanWhat": "Pytania, których konsultant świadomie nie wziął na siebie: medyczne, reklamacje, prośby o człowieka. Każde ze szkicem odpowiedzi.",
     "unanswered": "pytań bez odpowiedzi",
-    "unansweredWhat": "Klient zapytał, a w bazie wiedzy tego nie ma. Każde takie pytanie pokazuje, czego brakuje katalogowi."
+    "unansweredWhat": "Klient zapytał, a w bazie wiedzy tego nie ma. Każde takie pytanie pokazuje, czego brakuje katalogowi.",
+    "doneTitle": "Co system zrobił",
+    "qualityLink": "Wewnętrzne pomiary jakości",
+    "done": {
+      "answers": "rozmów z klientami",
+      "autoOrders": "zamówień potwierdzonych bez telefonu",
+      "escalated": "razy przekazała rozmowę człowiekowi"
+    }
   },
   "orders": {
     "title": "Potwierdzanie zamówień",
@@ -242,8 +249,8 @@
     }
   },
   "evalPage": {
-    "title": "Jakość pracy konsultanta",
-    "subtitle": "Tu widać, jak dobrze odpowiada — nie na słowa, lecz w liczbach. Bot dostaje zestaw prawdziwych pytań, a odpowiedzi sprawdza osobny model, który nie wie, kto je napisał.",
+    "title": "Wewnętrzne pomiary jakości",
+    "subtitle": "To nasza własna kontrola, celowo surowa: bot dostaje 34 pytania, a odpowiedzi czyta osobny model. Ostatni wiersz — „odpowiedzi bez zastrzeżeń\" — zalicza tylko te, do których nie ma ŻADNEGO z trzech zastrzeżeń, dlatego jest zawsze najniższy i nie jest oceną produktu.",
     "runs": "Przebiegi",
     "pAt5": "P@5",
     "mrr": "MRR",
