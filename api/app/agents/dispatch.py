@@ -20,7 +20,7 @@ import re
 
 from sqlalchemy import select
 
-from .. import db, llm, np_directory
+from .. import db, llm, np_directory, rag
 from ..models import Customer, Dispatch, Order, Product, ProductI18n, Shipment
 
 # ---------- правила рішення ----------
@@ -204,10 +204,9 @@ def _match_products(mentions: list[str]) -> list[dict]:
             select(ProductI18n).where(ProductI18n.lang == "uk"))]
         products = {p.id: p for p in s.scalars(select(Product))}
     def stems(text: str) -> set[str]:
-        # Основа слова — перші 5 літер: «пінку»/«пінка» → «пінка»-подібне,
-        # «тонером»/«тонер» → спільна основа. Грубо, але для збігу назв
-        # товарів достатньо, і без словника морфології.
-        return {w[:5] for w in re.findall(r"[\w’']{4,}", text.lower())}
+        # Основа слова — перші 4 літери: «пінку»/«пінка» → «пінк»,
+        # «тонером»/«тонер» → «тоне». Грубо, але для назв товарів достатньо.
+        return {w[:4] for w in re.findall(r"[\w’']{4,}", text.lower())}
 
     for m in mentions or []:
         words = stems(m)
@@ -217,12 +216,29 @@ def _match_products(mentions: list[str]) -> list[dict]:
             inter = len(words & tw)
             if inter > score:
                 best, score = pid, inter
+        # Другий ешелон — семантичний пошук по векторах товарів: він зшиває
+        # «пінку для вмивання» з «PureGlow Foam Cleanser», що в каталозі
+        # назване англійською. Слабкий текстовий збіг теж перевіряємо
+        # семантикою: одна спільна основа може вказати не на той товар.
+        if not best or score < 2:
+            try:
+                ids = rag._product_ids_direct(m, 1)
+                if ids and ids[0] in products:
+                    best, score = ids[0], max(score, 1)
+                    sem = True
+                else:
+                    sem = False
+            except Exception:  # noqa: BLE001
+                sem = False
+        else:
+            sem = False
         if best and score > 0:
             p = products[best]
             title = next(t for i, t in titles if i == best)
             out.append({"mention": m, "title": title, "sku": p.sku,
                         "price": p.price,
-                        "confidence": "high" if score >= 2 else "low"})
+                        "confidence": "semantic" if sem
+                        else ("high" if score >= 2 else "low")})
         else:
             out.append({"mention": m, "title": None, "sku": None,
                         "price": None, "confidence": "none"})
