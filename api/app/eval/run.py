@@ -100,6 +100,11 @@ def main() -> None:
     save = "--save" in sys.argv
     cases = load_questions()
     per_case, judge_pass, p_hits, rr_sum = [], 0, 0.0, 0.0
+    # Окремі складові оцінки. Єдине число «все або нічого» ховало
+    # причину: перевірка трьох провалів вручну показала якісні
+    # відповіді, забраковані одним суворим вердиктом.
+    dims = {"grounded": 0, "helpful": 0, "correct_language": 0}
+    dims_n = 0
     answerable = [c for c in cases if c["behaviour"] == "answer"]
 
     for i, c in enumerate(cases, 1):
@@ -120,8 +125,11 @@ def main() -> None:
                 q=c["q"], a=reply[:1500], sources=srcs or "(немає)",
                 lang=c["lang"])}],
                 purpose="judge", model=None, max_tokens=200)
-            ok = all(verdict.get(k) for k in ("grounded", "helpful",
-                                              "correct_language"))
+            marks = {k: bool(verdict.get(k)) for k in dims}
+            for k, v in marks.items():
+                dims[k] += int(v)
+            dims_n += 1
+            ok = all(marks.values())
             # Метрики пошуку: сліпа розмітка релевантності топ-5 фрагментів
             chunks = rag.retrieve(c["q"], c["lang"])[:5]
             labels = judge_relevance(c["q"], chunks)
@@ -129,19 +137,30 @@ def main() -> None:
             first = next((i + 1 for i, v in enumerate(labels) if v), None)
             rr_sum += 1 / first if first else 0.0
         judge_pass += ok
-        per_case.append({"q": c["q"][:60], "behaviour": behaviour, "ok": ok})
+        per_case.append({"q": c["q"][:60], "behaviour": behaviour, "ok": ok,
+                         **({"marks": marks} if behaviour == "answer" else {})})
         print(f"  {i:>2}/{len(cases)} {'OK ' if ok else 'FAIL'} {c['q'][:56]}",
               file=sys.stderr)
 
     n_ans = len(answerable) or 1
+    d_n = dims_n or 1
     report = {
         "judge_pass_rate": round(judge_pass / len(cases), 3),
+        "grounded_rate": round(dims["grounded"] / d_n, 3),
+        "helpful_rate": round(dims["helpful"] / d_n, 3),
+        "language_rate": round(dims["correct_language"] / d_n, 3),
         "p_at_5": round(p_hits / n_ans, 3),
         "mrr": round(rr_sum / n_ans, 3),
         "cases": per_case,
     }
-    print(f"\nEval: pass={report['judge_pass_rate']}, P@5≈{report['p_at_5']}, "
-          f"MRR≈{report['mrr']}")
+    print(f"\nEval на {len(cases)} питаннях")
+    print(f"  P@5              {report['p_at_5']}")
+    print(f"  MRR              {report['mrr']}")
+    print(f"  спирається на джерела  {report['grounded_rate']}")
+    print(f"  відповідає по суті     {report['helpful_rate']}")
+    print(f"  правильна мова         {report['language_rate']}")
+    print(f"  усі три одночасно      {report['judge_pass_rate']}"
+          f"  (сувора оцінка: один вердикт бракує відповідь цілком)")
     if save:
         with db.get_session() as s:
             s.add(EvalRun(p_at_5=report["p_at_5"], mrr=report["mrr"],

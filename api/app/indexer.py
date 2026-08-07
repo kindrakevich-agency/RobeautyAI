@@ -7,6 +7,13 @@ Pages: секції по ~1500 символів з перекриттям.
 Для кожної мови — окремі чанки: uk завжди, pl — з approved-перекладів.
 tsvector рахується конфігом simple + unaccent (діакритика PL).
 
+Індекс будується в ТІНЬОВІЙ таблиці й підмінює бойову одним перейменуванням
+наприкінці. Раніше все відбувалося в самій `chunks`: DELETE плюс вставка в
+одній транзакції на 14 хвилин. Простою це не давало (читачі бачили стару
+версію рядків), але забивало сервіс ембедінгів, і чат сповільнювався з 2.5
+до 30+ секунд — двічі за один день. Тепер бойова таблиця не бере участі в
+довгій роботі взагалі.
+
 Запуск: python -m app.indexer
 """
 
@@ -15,7 +22,7 @@ from __future__ import annotations
 import re
 import sys
 
-from sqlalchemy import delete, select, text as sql
+from sqlalchemy import func, select, text as sql
 
 from . import db, embeddings_client
 from .models import Chunk, Page, Product, ProductI18n
@@ -135,10 +142,44 @@ def split_page(body: str) -> list[str]:
     return out
 
 
+SHADOW = "chunks_shadow"
+
+
+def _create_shadow(s) -> None:
+    """Порожня копія бойової таблиці з власними іменами індексів."""
+    s.execute(sql(f"DROP TABLE IF EXISTS {SHADOW}"))
+    s.execute(sql(f"CREATE TABLE {SHADOW} (LIKE chunks INCLUDING DEFAULTS "
+                  f"INCLUDING STORAGE INCLUDING GENERATED)"))
+    s.execute(sql(f"CREATE SEQUENCE IF NOT EXISTS {SHADOW}_id_seq "
+                  f"OWNED BY {SHADOW}.id"))
+    s.execute(sql(f"ALTER TABLE {SHADOW} ALTER COLUMN id "
+                  f"SET DEFAULT nextval('{SHADOW}_id_seq')"))
+    s.commit()
+
+
+def _index_shadow(s) -> None:
+    """Індекси створюємо ПІСЛЯ вставки — так швидше й менше навантаження."""
+    s.execute(sql(f"ALTER TABLE {SHADOW} ADD PRIMARY KEY (id)"))
+    s.execute(sql(f"CREATE INDEX {SHADOW}_embedding ON {SHADOW} "
+                  f"USING hnsw (embedding vector_cosine_ops)"))
+    s.execute(sql(f"CREATE INDEX {SHADOW}_tsv_uk ON {SHADOW} USING gin (tsv_uk)"))
+    s.execute(sql(f"CREATE INDEX {SHADOW}_tsv_pl ON {SHADOW} USING gin (tsv_pl)"))
+    s.commit()
+
+
+def _swap(s) -> None:
+    """Підміна однією транзакцією: для читачів це мить, не 14 хвилин."""
+    s.execute(sql("DROP TABLE IF EXISTS chunks_old"))
+    s.execute(sql("ALTER TABLE chunks RENAME TO chunks_old"))
+    s.execute(sql(f"ALTER TABLE {SHADOW} RENAME TO chunks"))
+    s.commit()
+    # Стару лишаємо до наступного прогону: якщо новий індекс виявиться
+    # гіршим, повернутися можна одним перейменуванням назад.
+    print("стару таблицю збережено як chunks_old", file=sys.stderr)
+
+
 def main() -> None:
     with db.get_session() as s:
-        s.execute(delete(Chunk))
-
         texts: list[str] = []
         metas: list[tuple[str, int, str]] = []  # (ref_type, ref_id, lang)
 
@@ -166,8 +207,6 @@ def main() -> None:
         print(f"шаблонних фрагментів: {len(boiler)}; вирізано {stripped} симв.",
               file=sys.stderr)
 
-        # Сервісна довідка одним документом — прив'язуємо до першої сторінки,
-        # щоб у джерелах було коректне посилання.
         if pages:
             texts.append(service_document(boiler))
             metas.append(("page", pages[0].id, "uk"))
@@ -175,21 +214,25 @@ def main() -> None:
         print(f"чанків до індексації: {len(texts)}", file=sys.stderr)
         vectors = embeddings_client.embed(texts, progress=True)
 
+        _create_shadow(s)
         for (ref_type, ref_id, lang), text_, vec in zip(metas, texts, vectors):
-            s.add(Chunk(ref_type=ref_type, ref_id=ref_id, lang=lang,
-                        text=text_, embedding=vec))
+            s.execute(sql(
+                f"INSERT INTO {SHADOW} (ref_type, ref_id, lang, text, embedding) "
+                "VALUES (:t, :r, :l, :x, :v)"),
+                {"t": ref_type, "r": ref_id, "l": lang, "x": text_, "v": str(vec)})
         s.commit()
 
-        # tsvector обома конфігами; unaccent прибирає діакритику для PL
         s.execute(sql(
-            "UPDATE chunks SET tsv_uk = to_tsvector('simple', unaccent(text)) "
+            f"UPDATE {SHADOW} SET tsv_uk = to_tsvector('simple', unaccent(text)) "
             "WHERE lang = 'uk'"))
         s.execute(sql(
-            "UPDATE chunks SET tsv_pl = to_tsvector('simple', unaccent(text)) "
+            f"UPDATE {SHADOW} SET tsv_pl = to_tsvector('simple', unaccent(text)) "
             "WHERE lang = 'pl'"))
         s.commit()
 
-        from sqlalchemy import func
+        _index_shadow(s)
+        _swap(s)
+
         by_lang = dict(s.execute(
             select(Chunk.lang, func.count()).group_by(Chunk.lang)).all())
         print(f"проіндексовано: {by_lang}")
