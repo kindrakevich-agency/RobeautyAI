@@ -152,11 +152,6 @@ function Dashboard() {
               </div>
             ))}
           </div>
-          <Link to="/admin/eval"
-                className="mt-3 inline-block text-[11px] font-semibold text-brand-600
-                           hover:underline dark:text-brand-400">
-            {t('dashboard.qualityLink')} →
-          </Link>
         </Card>
       </div>
 

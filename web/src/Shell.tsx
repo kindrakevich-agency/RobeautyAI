@@ -39,7 +39,6 @@ const groups: { title: string; items: Item[] }[] = [
     title: 'nav.groupInsights',
     items: [
       { to: '/admin/analytics', key: 'analytics', icon: BarChart3 },
-      { to: '/admin/eval', key: 'eval', icon: Activity },
       { to: '/admin/questions', key: 'questions', icon: MessageCircleQuestion },
       { to: '/admin/sync', key: 'sync', icon: RefreshCw },
     ],
