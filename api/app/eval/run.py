@@ -26,10 +26,13 @@ JUDGE = """Оціни відповідь консультанта космети
 Відповідь:
 {a}
 
-Джерела, надані з відповіддю: {sources}
+Фрагменти бази знань, з яких відповідь мала бути зібрана:
+{sources}
 
 Поверни ТІЛЬКИ JSON:
-{{"grounded": true|false — чи спирається відповідь на надані джерела без вигадок,
+{{"grounded": true|false — чи всі факти відповіді (назви, ціни, властивості)
+   є у фрагментах вище. Загальні поради без конкретних цифр не вважай
+   вигадкою; вигадка — це коли назване число або властивість, якої там немає,
  "helpful": true|false — чи відповідає по суті питання,
  "correct_language": true|false — чи відповідь мовою "{lang}"}}"""
 
@@ -120,9 +123,10 @@ def main() -> None:
             ok = (res.get("reason") in {"no-knowledge", "out-of-scope"}
                   or res.get("offer_human", False))
         else:
-            srcs = "; ".join(s["title"] for s in res.get("sources", [])[:6])
+            ctx = rag.retrieve(c["q"], c["lang"])[:5]
+            srcs = "\n---\n".join(x["text"][:900] for x in ctx) or "(немає)"
             verdict = llm.chat_json([{"role": "user", "content": JUDGE.format(
-                q=c["q"], a=reply[:1500], sources=srcs or "(немає)",
+                q=c["q"], a=reply[:1500], sources=srcs,
                 lang=c["lang"])}],
                 purpose="judge", model=None, max_tokens=200)
             marks = {k: bool(verdict.get(k)) for k in dims}
@@ -131,8 +135,7 @@ def main() -> None:
             dims_n += 1
             ok = all(marks.values())
             # Метрики пошуку: сліпа розмітка релевантності топ-5 фрагментів
-            chunks = rag.retrieve(c["q"], c["lang"])[:5]
-            labels = judge_relevance(c["q"], chunks)
+            labels = judge_relevance(c["q"], ctx)
             p_hits += sum(labels) / 5 if labels else 0.0
             first = next((i + 1 for i, v in enumerate(labels) if v), None)
             rr_sum += 1 / first if first else 0.0

@@ -425,5 +425,16 @@
         "unit": "odpowiedź w sekundy"
       }
     }
+  },
+  "quality": {
+    "search": {
+      "name": "Wyszukiwanie trafia w temat",
+      "what": "Z pięciu fragmentów, które system podniósł z bazy wiedzy, tyle naprawdę dotyczy pytania. Reszta jest o czym innym — i przez nią odpowiedź bywa ogólna."
+    },
+    "answers": {
+      "name": "Odpowiedzi przechodzą kontrolę",
+      "what": "Każdą odpowiedź czyta osobny model, któremu nie mówi się, kto ją napisał. Sprawdza trzy rzeczy naraz: czy wszystkie fakty są w znalezionych fragmentach, czy odpowiedź jest na temat i czy we właściwym języku. Wystarczy jedno zastrzeżenie — odpowiedź idzie na minus."
+    },
+    "details": "Szczegóły i historia przebiegów"
   }
 }

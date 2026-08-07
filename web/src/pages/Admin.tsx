@@ -112,11 +112,34 @@ function Dashboard() {
           {d.eval.p_at_5 == null ? (
             <p className="mt-2 text-sm text-ink-600 dark:text-ink-300">{t('dashboard.notMeasured')}</p>
           ) : (
-            <div className="mt-2 flex gap-6">
-              <div><div className="text-2xl font-semibold tabular-nums">{d.eval.p_at_5}</div>
-                <div className="text-xs text-ink-600 dark:text-ink-300">P@5</div></div>
-              <div><div className="text-2xl font-semibold tabular-nums">{d.eval.judge_pass_rate}</div>
-                <div className="text-xs text-ink-600 dark:text-ink-300">{t('evalPage.judge')}</div></div>
+            /* Число без пояснення нічого не варте: замість «P@5 0.594» і
+               «сліпий суддя 0.588» показуємо, що саме заміряно й у чому
+               вимірюється, у відсотках і словами. */
+            <div className="mt-3 space-y-3">
+              {[
+                ['search', d.eval.p_at_5],
+                ['answers', d.eval.judge_pass_rate],
+              ].map(([k, v]) => (
+                <div key={String(k)}>
+                  <div className="flex items-baseline gap-2">
+                    <span className="font-display text-2xl font-bold tabular-nums
+                                     text-ink-950 dark:text-cream-50">
+                      {Math.round((v as number) * 100)}%
+                    </span>
+                    <span className="text-sm font-semibold text-ink-800 dark:text-cream-100">
+                      {t(`quality.${k}.name`)}
+                    </span>
+                  </div>
+                  <p className="mt-0.5 text-[11px] leading-relaxed text-ink-600 dark:text-ink-300">
+                    {t(`quality.${k}.what`)}
+                  </p>
+                </div>
+              ))}
+              <Link to="/admin/eval"
+                    className="inline-block text-[11px] font-semibold text-brand-600
+                               hover:underline dark:text-brand-400">
+                {t('quality.details')} →
+              </Link>
             </div>
           )}
         </Card>
