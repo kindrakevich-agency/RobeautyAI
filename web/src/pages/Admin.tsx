@@ -945,7 +945,16 @@ function EvalPage() {
 /* ---------- оболонка ---------- */
 
 export default function Admin() {
-  const [authed, setAuthed] = useState(hasAdminCreds())
+  // Екран входу показуємо ЛИШЕ якщо сервер справді вимагає пароль.
+  // Раніше він з'являвся до першого запиту — і адмінка просила вхід навіть
+  // коли автентифікація вимкнена (ENABLE_PASS=off).
+  const [authed, setAuthed] = useState(true)
+  useEffect(() => {
+    if (hasAdminCreds()) return
+    api.admin.get('/api/admin/dashboard')
+      .then(() => setAuthed(true))
+      .catch(() => setAuthed(false))
+  }, [])
 
   // Будь-який 401 повертає екран входу, а не лишає мовчазне «Завантаження…»
   useEffect(() => {
