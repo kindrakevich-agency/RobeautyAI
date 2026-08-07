@@ -3,6 +3,7 @@ import { createPortal } from 'react-dom'
 import { useTranslation } from 'react-i18next'
 import { AlertTriangle, CalendarCheck, CornerDownLeft, Gauge, Languages, Sparkles, X } from 'lucide-react'
 import { api } from './api'
+import { renderMarkdown } from './markdown'
 import { Button } from './ui'
 
 /**
@@ -132,9 +133,8 @@ export default function SystemInsights() {
                                     text-ink-950 uppercase dark:text-cream-200">
                       <Sparkles size={12} /> {t('insights.briefing')}
                     </div>
-                    <div className="whitespace-pre-wrap text-sm leading-relaxed text-ink-800 dark:text-cream-100">
-                      {report}
-                    </div>
+                    <div className="rb-md text-sm leading-relaxed text-ink-800 dark:text-cream-100"
+                         dangerouslySetInnerHTML={{ __html: renderMarkdown(report) }} />
                     <Button variant="ghost" className="mt-4" onClick={() => { setReport(''); setQ('') }}>
                       {t('insights.again')}
                     </Button>

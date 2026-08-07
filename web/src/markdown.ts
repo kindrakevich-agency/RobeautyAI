@@ -13,8 +13,15 @@ export function renderMarkdown(src: string): string {
   const out: string[] = []
   let inList = false
 
+  let listTag: 'ul' | 'ol' = 'ul'
+
   const closeList = () => {
-    if (inList) { out.push('</ul>'); inList = false }
+    if (inList) { out.push(`</${listTag}>`); inList = false }
+  }
+
+  const openList = (tag: 'ul' | 'ol') => {
+    if (inList && listTag !== tag) closeList()
+    if (!inList) { out.push(`<${tag}>`); inList = true; listTag = tag }
   }
 
   const inline = (s: string) =>
@@ -39,8 +46,18 @@ export function renderMarkdown(src: string): string {
 
     const bullet = /^\s*[-•*]\s+(.*)$/.exec(line)
     if (bullet) {
-      if (!inList) { out.push('<ul>'); inList = true }
+      openList('ul')
       out.push(`<li>${inline(bullet[1])}</li>`)
+      continue
+    }
+
+    // Нумеровані пункти: моделі пишуть і «1.», і «1)» — брифінг у шапці
+    // приходить саме в такому вигляді, і без цього він лягав суцільним
+    // текстом із цифрами й дужками.
+    const numbered = /^\s*\d+[.)]\s+(.*)$/.exec(line)
+    if (numbered) {
+      openList('ol')
+      out.push(`<li>${inline(numbered[1])}</li>`)
       continue
     }
 
