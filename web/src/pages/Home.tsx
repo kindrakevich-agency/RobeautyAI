@@ -91,7 +91,7 @@ export default function Home() {
                       className="group inline-flex items-center gap-3 rounded bg-ink-900 px-6 py-3.5
                                  text-[11px] font-bold tracking-display text-white uppercase
                                  transition-colors hover:bg-ink-950 active:scale-[.99]
-                                 dark:bg-cream-100 dark:text-ink-950 dark:text-cream-50 dark:hover:bg-white">
+                                 dark:bg-cream-100 dark:text-ink-950 dark:text-cream-50 dark:hover:bg-cream-50">
                 {t('home.ctaButton')}
                 <span aria-hidden className="transition-transform group-hover:translate-x-1">→</span>
               </button>
@@ -211,7 +211,7 @@ export default function Home() {
               <button key={k} type="button"
                       onClick={() => window.dispatchEvent(
                         new CustomEvent('rb-open-widget', { detail: t(`home.try.${k}`) }))}
-                      className="group flex min-h-[7.5rem] flex-col border border-ink-200 bg-white px-4 py-4
+                      className="group flex min-h-[7.5rem] flex-col border border-ink-200 bg-cream-50 px-4 py-4
                                  text-left transition-colors hover:border-ink-900
                                  dark:border-ink-800 dark:bg-ink-900 dark:hover:border-cream-200">
                 <span className="block text-[13px] leading-snug text-ink-800 dark:text-cream-100">

@@ -61,7 +61,7 @@ export default function SystemInsights() {
       <button type="button" aria-label={t('insights.trigger')}
               onClick={() => { setOpen(true); setTimeout(() => inputRef.current?.focus(), 40) }}
               className="group flex min-w-0 shrink-0 items-center justify-center gap-2.5 rounded-full
-                         border border-transparent bg-white/70 p-2 dark:bg-ink-800/70 text-left text-sm transition-colors
+                         border border-transparent bg-cream-50/70 p-2 dark:bg-ink-800/70 text-left text-sm transition-colors
                          hover:border-ink-700/40 sm:w-full sm:max-w-md sm:shrink sm:justify-start
                          sm:py-2 sm:pr-3 sm:pl-3.5 dark:bg-ink-800/70">
         <Sparkles size={15} className="shrink-0 text-ink-900 dark:text-cream-200" />
@@ -79,7 +79,7 @@ export default function SystemInsights() {
           <div className="absolute inset-0 bg-ink-950/60 backdrop-blur-lg" onClick={() => setOpen(false)} />
           <div className="animate-rise relative w-full max-w-2xl rounded-[20px] bg-gradient-to-b
                           from-ink-500/40 via-ink-500/10 to-transparent p-px shadow-pop">
-            <div className="flex max-h-[78vh] flex-col overflow-hidden rounded-[19px] bg-white dark:bg-ink-900">
+            <div className="flex max-h-[78vh] flex-col overflow-hidden rounded-[19px] bg-cream-50 dark:bg-ink-900">
               <form onSubmit={(e) => { e.preventDefault(); void run(q) }}
                     className="flex items-center gap-3 border-b border-ink-100 px-5 py-4 dark:border-ink-800">
                 <Sparkles size={18} className="shrink-0 text-ink-900 dark:text-cream-200" />

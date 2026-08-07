@@ -24,7 +24,7 @@ export function Card({ children, className = '', pad = true }: {
   children: ReactNode; className?: string; pad?: boolean
 }) {
   return (
-    <div className={`min-w-0 rounded-2xl border border-ink-200 bg-white shadow-card
+    <div className={`min-w-0 rounded-2xl border border-ink-200 bg-cream-50 shadow-card
                      dark:border-ink-700/60 dark:bg-ink-900 ${pad ? 'p-5' : ''} ${className}`}>
       {children}
     </div>
@@ -103,7 +103,7 @@ export function Input(props: React.InputHTMLAttributes<HTMLInputElement>) {
   const { className = '', ...rest } = props
   return (
     <input {...rest}
-           className={`min-w-0 rounded border border-ink-200 bg-white px-3.5 py-2 text-sm
+           className={`min-w-0 rounded border border-ink-200 bg-cream-50 px-3.5 py-2 text-sm
                        text-ink-900 outline-none transition-colors placeholder:text-ink-600
                        focus:border-ink-700 dark:border-ink-700 dark:bg-ink-800
                        dark:text-cream-100 ${className}`} />
@@ -179,7 +179,7 @@ export function Table({ head, children, sort, onSort }: {
   }
 
   return (
-    <div className="min-w-0 overflow-x-auto rounded-2xl border border-ink-200 bg-white
+    <div className="min-w-0 overflow-x-auto rounded-2xl border border-ink-200 bg-cream-50
                     shadow-card dark:border-ink-700/60 dark:bg-ink-900">
       <table className="w-full min-w-[640px] border-collapse text-sm">
         <thead>
@@ -268,7 +268,7 @@ export function Modal({ open, onClose, title, children, wide = false }: {
          role="dialog" aria-modal="true">
       <div className="absolute inset-0 bg-ink-950/60 backdrop-blur-lg" onClick={onClose} />
       <div className={`animate-rise relative max-h-[88vh] w-full overflow-y-auto rounded-2xl
-                       border border-ink-200 bg-white p-6 shadow-pop dark:border-ink-700
+                       border border-ink-200 bg-cream-50 p-6 shadow-pop dark:border-ink-700
                        dark:bg-ink-900 ${wide ? 'max-w-3xl' : 'max-w-lg'}`}>
         <div className="mb-4 flex items-start justify-between gap-4">
           <h3 className="font-display text-xl font-semibold text-ink-950 dark:text-cream-50">{title}</h3>

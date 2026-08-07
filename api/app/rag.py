@@ -14,6 +14,7 @@ unanswered. Медичні питання (хвороби шкіри, вагіт
 from __future__ import annotations
 
 import re
+import sys
 from pathlib import Path
 
 from sqlalchemy import select, text as sql
@@ -29,9 +30,47 @@ GROUND_THRESHOLD = 0.42  # косинус bge-m3; нижче — «не знаю
 PROMPTS_DIR = Path(__file__).resolve().parents[1] / "prompts"
 
 MEDICAL_RE = re.compile(
-    r"вагітн|ваготн|годуванн|лактаці|екзем|псоріаз|дерматит|розацеа\b.*лік|"
-    r"алергі|онколог|діагноз|ciąż|karmieni|egzem|łuszczyc|alergi|atopow",
+    r"вагітн|ваготн|годуванн|лактаці|екзем|псоріаз|псоріаз|дерматит|розацеа|"
+    r"купероз|демодекоз|вітиліго|герпес|фурункул|гормональн|"
+    r"алергі|онколог|діагноз|антибіотик|ізотретиноїн|роакутан|"
+    r"ciąż|karmieni|egzem|łuszczyc|alergi|atopow|trądzik różowat|"
+    r"łojotokow|hormonaln|izotretynoin",
     re.I)
+
+# Поза темою — окремий контур, а не покладання на промпт. Заміряно: на
+# «Хто виграв Євробачення 2024?» модель відповідала з власних знань, бо
+# косинус до випадкових чанків усе одно вищий за поріг. Обіцянка «тільки
+# з бази знань» після такої відповіді нічого не варта, тож питання
+# класифікується ДО генерації.
+SCOPE_PROMPT = """Питання відвідувача сайту косметичного бренду: «{q}»
+
+Чи стосується воно хоч однієї з тем: догляд за шкірою й косметика,
+товари та склад засобів, сам бренд, замовлення, оплата, доставка,
+повернення, робота магазину?
+
+Поверни ТІЛЬКИ JSON: {{"in_scope": true|false}}"""
+
+OUT_OF_SCOPE = {
+    "uk": ("Я консультант RoBeauty і допомагаю лише з доглядом за шкірою, "
+           "нашими засобами та замовленнями. З цим питанням, на жаль, не "
+           "підкажу — але охоче підберу догляд під ваш тип шкіри."),
+    "pl": ("Jestem konsultantem RoBeauty i pomagam wyłącznie w sprawach "
+           "pielęgnacji, naszych produktów i zamówień. W tej sprawie nie "
+           "doradzę — chętnie za to dobiorę pielęgnację pod Twoją cerę."),
+}
+
+
+def in_scope(question: str) -> bool:
+    """Чи можна взагалі відповідати на це питання."""
+    try:
+        out = llm.chat_json([{"role": "user",
+                              "content": SCOPE_PROMPT.format(q=question[:400])}],
+                            purpose="scope", max_tokens=60)
+        return bool((out or {}).get("in_scope", True))
+    except Exception as e:  # noqa: BLE001
+        # Класифікатор недоступний — не блокуємо розмову.
+        print(f"    перевірка теми впала: {str(e)[:80]}", file=sys.stderr)
+        return True
 
 REFUSAL = {
     "uk": ("Це питання стосується здоров'я, і чесна відповідь тут одна: його "
@@ -253,6 +292,11 @@ def answer(question: str, history: list[dict], lang: str) -> dict:
     if MEDICAL_RE.search(question):
         return {"reply": REFUSAL.get(lang, REFUSAL["uk"]), "escalate": True,
                 "reason": "medical", "sources": [], "products": []}
+
+    if not in_scope(question):
+        return {"reply": OUT_OF_SCOPE.get(lang, OUT_OF_SCOPE["uk"]),
+                "escalate": False, "reason": "out-of-scope",
+                "sources": [], "products": []}
 
     vec_box: list = []
     chunks = retrieve(question, lang, vec_box)

@@ -168,12 +168,12 @@ function Products() {
     <>
       <PageHead title={t('products.title')} subtitle={t('products.subtitle')} />
       <input value={q} onChange={(e) => setQ(e.target.value)} placeholder={t('common.search')}
-             className="mb-4 w-full max-w-sm rounded-full border border-ink-200 bg-white px-4 py-2 text-sm outline-none focus:border-ink-700 dark:border-ink-700 dark:bg-ink-800 dark:text-cream-100" />
+             className="mb-4 w-full max-w-sm rounded-full border border-ink-200 bg-cream-50 px-4 py-2 text-sm outline-none focus:border-ink-700 dark:border-ink-700 dark:bg-ink-800 dark:text-cream-100" />
       <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
         {items.map((p: any) => (
           // Всередині адмінки посилання ведуть на картку товару в адмінці
           <button key={p.id} onClick={() => nav(`/admin/products/${p.id}`)}
-                  className="min-w-0 rounded-2xl border border-ink-200 bg-white p-3 text-left shadow-card transition-colors hover:border-ink-700 dark:border-ink-700/60 dark:bg-ink-900">
+                  className="min-w-0 rounded-2xl border border-ink-200 bg-cream-50 p-3 text-left shadow-card transition-colors hover:border-ink-700 dark:border-ink-700/60 dark:bg-ink-900">
             {p.image && (
               <img src={p.image} alt="" loading="lazy" referrerPolicy="no-referrer"
                    className="mb-2 aspect-square w-full rounded-lg object-cover" />
@@ -426,7 +426,7 @@ function Dialogs() {
         <div className="space-y-2">
           {d.items.map((c: any) => (
             <button key={c.id} onClick={() => open(c.id)}
-                    className="block w-full rounded-xl border border-ink-200 bg-white p-3 text-left shadow-card transition-colors hover:border-ink-700 dark:border-ink-700/60 dark:bg-ink-900">
+                    className="block w-full rounded-xl border border-ink-200 bg-cream-50 p-3 text-left shadow-card transition-colors hover:border-ink-700 dark:border-ink-700/60 dark:bg-ink-900">
               <div className="flex flex-wrap items-center gap-2">
                 <Badge>{CHANNEL_LABEL[c.channel] ?? c.channel}</Badge>
                 <span className="text-xs text-ink-600 dark:text-ink-300">{c.handle ?? '—'}</span>
@@ -486,7 +486,7 @@ function Dialogs() {
                         {m.products.map((p: any, k: number) => (
                           <a key={k} href={p.url ?? undefined} target="_blank" rel="noreferrer"
                              className="inline-flex max-w-64 items-center gap-1.5 rounded border
-                                        border-ink-200 bg-white px-2 py-1 text-[11px] text-ink-700
+                                        border-ink-200 bg-cream-50 px-2 py-1 text-[11px] text-ink-700
                                         hover:border-ink-700 dark:border-ink-700 dark:bg-ink-800
                                         dark:text-ink-300">
                             {p.image ? <img src={p.image} alt="" className="size-5 rounded object-cover" /> : null}
@@ -524,7 +524,7 @@ function Dialogs() {
                 <div className="mt-3 flex gap-2">
                   <input value={reply} onChange={(e) => setReply(e.target.value)}
                          placeholder={t('dialogs.replyPlaceholder')}
-                         className="min-w-0 flex-1 rounded-full border border-ink-200 bg-white px-3 py-2 text-sm outline-none focus:border-ink-700 dark:border-ink-700 dark:bg-ink-800 dark:text-cream-100" />
+                         className="min-w-0 flex-1 rounded-full border border-ink-200 bg-cream-50 px-3 py-2 text-sm outline-none focus:border-ink-700 dark:border-ink-700 dark:bg-ink-800 dark:text-cream-100" />
                   <Button onClick={async () => {
                     if (!reply.trim()) return
                     await api.admin.post(`/api/admin/conversations/${sel.id}/reply`, { content: reply })
@@ -736,7 +736,7 @@ function Analytics() {
       <Card className="mb-4">
         <form onSubmit={(e) => { e.preventDefault(); void ask(q) }} className="flex flex-wrap gap-2">
           <input value={q} onChange={(e) => setQ(e.target.value)} placeholder={t('analytics.placeholder')}
-                 className="min-w-0 flex-1 rounded-full border border-ink-200 bg-white px-4 py-2 text-sm outline-none focus:border-ink-700 dark:border-ink-700 dark:bg-ink-800 dark:text-cream-100" />
+                 className="min-w-0 flex-1 rounded-full border border-ink-200 bg-cream-50 px-4 py-2 text-sm outline-none focus:border-ink-700 dark:border-ink-700 dark:bg-ink-800 dark:text-cream-100" />
           <Button type="submit" disabled={busy}>{busy ? t('common.running') : t('analytics.ask')}</Button>
         </form>
         <div className="mt-3 flex flex-wrap gap-2">
@@ -823,7 +823,7 @@ function EvalPage() {
                   <div className="mt-2 flex flex-wrap gap-2">
                     <input value={text} onChange={(e) => setText(e.target.value)}
                            placeholder={t('evalPage.fixPlaceholder')}
-                           className="min-w-0 flex-1 rounded-full border border-ink-200 bg-white px-3 py-2 text-sm outline-none focus:border-ink-700 dark:border-ink-700 dark:bg-ink-800 dark:text-cream-100" />
+                           className="min-w-0 flex-1 rounded-full border border-ink-200 bg-cream-50 px-3 py-2 text-sm outline-none focus:border-ink-700 dark:border-ink-700 dark:bg-ink-800 dark:text-cream-100" />
                     <Button onClick={async () => {
                       await api.admin.post(`/api/admin/eval/gaps/${g.id}/fix`, { answer_text: text })
                       setFixing(null); setText(''); await load()

@@ -105,7 +105,7 @@ function Cards({ items }: { items: ProductCard[] }) {
       <div ref={rail} className="no-scrollbar flex snap-x snap-mandatory gap-2 overflow-x-auto pb-1">
         {items.map((p) => (
           <div key={p.sku} className="flex w-[168px] shrink-0 snap-start flex-col rounded-xl
-                                      border border-ink-200 bg-white p-2 dark:border-ink-700 dark:bg-ink-800">
+                                      border border-ink-200 bg-cream-50 p-2 dark:border-ink-700 dark:bg-ink-800">
             {p.image && !broken[p.sku] && (
               <img src={p.image} alt="" loading="lazy" referrerPolicy="no-referrer"
                    onError={() => setBroken((b) => ({ ...b, [p.sku]: true }))}
@@ -206,7 +206,7 @@ function Bubble({ m, convId, onEscalate }: {
 
   return (
     <div>
-      <div className="min-w-0 max-w-[92%] rounded-2xl border border-ink-200 bg-white px-3.5 py-2.5
+      <div className="min-w-0 max-w-[92%] rounded-2xl border border-ink-200 bg-cream-50 px-3.5 py-2.5
                       text-[13px] leading-relaxed text-ink-800 dark:border-ink-700 dark:bg-ink-900
                       dark:text-cream-100">
         <div className="rb-md" dangerouslySetInnerHTML={{ __html: renderMarkdown(shown) }} />
@@ -384,7 +384,7 @@ export default function Widget() {
                            dark:border-ink-700 dark:bg-ink-900">
             <input value={input} onChange={(e) => setInput(e.target.value)}
                    placeholder={t('chat.placeholder')}
-                   className="min-w-0 flex-1 rounded-full border border-ink-200 bg-white px-3.5 py-2 dark:border-ink-700 dark:bg-ink-800
+                   className="min-w-0 flex-1 rounded-full border border-ink-200 bg-cream-50 px-3.5 py-2 dark:border-ink-700 dark:bg-ink-800
                               text-[13px] outline-none focus:border-ink-700 dark:border-ink-700
                               dark:bg-ink-800 dark:text-cream-100" />
             <button type="submit" disabled={busy} aria-label={t('chat.send')}
