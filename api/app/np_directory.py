@@ -24,7 +24,9 @@ import re
 import httpx
 
 NP_API = "https://api.novaposhta.ua/v2.0/json/"
-DEMO_FILE = pathlib.Path(__file__).parent / "data" / "np_demo_directory.json"
+# Файл лежить поруч із модулем, а не в data/: тека data ігнорується
+# в git (там дані замовника), і демо-зріз не доїжджав на сервер.
+DEMO_FILE = pathlib.Path(__file__).parent / "np_demo_directory.json"
 
 
 def mode() -> str:

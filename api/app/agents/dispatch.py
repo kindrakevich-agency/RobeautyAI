@@ -46,9 +46,12 @@ def _weight_kg(items: list, products_by_sku: dict) -> float:
         qty = int(it.get("qty") or 1)
         grams = 300.0  # запасне значення на позицію
         if p is not None:
-            raw = json.dumps([(p.volume or ""), json.dumps(p.raw or {})],
+            # ensure_ascii=False і у внутрішньому dumps: інакше кирилиця
+            # екранується і «Вага:» не знаходиться регуляркою.
+            raw = json.dumps([(p.volume or ""),
+                              json.dumps(p.raw or {}, ensure_ascii=False)],
                              ensure_ascii=False)
-            m = re.search(r"[Вв]ага[:\s]+(\d{2,4})", raw)
+            m = re.search(r"[Вв]ага\W{0,4}(\d{2,4})", raw)
             if m:
                 grams = float(m.group(1))
             else:
