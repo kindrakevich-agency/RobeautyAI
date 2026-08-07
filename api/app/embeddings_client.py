@@ -23,13 +23,15 @@ def embed(texts: list[str], batch: int = 24,
     а не конкуренцію за модель. Тому фоновий прогон бере менші пачки й
     робить паузу між ними, лишаючи сервісу вільні вікна для живих запитів.
     Індексація стає довшою — це свідомий обмін на те, щоб клієнт не чекав.
+    Заміряно на пачці 8 з паузою 1.5 с: чат тримав 9–13 с замість 48–65,
+    але це все одно багато, тож дефолт зменшено до 4 з паузою 3 с.
     """
     import os
     import sys
     import time
     if throttle:
-        batch = min(batch, int(os.environ.get("INDEX_BATCH", "8")))
-    pause = float(os.environ.get("INDEX_PAUSE_S", "1.5")) if throttle else 0.0
+        batch = min(batch, int(os.environ.get("INDEX_BATCH", "4")))
+    pause = float(os.environ.get("INDEX_PAUSE_S", "3")) if throttle else 0.0
     out: list[list[float]] = []
     t0 = time.monotonic()
     with httpx.Client(timeout=180) as client:
