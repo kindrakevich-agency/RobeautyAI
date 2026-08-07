@@ -590,7 +590,7 @@ function Dialogs() {
 /* ---------- звернення ---------- */
 
 function Tickets() {
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
   const [d, setD] = useState<any>(null)
   const [digest, setDigest] = useState('')
   const [busy, setBusy] = useState(false)
@@ -622,21 +622,63 @@ function Tickets() {
           {d.items.map((x: any) => (
             <Card key={x.id}>
               <div className="flex flex-wrap items-center gap-2">
-                {x.category && <Badge>{x.category}</Badge>}
+                <Badge tone={x.category === 'medical' ? 'bad'
+                  : x.category === 'handoff' ? 'warn' : 'neutral'}>
+                  {t(`tickets.category.${x.category}`, { defaultValue: x.category })}
+                </Badge>
                 {x.sentiment && <Badge tone={x.sentiment === 'negative' ? 'bad'
-                  : x.sentiment === 'positive' ? 'good' : 'neutral'}>{x.sentiment}</Badge>}
-                {x.priority && <Badge tone={x.priority === 'high' ? 'warn' : 'neutral'}>{x.priority}</Badge>}
+                  : x.sentiment === 'positive' ? 'good' : 'neutral'}>
+                  {t(`analysis.sentiment.${x.sentiment}`, { defaultValue: x.sentiment })}
+                </Badge>}
+                {x.priority && <Badge tone={x.priority === 'high' ? 'warn' : 'neutral'}>
+                  {t(`tickets.priority.${x.priority}`, { defaultValue: x.priority })}
+                </Badge>}
                 <Badge>{x.lang}</Badge>
+                <span className="ml-auto text-[11px] text-ink-500 dark:text-ink-400">
+                  {x.created_at ? new Date(x.created_at).toLocaleString(
+                    i18n.language === 'pl' ? 'pl-PL' : 'uk-UA',
+                    { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' }) : ''}
+                </span>
               </div>
-              <div className="rb-md mt-2 text-sm text-ink-800 dark:text-cream-100"
+
+              {/* Головне в картці — з чим прийшов клієнт. Для звернень від
+                  кнопки «покликати людину» текст дістається з розмови:
+                  раніше картка показувала лише слово «handoff». */}
+              <div className="rb-md mt-2 text-sm text-ink-900 dark:text-cream-100"
                  dangerouslySetInnerHTML={{ __html: renderMarkdown(x.text) }} />
-              {x.draft_reply && (
-                <div className="mt-2 rounded-xl bg-cream-100 p-3 dark:bg-ink-800/60">
-                  <div className="text-[11px] font-semibold uppercase tracking-[0.02em]r text-ink-600 dark:text-ink-300">
+
+              <div className="mt-2 flex flex-wrap items-center gap-3 text-[11px]">
+                {x.conversation_id && (
+                  <Link to={`/admin/dialogs?conv=${x.conversation_id}`}
+                        className="font-semibold text-brand-600 hover:underline dark:text-brand-400">
+                    {t('tickets.openDialog')} →
+                  </Link>
+                )}
+                {x.phone && <span className="text-ink-600 dark:text-ink-300">{x.phone}</span>}
+                <span className="text-ink-500 dark:text-ink-400">
+                  {t('tickets.source')}: {t(`tickets.sources.${x.source}`, { defaultValue: x.source })}
+                </span>
+              </div>
+
+              {x.draft_reply ? (
+                <div className="mt-3 rounded-xl bg-cream-100 p-3 dark:bg-ink-800/60">
+                  <div className="text-[11px] font-bold tracking-display text-brand-600
+                                  uppercase dark:text-brand-400">
                     {t('tickets.draft')}
                   </div>
-                  <p className="mt-1 text-sm leading-relaxed text-ink-600 dark:text-ink-300">{x.draft_reply}</p>
+                  <p className="mt-1 text-sm leading-relaxed text-ink-700 dark:text-ink-300">
+                    {x.draft_reply}
+                  </p>
+                  <button onClick={() => { void navigator.clipboard?.writeText(x.draft_reply) }}
+                          className="mt-2 text-[11px] font-semibold text-ink-600 hover:text-ink-950
+                                     dark:text-ink-300 dark:hover:text-cream-50">
+                    {t('tickets.copyDraft')}
+                  </button>
                 </div>
+              ) : (
+                <p className="mt-3 text-[11px] text-ink-500 dark:text-ink-400">
+                  {t('tickets.noDraft')}
+                </p>
               )}
             </Card>
           ))}

@@ -151,13 +151,34 @@
   },
   "tickets": {
     "title": "Zgłoszenia",
-    "subtitle": "Kategoria, nastawienie, priorytet i szkic odpowiedzi",
+    "subtitle": "Tu trafia wszystko, czego konsultant świadomie nie wziął na siebie: pytania medyczne, prośby o człowieka, reklamacje. Agent nadaje kategorię i priorytet oraz przygotowuje szkic odpowiedzi — doradcy zostaje sprawdzić i wysłać.",
     "generate": "Wygeneruj przychodzące",
     "digest": "Tygodniowy przegląd",
-    "category": "Kategoria",
-    "priority": "Priorytet",
-    "draft": "Szkic odpowiedzi",
-    "text": "Zgłoszenie"
+    "category": {
+      "medical": "Medyczne",
+      "handoff": "Proszą o człowieka",
+      "lead": "Zostawiono kontakt",
+      "complaint": "Reklamacja",
+      "delivery": "Dostawa",
+      "other": "Inne"
+    },
+    "priority": {
+      "high": "Pilne",
+      "normal": "Zwykłe",
+      "low": "Może poczekać"
+    },
+    "draft": "Szkic odpowiedzi od agenta",
+    "text": "Zgłoszenie",
+    "copyDraft": "Kopiuj",
+    "noDraft": "Szkicu jeszcze nie ma — kliknij „Uruchom\", aby agent rozpatrzył zgłoszenia.",
+    "openDialog": "Otwórz rozmowę",
+    "source": "Źródło",
+    "sources": {
+      "chat": "czat",
+      "form": "formularz",
+      "instagram": "Instagram",
+      "telegram": "Telegram"
+    }
   },
   "sync": {
     "title": "Synchronizacja z 1C",

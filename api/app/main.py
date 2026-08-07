@@ -404,13 +404,35 @@ def admin_tickets(_: str = Depends(admin_auth)) -> dict:
     with db.get_session() as s:
         rows = s.scalars(select(Ticket).order_by(Ticket.created_at.desc())
                          .limit(100)).all()
-        return {"items": [{
-            "id": t.id, "source": t.source, "lang": t.lang,
-            "category": t.category, "sentiment": t.sentiment,
-            "priority": t.priority, "status": t.status,
-            "text": (t.payload or {}).get("text") or (t.payload or {}).get("question"),
-            "draft_reply": t.draft_reply, "created_at": str(t.created_at),
-        } for t in rows]}
+
+        # Звернення типу handoff створює кнопка «покликати людину» — у них
+        # зберігається лише посилання на розмову, тож картка виходила
+        # порожньою. Дістаємо останнє питання клієнта з тієї розмови:
+        # менеджеру треба бачити, з чим прийшли, а не слово «handoff».
+        conv_ids = [(t.payload or {}).get("conversation_id") for t in rows]
+        conv_ids = [c for c in conv_ids if c]
+        last_q: dict[int, str] = {}
+        if conv_ids:
+            for m in s.scalars(select(Message).where(
+                    Message.conversation_id.in_(conv_ids),
+                    Message.role == "user").order_by(Message.id)).all():
+                last_q[m.conversation_id] = (m.content or "")[:300]
+
+        out = []
+        for t in rows:
+            pl = t.payload or {}
+            conv = pl.get("conversation_id")
+            out.append({
+                "id": t.id, "source": t.source, "lang": t.lang,
+                "category": t.category, "sentiment": t.sentiment,
+                "priority": t.priority, "status": t.status,
+                "text": pl.get("text") or pl.get("question")
+                        or (last_q.get(conv) if conv else None),
+                "conversation_id": conv,
+                "phone": pl.get("phone"),
+                "draft_reply": t.draft_reply, "created_at": str(t.created_at),
+            })
+        return {"items": out}
 
 
 @app.post("/api/admin/tickets/generate")
