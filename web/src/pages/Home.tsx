@@ -3,7 +3,12 @@ import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
 import { Disclaimer, LangSwitch, ThemeToggle } from '../ui'
 import Widget from '../Widget'
-import { sample } from '../questions'
+import { CATEGORY_LABEL, QUESTIONS, type QCategory } from '../questions'
+
+// Порядок розділів на сторінці: від того, що питають найчастіше,
+// до перевірки меж — щоб було видно, де консультант зупиняється.
+const ORDER: QCategory[] = ['skin', 'concern', 'ingredient', 'combine',
+  'routine', 'price', 'brand', 'logistics', 'boundary']
 
 /**
  * Публічна сторона стенда.
@@ -207,24 +212,43 @@ export default function Home() {
           <h2 className="rb-display text-[11px] text-ink-600 dark:text-ink-300">
             {t('home.tryTitle')}
           </h2>
-          <div className="mt-5 grid gap-2.5 sm:grid-cols-2 lg:grid-cols-3">
-            {sample(6, i18n.language).map((q) => (
-              <button key={q} type="button"
-                      onClick={() => window.dispatchEvent(
-                        new CustomEvent('rb-open-widget', { detail: q }))}
-                      className="group flex min-h-[7.5rem] flex-col border border-ink-200 bg-cream-50
-                                 px-4 py-4 text-left transition-colors hover:border-brand-500
-                                 dark:border-ink-800 dark:bg-ink-900 dark:hover:border-brand-400">
-                <span className="block text-[13px] leading-snug text-ink-800 dark:text-cream-100">
-                  {q}
-                </span>
-                <span className="mt-auto block pt-3 text-[10px] font-bold tracking-display
-                                 text-ink-500 uppercase transition-colors group-hover:text-brand-600
-                                 dark:group-hover:text-brand-400">
-                  {t('home.tryAsk')} →
-                </span>
-              </button>
-            ))}
+          {/* Усі 30 питань, згруповані за категоріями: видно, що саме
+              перевіряється, і будь-яке можна поставити одним кліком. */}
+          <div className="mt-6 space-y-6">
+            {ORDER.map((cat) => {
+              const items = QUESTIONS.filter((q) => q.cat === cat)
+              if (!items.length) return null
+              return (
+                <div key={cat}>
+                  <div className="mb-2.5 flex items-center gap-3">
+                    <span className="text-[10px] font-bold tracking-display text-brand-600
+                                     uppercase dark:text-brand-400">
+                      {CATEGORY_LABEL[cat][i18n.language === 'pl' ? 'pl' : 'uk']}
+                    </span>
+                    <span className="h-px flex-1 bg-ink-200 dark:bg-ink-800" />
+                  </div>
+                  <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
+                    {items.map((q) => {
+                      const text = i18n.language === 'pl' ? q.pl : q.uk
+                      return (
+                        <button key={q.id} type="button"
+                                onClick={() => window.dispatchEvent(
+                                  new CustomEvent('rb-open-widget', { detail: text }))}
+                                className="group flex items-start gap-2 rounded border border-ink-200
+                                           bg-cream-50 px-3.5 py-3 text-left transition-colors
+                                           hover:border-brand-500 dark:border-ink-800
+                                           dark:bg-ink-900 dark:hover:border-brand-400">
+                          <span className="min-w-0 flex-1 text-[13px] leading-snug text-ink-800
+                                           dark:text-cream-100">{text}</span>
+                          <span aria-hidden className="mt-0.5 shrink-0 text-ink-400 transition-colors
+                                                       group-hover:text-brand-600 dark:group-hover:text-brand-400">→</span>
+                        </button>
+                      )
+                    })}
+                  </div>
+                </div>
+              )
+            })}
           </div>
         </section>
       </main>
