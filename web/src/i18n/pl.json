@@ -73,8 +73,8 @@
     "uah": "UAH"
   },
   "dashboard": {
-    "title": "Pulpit",
-    "subtitle": "Co agenci zrobili zamiast ludzi",
+    "title": "Podsumowanie",
+    "subtitle": "Co system zrobił bez udziału ludzi i co czeka na działanie teraz. Każda liczba jest klikalna i prowadzi tam, gdzie można coś z nią zrobić.",
     "autoConfirm": "Automatycznych potwierdzeń",
     "atRisk": "Zagrożone nieodebraniem",
     "dialogsToday": "Rozmów w systemie",
@@ -102,7 +102,7 @@
   },
   "orders": {
     "title": "Potwierdzanie zamówień",
-    "subtitle": "Agent decyduje, do kogo zadzwonić, a kogo potwierdzić automatycznie",
+    "subtitle": "Wcześniej menedżer dzwonił w sprawie każdego zamówienia. Teraz agent sprawdza kwotę, historię klienta i ryzyko i potwierdza sam; wątpliwe zostawia na telefon i wyjaśnia dlaczego.",
     "number": "Numer",
     "payment": "Płatność",
     "cod": "Za pobraniem",
@@ -116,8 +116,8 @@
     "callsSaved": "Zdjętych telefonów"
   },
   "shipments": {
-    "title": "Nieodebrane przesyłki",
-    "subtitle": "Spersonalizowane przypomnienia zamiast ręcznego obdzwaniania",
+    "title": "Nieodebrane paczki",
+    "subtitle": "Paczka leży w oddziale i wraca, jeśli nikt nie przypomni. Agent widzi, ile dni czeka, i pisze klientowi przypomnienie, zanim będzie za późno.",
     "npStatus": "Status kuriera",
     "daysWaiting": "Dni oczekiwania",
     "reminders": "Przypomnienia",
@@ -132,8 +132,8 @@
     }
   },
   "dialogs": {
-    "title": "Rozmowy ze wszystkich kanałów",
-    "subtitle": "Czat, Instagram, Telegram, Viber — w jednym miejscu, z analizą",
+    "title": "Rozmowy z klientami",
+    "subtitle": "Wszystkie zgłoszenia ze strony i komunikatorów w jednym miejscu. Widać, z czym przyszedł klient, co odpowiedział konsultant i jakie produkty pokazał. Agent osobno analizuje każdą rozmowę.",
     "analyze": "Przeanalizuj nowe",
     "filterAll": "Wszystkie kanały",
     "onlyEscalated": "Tylko eskalowane",
@@ -187,7 +187,7 @@
   },
   "sync": {
     "title": "Synchronizacja z 1C",
-    "subtitle": "Liczy się nie szczęśliwa ścieżka, tylko obsługa wyjątków",
+    "subtitle": "Ceny i stany rozjeżdżają się między sklepem a systemem księgowym — to normalne. Ważne, kto to zauważa. Agent wyłapuje rozbieżność, tłumaczy przyczynę i proponuje rozwiązanie.",
     "explain": "Wyjaśnij konflikty",
     "direction": "Kierunek",
     "action": "Działanie",
@@ -198,8 +198,8 @@
     "ignore": "Zignoruj"
   },
   "localization": {
-    "title": "Lokalizacja PL",
-    "subtitle": "Kontrolowany proces tłumaczenia z człowiekiem w pętli",
+    "title": "Polska wersja katalogu",
+    "subtitle": "Agent tłumaczy kartę produktu i zostawia do zatwierdzenia — redaktor sprawdza gotowy tekst, a nie pisze od zera. Zatwierdzone tłumaczenia od razu działają w polskim czacie.",
     "progress": "Zlokalizowano",
     "sourceUk": "Po ukraińsku",
     "targetPl": "Po polsku",
@@ -209,7 +209,7 @@
   },
   "products": {
     "title": "Katalog",
-    "subtitle": "Produkty z robeauty.me — źródło dla konsultanta",
+    "subtitle": "Produkty z robeauty.me — to samo źródło, z którego konsultant bierze odpowiedzi. Ceny, pojemności, skład i zdjęcia są te same, co na stronie marki.",
     "price": "Cena",
     "volume": "Pojemność",
     "variant": "Wariant",
@@ -226,8 +226,8 @@
     "descriptions": "Opisy"
   },
   "analytics": {
-    "title": "Analityka",
-    "subtitle": "Pytanie ludzkim językiem — odpowiedź z bazy",
+    "title": "Pytania do danych",
+    "subtitle": "Zamiast czekać na programistę, pytania zadaje się zwykłym językiem. Agent pisze zapytanie do bazy i pokazuje je — żeby odpowiedź można było sprawdzić.",
     "placeholder": "Na przykład: ile pieniędzy utknęło w nieodebranych?",
     "ask": "Zapytaj",
     "showSql": "Pokaż SQL",
@@ -241,8 +241,8 @@
     }
   },
   "evalPage": {
-    "title": "Jakość i luki w wiedzy",
-    "subtitle": "Mierzalna jakość zamiast obietnic",
+    "title": "Jakość pracy konsultanta",
+    "subtitle": "Tu widać, jak dobrze odpowiada — nie na słowa, lecz w liczbach. Bot dostaje zestaw prawdziwych pytań, a odpowiedzi sprawdza osobny model, który nie wie, kto je napisał.",
     "runs": "Przebiegi",
     "pAt5": "P@5",
     "mrr": "MRR",
@@ -364,7 +364,7 @@
   },
   "questions": {
     "title": "Test na prawdziwych pytaniach",
-    "subtitle": "Ten sam zestaw, co na stronie głównej. Kliknij pytanie — bot odpowie tutaj.",
+    "subtitle": "Ten sam zestaw pytań, co na stronie głównej. Kliknij dowolne — otworzy się konsultant i odpowie tak samo, jak odpowie klientowi.",
     "ask": "Zapytaj",
     "sources": "źródeł"
   },

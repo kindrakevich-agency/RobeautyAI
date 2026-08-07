@@ -123,8 +123,15 @@ def main() -> None:
             ok = (res.get("reason") in {"no-knowledge", "out-of-scope"}
                   or res.get("offer_human", False))
         else:
-            ctx = rag.retrieve(c["q"], c["lang"])[:5]
-            srcs = "\n---\n".join(x["text"][:900] for x in ctx) or "(немає)"
+            # Суддя має бачити РІВНО те, що бачила модель, інакше він
+            # штрафує за факти, яких просто не отримав. Перша версія давала
+            # йому 5 фрагментів без блоку цін — і кожна ціна у відповіді
+            # виглядала вигаданою: показник упав з 0.613 до 0.097.
+            ctx_all = rag.retrieve(c["q"], c["lang"])
+            ctx = ctx_all[:5]
+            srcs = "\n---\n".join(x["text"][:900] for x in ctx_all)
+            srcs += rag.price_table(ctx_all, c["lang"], mentions_in=srcs)
+            srcs = srcs or "(немає)"
             verdict = llm.chat_json([{"role": "user", "content": JUDGE.format(
                 q=c["q"], a=reply[:1500], sources=srcs,
                 lang=c["lang"])}],
