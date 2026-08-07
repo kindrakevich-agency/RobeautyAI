@@ -3,7 +3,6 @@ import { initReactI18next } from 'react-i18next'
 import uk from './uk.json'
 import pl from './pl.json'
 
-// Дефолт — польська: демонструємо готовність до польського офісу.
 // Жодного хардкод-рядка в компонентах, усе через t().
 i18n.use(initReactI18next).init({
   resources: { uk: { t: uk }, pl: { t: pl } },
