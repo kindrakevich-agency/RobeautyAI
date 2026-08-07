@@ -153,7 +153,7 @@ export default function Home() {
             {t('home.compositionTitle')}
           </h2>
 
-          <div className="mt-7 divide-y divide-ink-200 border-y border-ink-200 dark:divide-ink-800 dark:border-ink-800">
+          <div className="mt-7 divide-y divide-ink-200 border-t border-ink-200 dark:divide-ink-800 dark:border-ink-800">
             {points.map((k, i) => (
               <div key={k} className="grid gap-3 py-6 sm:grid-cols-[3rem_1fr_1.15fr] sm:gap-8">
                 <div className="font-display text-[13px] font-bold tabular-nums text-ink-600 dark:text-ink-400">
