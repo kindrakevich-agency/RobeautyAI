@@ -357,7 +357,7 @@ function Shipments() {
                 {s.customer} · {Math.round(s.total)} грн
               </div>
               <Badge tone={s.days_waiting >= 4 ? 'bad' : s.days_waiting >= 2 ? 'warn' : 'neutral'}>
-                {s.np_status} · {s.days_waiting} {t('shipments.daysWaiting').toLowerCase()}
+                {t(`shipments.status.${s.np_status}`, { defaultValue: s.np_status })} · {s.days_waiting} {t('shipments.daysShort')}
               </Badge>
             </div>
             {s.reminders.length ? (

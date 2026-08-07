@@ -117,7 +117,14 @@
     "daysWaiting": "Dni oczekiwania",
     "reminders": "Przypomnienia",
     "noReminders": "jeszcze nie wysłano",
-    "atRiskTitle": "Kwota zagrożona"
+    "atRiskTitle": "Kwota zagrożona",
+    "daysShort": "dni",
+    "status": {
+      "прямує до відділення": "W drodze do oddziału",
+      "прибуло в поштомат": "W paczkomacie",
+      "прибуло у відділення": "W oddziale",
+      "відділення: очікує клієнта": "Czeka na klienta w oddziale"
+    }
   },
   "dialogs": {
     "title": "Rozmowy ze wszystkich kanałów",
