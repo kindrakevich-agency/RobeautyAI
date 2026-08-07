@@ -26,23 +26,8 @@ from sqlalchemy import select
 
 from . import config, db
 from .models import Page, Product, ProductI18n
+from .scraper.extract import parse_landing
 from .scraper.llm_extract import _call
-
-
-def _body_for(p: Product, title: str, descr: str, page_text: str | None) -> str:
-    parts = [title]
-    if p.volume:
-        parts.append(f"Об'єм: {p.volume}")
-    if p.variant_label:
-        parts.append(p.variant_label)
-    attrs = (p.raw or {}).get("attrs_api") or {}
-    for k, v in attrs.items():
-        parts.append(f"{k} {v}")
-    if descr:
-        parts.append(descr)
-    if page_text:
-        parts.append(page_text[:8000])
-    return "\n".join(str(x) for x in parts if x)
 
 
 def main() -> None:
@@ -61,10 +46,47 @@ def main() -> None:
         todo = [p for p in products if not (only_empty and p.details)]
         if limit:
             todo = todo[:limit]
-        prepared = [(p.id, _body_for(
-            p, titles[p.id].title if p.id in titles else p.sku,
-            titles[p.id].description if p.id in titles else "",
-            pages.get((p.landing_url or "").rstrip("/")))) for p in todo]
+        meta = [(p.id, p.landing_url,
+                 titles[p.id].title if p.id in titles else p.sku,
+                 titles[p.id].description if p.id in titles else "",
+                 pages.get((p.landing_url or "").rstrip("/")),
+                 p.volume, p.variant_label, (p.raw or {}).get("attrs_api") or {})
+                for p in todo]
+
+    # Сторінки товарів у базі не зберігаються (у `pages` лежать лише
+    # нетоварні), а без їхнього тексту екстракція читає сам заголовок і
+    # повертає порожні поля. Тому відсутні сторінки довантажуємо.
+    need = [(i, url) for i, (_, url, *_rest) in enumerate(meta) if url and not _rest[2]]
+    if need:
+        print(f"довантажую сторінок: {len(need)}", file=sys.stderr)
+        with httpx.Client(timeout=40, follow_redirects=True,
+                          headers={"User-Agent": config.USER_AGENT}) as c:
+            for k, (idx, url) in enumerate(need, 1):
+                try:
+                    r = c.get(url)
+                    if r.status_code == 200:
+                        body = parse_landing(url, r.text).body_text
+                        m = list(meta[idx]); m[4] = body; meta[idx] = tuple(m)
+                except httpx.HTTPError as e:
+                    print(f"    {url}: {str(e)[:60]}", file=sys.stderr)
+                if k % 25 == 0:
+                    print(f"    {k}/{len(need)}", file=sys.stderr, flush=True)
+                time.sleep(0.15)
+
+    prepared = []
+    for pid, _url, title, descr, page_text, volume, variant, attrs in meta:
+        parts = [title]
+        if volume:
+            parts.append(f"Об'єм: {volume}")
+        if variant:
+            parts.append(variant)
+        for k, v in attrs.items():
+            parts.append(f"{k} {v}")
+        if descr:
+            parts.append(descr)
+        if page_text:
+            parts.append(page_text[:9000])
+        prepared.append((pid, "\n".join(str(x) for x in parts if x)))
 
     print(f"товарів до обробки: {len(prepared)}", file=sys.stderr)
     ok = fail = 0
