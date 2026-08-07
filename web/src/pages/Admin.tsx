@@ -955,18 +955,60 @@ function EvalPage() {
           {t('evalPage.runs')}
         </div>
         {d.runs.length ? (
-          <div className="mt-3">
-            <Table head={[t('common.created'), t('evalPage.pAt5'), t('evalPage.mrr'), t('evalPage.judge')]}>
-              {d.runs.map((r: any, i: number) => (
-                <tr key={i} className="border-b border-ink-100 last:border-0 dark:border-ink-800">
-                  <td className="px-4 py-2 text-xs">{r.at.slice(0, 16)}</td>
-                  <td className="px-4 py-2 tabular-nums">{r.p_at_5}</td>
-                  <td className="px-4 py-2 tabular-nums">{r.mrr}</td>
-                  <td className="px-4 py-2 tabular-nums">{r.judge_pass_rate}</td>
-                </tr>
+          <>
+            {/* Останній прогін — великими числами й словами. Таблиця з
+                P@5 / MRR нічого не пояснювала людині, яка бачить її вперше. */}
+            <div className="mt-4 grid gap-4 sm:grid-cols-2">
+              {[
+                ['search', d.runs[0].p_at_5],
+                ['position', d.runs[0].mrr],
+                ['grounded', d.runs[0].grounded],
+                ['helpful', d.runs[0].helpful],
+                ['language', d.runs[0].language],
+                ['strict', d.runs[0].judge_pass_rate],
+              ].filter(([, v]) => v != null).map(([k, v]) => (
+                <div key={String(k)} className="rounded-xl border border-ink-200 p-4 dark:border-ink-800">
+                  <div className="flex items-baseline gap-2">
+                    <span className="font-display text-[26px] font-bold tabular-nums
+                                     text-ink-950 dark:text-cream-50">
+                      {Math.round((v as number) * 100)}%
+                    </span>
+                    <span className="text-sm font-semibold text-ink-900 dark:text-cream-100">
+                      {t(`metrics.${k}.name`)}
+                    </span>
+                  </div>
+                  <p className="mt-1.5 text-[12px] leading-relaxed text-ink-600 dark:text-ink-300">
+                    {t(`metrics.${k}.what`)}
+                  </p>
+                </div>
               ))}
-            </Table>
-          </div>
+            </div>
+
+            <p className="mt-4 text-[12px] leading-relaxed text-ink-600 dark:text-ink-300">
+              {t('metrics.howMeasured', { n: d.runs[0].cases || 0 })}
+            </p>
+
+            <div className="mt-5">
+              <div className="mb-2 text-[11px] font-bold tracking-display text-ink-500
+                              uppercase dark:text-ink-400">
+                {t('metrics.history')}
+              </div>
+              <Table head={[t('common.created'), t('metrics.search.short'),
+                            t('metrics.strict.short')]}>
+                {d.runs.map((r: any, i: number) => (
+                  <tr key={i} className="border-b border-ink-100 last:border-0 dark:border-ink-800">
+                    <td className="px-4 py-2 text-xs">{r.at.slice(0, 16)}</td>
+                    <td className="px-4 py-2 tabular-nums">
+                      {r.p_at_5 == null ? '—' : `${Math.round(r.p_at_5 * 100)}%`}
+                    </td>
+                    <td className="px-4 py-2 tabular-nums">
+                      {r.judge_pass_rate == null ? '—' : `${Math.round(r.judge_pass_rate * 100)}%`}
+                    </td>
+                  </tr>
+                ))}
+              </Table>
+            </div>
+          </>
         ) : <p className="mt-2 text-sm text-ink-600 dark:text-ink-300">{t('dashboard.notMeasured')}</p>}
       </Card>
 

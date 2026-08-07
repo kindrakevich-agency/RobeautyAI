@@ -436,5 +436,39 @@
       "what": "Każdą odpowiedź czyta osobny model, któremu nie mówi się, kto ją napisał. Sprawdza trzy rzeczy naraz: czy wszystkie fakty są w znalezionych fragmentach, czy odpowiedź jest na temat i czy we właściwym języku. Wystarczy jedno zastrzeżenie — odpowiedź idzie na minus."
     },
     "details": "Szczegóły i historia przebiegów"
+  },
+  "metrics": {
+    "search": {
+      "name": "Wyszukiwanie trafia w temat",
+      "what": "Z pięciu fragmentów podniesionych z bazy wiedzy tyle naprawdę dotyczy pytania.",
+      "short": "Wyszukiwanie"
+    },
+    "position": {
+      "name": "Trafne od razu na górze",
+      "what": "Jak wysoko na liście stoi pierwszy trafny fragment. 100% oznacza, że zawsze jest pierwszy.",
+      "short": "Pozycja"
+    },
+    "grounded": {
+      "name": "Bez zmyślonych faktów",
+      "what": "Wszystkie nazwy, ceny i właściwości w odpowiedzi naprawdę są w znalezionych fragmentach.",
+      "short": "Fakty"
+    },
+    "helpful": {
+      "name": "Odpowiedź na temat",
+      "what": "Klient dostał to, o co pytał, a nie ogólniki wokół tematu.",
+      "short": "Na temat"
+    },
+    "language": {
+      "name": "Właściwy język",
+      "what": "Odpowiedź w języku pytania.",
+      "short": "Język"
+    },
+    "strict": {
+      "name": "Odpowiedzi bez zastrzeżeń",
+      "what": "Udział odpowiedzi, do których nie ma ŻADNEGO z trzech powyższych zastrzeżeń. Wystarczy jedno — dlatego ta liczba jest zawsze najniższa.",
+      "short": "Bez zastrzeżeń"
+    },
+    "howMeasured": "Jak to mierzymy: bot dostaje {{n}} pytań — tych samych, które są na stronie głównej. Odpowiedzi czyta osobny model, któremu nie mówi się, kto je napisał, i który widzi te same fragmenty bazy wiedzy.",
+    "history": "Poprzednie pomiary"
   }
 }

@@ -602,6 +602,10 @@ def admin_eval(_: str = Depends(admin_auth)) -> dict:
         return {"runs": [{
             "at": str(r.started_at), "p_at_5": r.p_at_5, "mrr": r.mrr,
             "judge_pass_rate": r.judge_pass_rate,
+                  "grounded": (r.report or {}).get("grounded_rate"),
+                  "helpful": (r.report or {}).get("helpful_rate"),
+                  "language": (r.report or {}).get("language_rate"),
+                  "cases": len((r.report or {}).get("cases") or []),
         } for r in runs], "gaps": [{
             "id": g.id, "question": g.question, "lang": g.lang,
             "at": str(g.created_at),
