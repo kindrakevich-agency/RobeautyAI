@@ -11,7 +11,7 @@ import Shell from '../Shell'
 
 /* ---------- вхід ---------- */
 
-function Login({ onDone }: { onDone: => void }) {
+function Login({ onDone }: { onDone: () => void }) {
   const [u, setU] = useState('admin')
   const [p, setP] = useState('')
   return (
@@ -38,7 +38,7 @@ function Login({ onDone }: { onDone: => void }) {
 function useAdminData<T>(path: string, deps: unknown[] = []) {
   const [data, setData] = useState<T | null>(null)
   const [error, setError] = useState<string | null>(null)
-  const load = async => {
+  const load = async () => {
     setError(null)
     try {
       setData(await api.admin.get<T>(path))
@@ -50,7 +50,7 @@ function useAdminData<T>(path: string, deps: unknown[] = []) {
   return { data, error, reload: load }
 }
 
-function Loading({ error, onRetry }: { error: string | null; onRetry: => void }) {
+function Loading({ error, onRetry }: { error: string | null; onRetry: () => void }) {
   const { t } = useTranslation()
   if (!error) return <p className="text-sm text-ink-600 dark:text-ink-300">{t('common.loading')}</p>
   return (
@@ -289,13 +289,13 @@ function Orders() {
   const [d, setD] = useState<any>(null)
   const [busy, setBusy] = useState(false)
   const [err, setErr] = useState<string | null>(null)
-  const load = => api.admin.get('/api/admin/orders').then(setD).catch((e) => setErr(String(e.message)))
+  const load = () => api.admin.get('/api/admin/orders').then(setD).catch((e) => setErr(String(e.message)))
   useEffect(() => { void load() }, [])
   if (!d) return <Loading error={err} onRetry={load} />
   return (
     <>
       <PageHead title={t('orders.title')} subtitle={t('orders.subtitle')}
-                actions={<Button disabled={busy} onClick={async => {
+                actions={<Button disabled={busy} onClick={async () => {
                   setBusy(true); await api.admin.post('/api/admin/orders/run'); await load(); setBusy(false)
                 }}>{busy ? t('common.running') : t('common.run')}</Button>} />
       <div className="mb-4 grid grid-cols-1 gap-4 sm:grid-cols-2">
@@ -339,13 +339,13 @@ function Shipments() {
   const [d, setD] = useState<any>(null)
   const [busy, setBusy] = useState(false)
   const [err, setErr] = useState<string | null>(null)
-  const load = => api.admin.get('/api/admin/shipments').then(setD).catch((e) => setErr(String(e.message)))
+  const load = () => api.admin.get('/api/admin/shipments').then(setD).catch((e) => setErr(String(e.message)))
   useEffect(() => { void load() }, [])
   if (!d) return <Loading error={err} onRetry={load} />
   return (
     <>
       <PageHead title={t('shipments.title')} subtitle={t('shipments.subtitle')}
-                actions={<Button disabled={busy} onClick={async => {
+                actions={<Button disabled={busy} onClick={async () => {
                   setBusy(true); await api.admin.post('/api/admin/shipments/run'); await load(); setBusy(false)
                 }}>{busy ? t('common.running') : t('common.run')}</Button>} />
       <div className="mb-4"><Stat label={t('shipments.atRiskTitle')}
@@ -393,7 +393,7 @@ function Dialogs() {
   const [reply, setReply] = useState('')
 
   const [err, setErr] = useState<string | null>(null)
-  const load = => api.admin
+  const load = () => api.admin
     .get(`/api/admin/conversations${channel ? `?channel=${channel}` : ''}`)
     .then(setD)
     .catch((e) => setErr(String(e.message)))
@@ -404,7 +404,7 @@ function Dialogs() {
   return (
     <>
       <PageHead title={t('dialogs.title')} subtitle={t('dialogs.subtitle')}
-                actions={<Button disabled={busy} onClick={async => {
+                actions={<Button disabled={busy} onClick={async () => {
                   setBusy(true); await api.admin.post('/api/admin/dialogs/analyze'); await load(); setBusy(false)
                 }}>{busy ? t('common.running') : t('dialogs.analyze')}</Button>} />
       <div className="mb-4 flex flex-wrap gap-2">
@@ -525,7 +525,7 @@ function Dialogs() {
                   <input value={reply} onChange={(e) => setReply(e.target.value)}
                          placeholder={t('dialogs.replyPlaceholder')}
                          className="min-w-0 flex-1 rounded-full border border-ink-200 bg-white px-3 py-2 text-sm outline-none focus:border-ink-700 dark:border-ink-700 dark:bg-ink-800 dark:text-cream-100" />
-                  <Button onClick={async => {
+                  <Button onClick={async () => {
                     if (!reply.trim()) return
                     await api.admin.post(`/api/admin/conversations/${sel.id}/reply`, { content: reply })
                     setReply(''); await open(sel.id)
@@ -548,18 +548,18 @@ function Tickets() {
   const [digest, setDigest] = useState('')
   const [busy, setBusy] = useState(false)
   const [err, setErr] = useState<string | null>(null)
-  const load = => api.admin.get('/api/admin/tickets').then(setD).catch((e) => setErr(String(e.message)))
+  const load = () => api.admin.get('/api/admin/tickets').then(setD).catch((e) => setErr(String(e.message)))
   useEffect(() => { void load() }, [])
   return (
     <>
       <PageHead title={t('tickets.title')} subtitle={t('tickets.subtitle')} actions={<>
-        <Button variant="ghost" disabled={busy} onClick={async => {
+        <Button variant="ghost" disabled={busy} onClick={async () => {
           setBusy(true); await api.admin.post('/api/admin/tickets/generate'); await load(); setBusy(false)
         }}>{t('tickets.generate')}</Button>
-        <Button disabled={busy} onClick={async => {
+        <Button disabled={busy} onClick={async () => {
           setBusy(true); await api.admin.post('/api/admin/tickets/run'); await load(); setBusy(false)
         }}>{busy ? t('common.running') : t('common.run')}</Button>
-        <Button variant="ghost" onClick={async => {
+        <Button variant="ghost" onClick={async () => {
           const r = await api.admin.get<{ digest: string }>('/api/admin/tickets/digest')
           setDigest(r.digest)
         }}>{t('tickets.digest')}</Button>
@@ -607,12 +607,12 @@ function Sync() {
   const [d, setD] = useState<any>(null)
   const [busy, setBusy] = useState(false)
   const [err, setErr] = useState<string | null>(null)
-  const load = => api.admin.get('/api/admin/sync').then(setD).catch((e) => setErr(String(e.message)))
+  const load = () => api.admin.get('/api/admin/sync').then(setD).catch((e) => setErr(String(e.message)))
   useEffect(() => { void load() }, [])
   return (
     <>
       <PageHead title={t('sync.title')} subtitle={t('sync.subtitle')}
-                actions={<Button disabled={busy} onClick={async => {
+                actions={<Button disabled={busy} onClick={async () => {
                   setBusy(true); await api.admin.post('/api/admin/sync/explain'); await load(); setBusy(false)
                 }}>{busy ? t('common.running') : t('sync.explain')}</Button>} />
       {!d ? <Loading error={err} onRetry={load} /> : (
@@ -635,10 +635,10 @@ function Sync() {
               <td className="px-4 py-3">
                 {r.status === 'conflict' && (
                   <div className="flex gap-1.5">
-                    <Button variant="ghost" onClick={async => {
+                    <Button variant="ghost" onClick={async () => {
                       await api.admin.post(`/api/admin/sync/${r.id}/resolve`, { action: 'create' }); await load()
                     }}>{t('sync.create')}</Button>
-                    <Button variant="ghost" onClick={async => {
+                    <Button variant="ghost" onClick={async () => {
                       await api.admin.post(`/api/admin/sync/${r.id}/resolve`, { action: 'ignore' }); await load()
                     }}>{t('sync.ignore')}</Button>
                   </div>
@@ -658,7 +658,7 @@ function Localization() {
   const { t } = useTranslation()
   const [d, setD] = useState<any>(null)
   const [err, setErr] = useState<string | null>(null)
-  const load = => api.admin.get('/api/admin/localization').then(setD).catch((e) => setErr(String(e.message)))
+  const load = () => api.admin.get('/api/admin/localization').then(setD).catch((e) => setErr(String(e.message)))
   useEffect(() => { void load() }, [])
   if (!d) return <Loading error={err} onRetry={load} />
   return (
@@ -699,10 +699,10 @@ function Localization() {
               </div>
             </div>
             <div className="mt-3 flex gap-2">
-              <Button onClick={async => {
+              <Button onClick={async () => {
                 await api.admin.post(`/api/admin/localization/${x.id}`, { action: 'approve' }); await load()
               }}>{t('common.approve')}</Button>
-              <Button variant="ghost" onClick={async => {
+              <Button variant="ghost" onClick={async () => {
                 await api.admin.post(`/api/admin/localization/${x.id}`, { action: 'reject' }); await load()
               }}>{t('common.reject')}</Button>
             </div>
@@ -780,7 +780,7 @@ function EvalPage() {
   const [fixing, setFixing] = useState<number | null>(null)
   const [text, setText] = useState('')
   const [err, setErr] = useState<string | null>(null)
-  const load = => api.admin.get('/api/admin/eval').then(setD).catch((e) => setErr(String(e.message)))
+  const load = () => api.admin.get('/api/admin/eval').then(setD).catch((e) => setErr(String(e.message)))
   useEffect(() => { void load() }, [])
   if (!d) return <Loading error={err} onRetry={load} />
   return (
@@ -824,7 +824,7 @@ function EvalPage() {
                     <input value={text} onChange={(e) => setText(e.target.value)}
                            placeholder={t('evalPage.fixPlaceholder')}
                            className="min-w-0 flex-1 rounded-full border border-ink-200 bg-white px-3 py-2 text-sm outline-none focus:border-ink-700 dark:border-ink-700 dark:bg-ink-800 dark:text-cream-100" />
-                    <Button onClick={async => {
+                    <Button onClick={async () => {
                       await api.admin.post(`/api/admin/eval/gaps/${g.id}/fix`, { answer_text: text })
                       setFixing(null); setText(''); await load()
                     }}>{t('common.send')}</Button>
@@ -850,9 +850,9 @@ export default function Admin() {
 
   // Будь-який 401 повертає екран входу, а не лишає мовчазне «Завантаження…»
   useEffect(() => {
-    const onFail = => setAuthed(false)
+    const onFail = () => setAuthed(false)
     window.addEventListener(AUTH_FAILED, onFail)
-    return => window.removeEventListener(AUTH_FAILED, onFail)
+    return () => window.removeEventListener(AUTH_FAILED, onFail)
   }, [])
 
   if (!authed) return <Login onDone={() => setAuthed(true)} />

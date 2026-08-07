@@ -9,12 +9,13 @@ import { setLang } from './i18n'
 export function useDark() {
   // Темна тема за замовчуванням: стенд дивляться переважно ввечері,
   // і світле тепле тло на весь екран втомлює очі.
-  const [dark, setDark] = useState( => (localStorage.getItem('rb-theme') ?? 'dark') === 'dark')
+  const [dark, setDark] = useState(
+    () => (localStorage.getItem('rb-theme') ?? 'dark') === 'dark')
   useEffect(() => {
     document.documentElement.classList.toggle('dark', dark)
     localStorage.setItem('rb-theme', dark ? 'dark' : 'light')
   }, [dark])
-  return { dark, toggle: => setDark((v) => !v) }
+  return { dark, toggle: () => setDark((v) => !v) }
 }
 
 /* ---------- поверхні ---------- */
@@ -62,7 +63,7 @@ export function Stat({ label, value, hint, accent = false }: {
 export function Button({
   children, onClick, variant = 'solid', disabled, type = 'button', className = '',
 }: {
-  children: ReactNode; onClick?: => void; variant?: 'solid' | 'ghost'
+  children: ReactNode; onClick?: () => void; variant?: 'solid' | 'ghost'
   disabled?: boolean; type?: 'button' | 'submit'; className?: string
 }) {
   // Форма кнопки взята з robeauty.me: радіус 5px, ВЕЛИКІ літери, розрядка.
@@ -251,14 +252,14 @@ export function Disclaimer() {
  * затемнення накриває лише його, а не сторінку.
  */
 export function Modal({ open, onClose, title, children, wide = false }: {
-  open: boolean; onClose: => void; title: string
+  open: boolean; onClose: () => void; title: string
   children: ReactNode; wide?: boolean
 }) {
   useEffect(() => {
     if (!open) return
     const h = (e: KeyboardEvent) => e.key === 'Escape' && onClose()
     window.addEventListener('keydown', h)
-    return => window.removeEventListener('keydown', h)
+    return () => window.removeEventListener('keydown', h)
   }, [open, onClose])
   if (!open) return null
 

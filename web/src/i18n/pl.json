@@ -1,6 +1,7 @@
 {
   "brand": "RoBeauty",
-  "disclaimer": "Katalog i zdjęcia pochodzą z publicznej strony robeauty.me. Zamówienia, klienci i statusy dostawy są syntetyczne.",
+  "demoBadge": "demo",
+  "disclaimer": "Stanowisko demonstracyjne pokazujące podejście. Niezwiązane z RoBeauty. Dane katalogu pochodzą z publicznej strony robeauty.me, zdjęcia ładowane są bezpośrednio z niej. Zamówienia, klienci i statusy dostawy są syntetyczne.",
   "chat": {
     "title": "Konsultant AI RoBeauty",
     "subtitle": "Dobór pielęgnacji do typu skóry — z odnośnikami do źródeł",
@@ -230,7 +231,7 @@
     "keySave": "Zapisz klucz",
     "start": "Rozpocznij przygotowanie",
     "running": "Pracuję… nie trzeba czekać przy ekranie, postęp odświeża się sam",
-    "openDemo": "Otwórz",
+    "openDemo": "Otwórz demo",
     "note": "Skraper odwiedza stronę z limitem jednego żądania na sekundę i uczciwym User-Agent, a surowe strony są buforowane — ponowne uruchomienie nie obciąża cudzej strony.",
     "steps": {
       "scrape": {
@@ -290,7 +291,7 @@
   },
   "home": {
     "title": "Konsultant, który poleca wyłącznie to, co naprawdę jest w katalogu",
-    "lede": "Konsultant na bazie prawdziwego katalogu RoBeauty: dobór pielęgnacji do typu skóry i problemu, karty produktów z cenami i składem, uczciwe „nie wiem” zamiast zmyślonej odpowiedzi.",
+    "lede": "Stanowisko demo na bazie prawdziwego katalogu RoBeauty: dobór pielęgnacji do typu skóry i problemu, karty produktów z cenami i składem, uczciwe „nie wiem” zamiast zmyślonej odpowiedzi.",
     "cta": "Kliknij przycisk w prawym dolnym rogu i sprawdź",
     "points": {
       "sources": {
@@ -310,7 +311,7 @@
         "text": "Pytania medyczne, reklamacje i nietypowe przypadki trafiają do doradcy — z całym kontekstem rozmowy."
       }
     },
-    "eyebrow": "Konsultant AI RoBeauty",
+    "eyebrow": "Konsultant AI · wersja demo",
     "ctaButton": "Zadaj pytanie",
     "ctaHint": "Odpowiedź z cenami, składem i linkami do produktów.",
     "compositionTitle": "Skład",
@@ -322,7 +323,7 @@
       "gift": "Czy jest zestaw na prezent do około 2000 UAH?"
     },
     "spec": {
-      "title": "Specyfikacja",
+      "title": "Specyfikacja stanowiska",
       "catalog": "Produktów w katalogu",
       "chunks": "Fragmentów wiedzy",
       "langs": "Języki · przetłumaczono",

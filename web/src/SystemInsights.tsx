@@ -39,7 +39,7 @@ export default function SystemInsights() {
       if (e.key === 'Escape') setOpen(false)
     }
     window.addEventListener('keydown', onKey)
-    return => window.removeEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
   }, [])
 
   const run = async (question: string) => {
