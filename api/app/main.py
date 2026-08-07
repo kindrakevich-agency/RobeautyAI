@@ -27,6 +27,11 @@ security = HTTPBasic(auto_error=False)
 
 
 def admin_auth(creds: HTTPBasicCredentials | None = Depends(security)) -> str:
+    # Пароль на адмінку вимикається змінною ENABLE_PASS. За замовчуванням
+    # вимкнений: стенд показують клієнту, і зайвий екран входу тільки
+    # заважає. Вмикати там, де адмінка виходить у відкритий доступ.
+    if os.environ.get("ENABLE_PASS", "off").strip().lower() not in {"on", "1", "true", "yes"}:
+        return "anonymous"
     ok = bool(creds) and (
         secrets.compare_digest(creds.username, os.environ.get("ADMIN_USER", "admin"))
         and secrets.compare_digest(
