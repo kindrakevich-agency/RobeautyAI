@@ -8,3 +8,6 @@ pgvector==0.3.*
 httpx==0.27.*
 beautifulsoup4==4.12.*
 lxml==5.*
+
+# Тести
+pytest>=8.0
