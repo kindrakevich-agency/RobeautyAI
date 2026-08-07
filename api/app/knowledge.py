@@ -59,10 +59,39 @@ def _slug(s: str) -> str:
     return re.sub(r"[\s_]+", "-", s)[:40] or "kb"
 
 
+# Латиниця й кирилиця — це той самий складник, але різні рядки, тож без
+# зведення виходили дві половинчасті картки замість однієї повної.
+# Тут лише транслітерації назв, жодних змістовних припущень.
+ALIASES = {
+    "niacinamide": "ніацинамід", "niacynamid": "ніацинамід",
+    "retinol": "ретинол", "retinal": "ретинол",
+    "hydroxypinacolone retinoate": "ретинол",
+    "bakuchiol": "бакучіол",
+    "squalane": "сквалан", "squalan": "сквалан",
+    "ceramide": "кераміди", "ceramides": "кераміди",
+    "ceramide complex": "кераміди", "ceramide complex+": "кераміди",
+    "hyaluronic acid": "гіалуронова кислота",
+    "sodium hyaluronate": "гіалуронова кислота",
+    "panthenol": "пантенол", "d-panthenol": "пантенол",
+    "centella asiatica": "центела", "centella": "центела",
+    "ectoin": "ектоїн", "ectoine": "ектоїн",
+    "vitamin c": "вітамін c", "ascorbic acid": "вітамін c",
+    "vitamin e": "вітамін e", "tocopherol": "вітамін e",
+    "acetyl hexapeptide-8": "argireline",
+    "argireline®": "argireline", "argirelin": "argireline",
+    "peptide": "пептиди", "peptides": "пептиди",
+    "allantoin": "алантоїн", "urea": "сечовина",
+    "salicylic acid": "саліцилова кислота", "bha": "саліцилова кислота",
+    "glycolic acid": "гліколева кислота", "aha": "фруктові кислоти",
+    "collagen": "колаген", "glycerin": "гліцерин",
+}
+
+
 def _norm(x: str) -> str:
     """«Niacinamide 6%», «ніацинамід» → один ключ."""
     x = re.sub(r"\d+([.,]\d+)?\s*%", "", x or "").strip(" ,.;·—-")
-    return re.sub(r"\s+", " ", x).lower()
+    x = re.sub(r"\s+", " ", x).lower()
+    return ALIASES.get(x, x)
 
 
 def _load() -> tuple[list[Product], dict[int, ProductI18n]]:
