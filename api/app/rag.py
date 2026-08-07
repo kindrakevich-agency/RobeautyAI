@@ -288,6 +288,13 @@ def _polish(reply: str, lang: str) -> str:
     return reply.strip()
 
 
+PRICE_IN_TEXT = re.compile(r"\d[\d\u00a0\u202f ]*\s*(?:грн\.?|₴|UAH|zł)", re.I)
+
+
+def _redact_prices(text: str) -> str:
+    return PRICE_IN_TEXT.sub("(ціна — див. блок ЦІНИ)", text)
+
+
 def price_table(chunks: list[dict], lang: str, extra_ids: list[int] | None = None) -> str:
     """Авторитетний прайс для товарів, згаданих у знайдених фрагментах.
 
@@ -348,8 +355,13 @@ def answer(question: str, history: list[dict], lang: str) -> dict:
                 "offer_human": True, "reason": "no-knowledge",
                 "sources": [], "products": []}
 
-    context = "\n\n---\n\n".join(c["text"][:2000] for c in chunks)
-    context += price_table(chunks, lang)
+    # Товарні картки несуть ціну з бази й лишаються як є; зі сторінок ціни
+    # вирізаємо — саме звідти бралися 616 грн замість 690.
+    context = "\n\n---\n\n".join(
+        (c["text"][:2000] if c["ref_type"] == "product"
+         else _redact_prices(c["text"][:2000])) for c in chunks)
+    context += price_table(chunks, lang, extra_ids=_product_ids_direct(
+        question, 6, vec_box[0] if vec_box else None))
     messages = [{"role": "system", "content": _system_prompt(lang)},
                 *history[-6:],
                 {"role": "user", "content":
