@@ -131,6 +131,54 @@
           "ref": "demo-vin-2"
         }
       ]
+    },
+    {
+      "name": "Луцьк",
+      "area": "Волинська обл.",
+      "ref": "demo-lutsk",
+      "warehouses": [
+        {
+          "number": "3",
+          "address": "просп. Волі, 27",
+          "ref": "demo-lutsk-3"
+        }
+      ]
+    },
+    {
+      "name": "Запоріжжя",
+      "area": "Запорізька обл.",
+      "ref": "demo-zp",
+      "warehouses": [
+        {
+          "number": "11",
+          "address": "просп. Соборний, 155",
+          "ref": "demo-zp-11"
+        }
+      ]
+    },
+    {
+      "name": "Полтава",
+      "area": "Полтавська обл.",
+      "ref": "demo-poltava",
+      "warehouses": [
+        {
+          "number": "6",
+          "address": "вул. Європейська, 60А",
+          "ref": "demo-poltava-6"
+        }
+      ]
+    },
+    {
+      "name": "Івано-Франківськ",
+      "area": "Івано-Франківська обл.",
+      "ref": "demo-if",
+      "warehouses": [
+        {
+          "number": "8",
+          "address": "вул. Незалежності, 83",
+          "ref": "demo-if-8"
+        }
+      ]
     }
   ]
 }

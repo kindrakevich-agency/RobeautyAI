@@ -144,8 +144,14 @@ def queue(include_dispatched: bool = False) -> dict:
             decision, reason = decide(o, cust, unclaimed.get(o.customer_id, 0))
             # Синтетичні замовлення не мають adреси — беремо місто клієнта
             # з демо-довідника; на бойовому це прийде з чекаута готовими ref.
-            city = cities.get((cust.city if cust else "") or "Київ") \
-                or cities.get("Київ") or {"ref": "", "warehouses": [{"ref": ""}]}
+            city = cities.get((cust.city if cust else "") or "Київ")
+            if city is None:
+                # Міста немає в демо-зрізі — кажемо це прямо, а не
+                # підставляємо чуже відділення: у першій версії клієнтка
+                # з Луцька тихо отримувала київську адресу.
+                city = {"ref": "", "warehouses": [
+                    {"number": "?", "address": "місто поза демо-зрізом",
+                     "ref": ""}]}
             wh = city["warehouses"][o.id % len(city["warehouses"])]
             items.append({
                 "order_id": o.id, "number": o.number,
