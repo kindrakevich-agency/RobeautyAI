@@ -341,10 +341,23 @@ def price_table(chunks: list[dict], lang: str, extra_ids: list[int] | None = Non
             if p_.upsell_price and p_.upsell_price < p_.price:
                 row += (f" (у складі набору — {int(p_.upsell_price)} грн; "
                         f"окремо коштує {int(p_.price)} грн)")
+            # Посилання — щоб консультант міг дати його прямо в тексті:
+            # у бота, який зараз стоїть на сайті, у кожній відповіді в
+            # середньому 4.3 лінка, і саме вони ведуть клієнта в кошик.
+            if p_.landing_url:
+                row += f" | посилання: {p_.landing_url}"
+            d = p_.details or {}
+            claims = []
+            for f in ("skin_concerns", "skin_type"):
+                v = d.get(f)
+                if v:
+                    claims.append(", ".join(v[:4]))
+            if claims:
+                row += " | за описом: " + "; ".join(claims)
             lines.append(row)
     if not lines:
         return ""
-    return ("\n\nЦІНИ (єдине джерело; інших цін не називай):\n"
+    return ("\n\nТОВАРИ (єдине джерело цін і посилань):\n"
             + "\n".join(lines))
 
 def answer(question: str, history: list[dict], lang: str) -> dict:
