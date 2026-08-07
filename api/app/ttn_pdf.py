@@ -136,9 +136,16 @@ def build(item: dict, ttn: str) -> bytes:
     c.setFillColorRGB(0.42, 0.53, 0.53)
     note = ("Демонстраційний макет зі стенда robeauty.kindrakevich.com. Дані — з чернетки "
             "InternetDocument.save; документ перевізника створює виклик API з ключем акаунта.")
-    for i in range(0, len(note), 130):
-        c.drawString(m, y, note[i:i + 130])
-        y -= 10
+    line = ""
+    for word in note.split():
+        if len(line) + len(word) > 128:
+            c.drawString(m, y, line)
+            y -= 10
+            line = word
+        else:
+            line = f"{line} {word}".strip()
+    if line:
+        c.drawString(m, y, line)
 
     c.showPage()
     c.save()

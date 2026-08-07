@@ -2,38 +2,134 @@
   "_comment": "Демонстраційний зріз довідника НП. З ключем NP_API_KEY той самий код працює по живому довіднику всієї країни.",
   "settlements": [
     {
-      "name": "Київ", "area": "Київська обл.", "ref": "demo-kyiv",
+      "name": "Київ",
+      "area": "Київська обл.",
+      "ref": "demo-kyiv",
       "warehouses": [
-        {"number": "142", "address": "вул. Хрещатик, 16А", "ref": "demo-kyiv-142"},
-        {"number": "18", "address": "просп. Повітряних Сил, 66", "ref": "demo-kyiv-18"},
-        {"number": "200", "address": "просп. Броварський, 31В", "ref": "demo-kyiv-200"}
+        {
+          "number": "142",
+          "address": "вул. Хрещатик, 16А",
+          "ref": "demo-kyiv-142"
+        },
+        {
+          "number": "18",
+          "address": "просп. Повітряних Сил, 66",
+          "ref": "demo-kyiv-18"
+        },
+        {
+          "number": "200",
+          "address": "просп. Броварський, 31В",
+          "ref": "demo-kyiv-200"
+        }
       ]
     },
     {
-      "name": "Нова Прага", "area": "Кіровоградська обл.", "ref": "demo-npraha",
+      "name": "Нова Прага",
+      "area": "Кіровоградська обл.",
+      "ref": "demo-npraha",
       "warehouses": [
-        {"number": "1", "address": "вул. Центральна, 52 (навпроти ринку)", "ref": "demo-npraha-1"},
-        {"number": "2", "address": "вул. Соборна, 11", "ref": "demo-npraha-2"}
+        {
+          "number": "1",
+          "address": "вул. Центральна, 52 (навпроти ринку)",
+          "ref": "demo-npraha-1"
+        },
+        {
+          "number": "2",
+          "address": "вул. Соборна, 11",
+          "ref": "demo-npraha-2"
+        }
       ]
     },
     {
-      "name": "Львів", "area": "Львівська обл.", "ref": "demo-lviv",
+      "name": "Львів",
+      "area": "Львівська обл.",
+      "ref": "demo-lviv",
       "warehouses": [
-        {"number": "5", "address": "вул. Городоцька, 355", "ref": "demo-lviv-5"},
-        {"number": "12", "address": "вул. Зелена, 147", "ref": "demo-lviv-12"}
+        {
+          "number": "5",
+          "address": "вул. Городоцька, 355",
+          "ref": "demo-lviv-5"
+        },
+        {
+          "number": "12",
+          "address": "вул. Зелена, 147",
+          "ref": "demo-lviv-12"
+        }
       ]
     },
     {
-      "name": "Одеса", "area": "Одеська обл.", "ref": "demo-odesa",
+      "name": "Одеса",
+      "area": "Одеська обл.",
+      "ref": "demo-odesa",
       "warehouses": [
-        {"number": "3", "address": "вул. Пантелеймонівська, 25", "ref": "demo-odesa-3"},
-        {"number": "44", "address": "вул. Люстдорфська дорога, 140/1", "ref": "demo-odesa-44"}
+        {
+          "number": "3",
+          "address": "вул. Пантелеймонівська, 25",
+          "ref": "demo-odesa-3"
+        },
+        {
+          "number": "44",
+          "address": "вул. Люстдорфська дорога, 140/1",
+          "ref": "demo-odesa-44"
+        }
       ]
     },
     {
-      "name": "Бровари", "area": "Київська обл.", "ref": "demo-brovary",
+      "name": "Бровари",
+      "area": "Київська обл.",
+      "ref": "demo-brovary",
       "warehouses": [
-        {"number": "7", "address": "вул. Київська, 316", "ref": "demo-brovary-7"}
+        {
+          "number": "7",
+          "address": "вул. Київська, 316",
+          "ref": "demo-brovary-7"
+        }
+      ]
+    },
+    {
+      "name": "Дніпро",
+      "area": "Дніпропетровська обл.",
+      "ref": "demo-dnipro",
+      "warehouses": [
+        {
+          "number": "9",
+          "address": "просп. Дмитра Яворницького, 62",
+          "ref": "demo-dnipro-9"
+        },
+        {
+          "number": "27",
+          "address": "вул. Робоча, 77",
+          "ref": "demo-dnipro-27"
+        }
+      ]
+    },
+    {
+      "name": "Харків",
+      "area": "Харківська обл.",
+      "ref": "demo-kharkiv",
+      "warehouses": [
+        {
+          "number": "4",
+          "address": "вул. Сумська, 73",
+          "ref": "demo-kharkiv-4"
+        },
+        {
+          "number": "16",
+          "address": "просп. Науки, 41",
+          "ref": "demo-kharkiv-16"
+        }
+      ]
+    },
+    {
+      "name": "Вінниця",
+      "area": "Вінницька обл.",
+      "ref": "demo-vin",
+      "warehouses": [
+        {
+          "number": "2",
+          "address": "вул. Соборна, 24",
+          "ref": "demo-vin-2"
+        }
       ]
     }
   ]
