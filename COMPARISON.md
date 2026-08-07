@@ -86,9 +86,12 @@ RoBeauty — це український бренд з власним вироб
 * [BEAUTYBOX «Природній блиск»](https://robeauty.me/beautybox-natural-shine?editionuid=684948354052) - набір для надання шкірі сяйва.
 
 Чи цікавить Вас якась конкретна категорія товарів?
-[ASYNTAI_RT_PRODUCT:{"name": "SOS сироватка + крем з ніацинамідом (проблемна шкіра)", "price": "1,180.00 UAH", "description": "Набір Проблема:: Акне та вугри. Зона нанесення:: Обличчя.", "image_link": "https://static.tildacdn.com/stor3833-3435-4737-a438-656263396463/46384527.jpg", "button_text": "Переглянути", "button_link": "https://robeauty.me/niacinamide-and-galactomyces-max-effect?editionuid=914538270982", "image_url": "https://static.tildacdn.com/stor3833-3435-4737-a438-656263396463/46384527.jpg"}]
-[ASYNTAI_RT_PRODUCT:{"name": "Max anti-age: очі та глибокі зморшки", "price": "2,190.00 UAH", "description": "Набір Зона нанесення:: Обличчя. Проблема:: Вікові зміни.", "image_link": "https://static.tildacdn.com/stor3531-6432-4538-b030-333030326639/82494180.jpg", "button_text": "Переглянути", "button_link": "https://robeauty.me/max-anti-age-complect?editionuid=312222321994", "image_url": "https://static.tildacdn.com/stor3531-6432-4538-b030-333030326639/82494180.jpg"}]
-[ASYNTAI_RT_PRODUCT:{"name": "BEAUTYBOX «Природній блиск»", "price": "1,950.00 UAH", "description": "Набір Проблема:: Сяйво. Зона нанесення:: Тіло.", "image_link": "https://static.tildacdn.com/stor6638-6564-4837-a363-373535333338/52862699.jpg", "button_text": "Переглянути", "button_link": "https://robeauty.me/beautybox-natural-shine?editionuid=684948354052", "image_url": "https://static.tildacdn.com/stor6638-6564-4837-a363-373535333338/52862699.jpg"}] 
+
+> 🛍 **SOS сироватка + крем з ніацинамідом (проблемна шкіра)** — 1 180.00 UAH · [перейти](https://robeauty.me/niacinamide-and-galactomyces-max-effect?editionuid=914538270982)
+
+> 🛍 **Max anti-age: очі та глибокі зморшки** — 2 190.00 UAH · [перейти](https://robeauty.me/max-anti-age-complect?editionuid=312222321994)
+
+> 🛍 **BEAUTYBOX «Природній блиск»** — 1 950.00 UAH · [перейти](https://robeauty.me/beautybox-natural-shine?editionuid=684948354052) 
 
 > A дає конкретні товари, ціни й м’яко веде до покупки без сумнівних обіцянок, тоді як B теж конкретна, але містить медичні/перебільшені твердження на кшталт «заміни ботоксу».
 
@@ -106,13 +109,16 @@ RoBeauty — це український бренд з власним вироб
 Для сухої шкіри обличчя я можу порекомендувати кілька наших продуктів, які чудово зволожують та живлять:
 
 * **[WELCOME KIT: Ваш старт догляду для обличчя](https://robeauty.me/welcome-kit-complex)**: Цей набір містить базові етапи догляду, включаючи пінку для очищення, тонік, сироватку та крем. Він допоможе відновити комфорт, підтримати баланс шкіри та інтенсивно зволожити її.
- [ASYNTAI_RT_PRODUCT:{"name":"WELCOME KIT: Ваш старт догляду для обличчя","price":"1 490 ₴","description":"Комплексний набір, який знайомить з базовими етапами догляду ROBEAUTY:PureGlow Foam Cleanser— м’яко очищає шкіру без сухості та стягнутості.Milky Toner— відновлює комфорт, підтримує баланс і готує шкіру до наступних етапів.Hyaluronic Concentrate Serum— інтенсивно зволожує та допомагає шкірі виглядати більш гладкою й свіжою.Hyaluronic Concentrate Cream— підтримує бар’єр і завершує догляд. WELCOME KIT:ВАШ СТАРТ ДОГЛЯДУ для обличчя Від 373 ₴/міс при оплаті частинами Сухості, стягнутості та дискомфорті після очищення Зневодненій шкірі , якій бракує гладкості та м’якості Тьмяному тоні та втомленому вигляді обличчя Порушеному балансі шкіри та ослабленому бар’єрі Бажанні перейти на системний базовий догляд PureGlow Foam Cleanser Hyaluronic Concentrate Serum Hyaluronic Concentrate Cream PureGlow Foam Cleanser — м’яко очищає шкіру без сухості та стягнутості. Milky Toner — відновлює комфорт, підтримує баланс і готує шкіру до наступних етапів. Hyaluronic Concentrate Serum — інтенсивно зволожує та допомагає шкірі виглядати більш гладкою й свіжою. Hyaluronic Concentrate Cream — підтримує бар’єр і завершує догляд. 1490 ₴ ₴ Додати 1490 ₴ ₴ 1490 ₴","image_url":"https://static.tildacdn.com/stor6434-3830-4535-a335-663336633535/52851707.jpg","button_text":"Детальніше","button_link":"https://robeauty.me/welcome-kit-complex"}]
+ 
+> 🛍 **WELCOME KIT: Ваш старт догляду для обличчя** — 1 490 ₴ · [перейти](https://robeauty.me/welcome-kit-complex)
 
 * **[Крем для глибокого зволоження та розгладження зморшок](https://robeauty.me/hyaluronic-concentrate-cream?editionuid=704990764962)**: Цей крем інтенсивно зволожує шкіру та допомагає розгладити дрібні зморшки, роблячи шкіру більш пружною та свіжою.
- [ASYNTAI_RT_PRODUCT:{"name":"Крем для глибокого зволоження та розгладження зморшок","price":"790.00 UAH","description":"50 ml Проблема:: Вікові зміни. Зона нанесення:: Обличчя.","image_link": "https://static.tildacdn.com/stor3537-3633-4263-b635-306566663163/10880090.jpg", "button_text":"Детальніше", "button_link":"https://robeauty.me/hyaluronic-concentrate-cream?editionuid=704990764962", "image_url": "https://static.tildacdn.com/stor3537-3633-4263-b635-306566663163/10880090.jpg"}]
+ 
+> 🛍 **Крем для глибокого зволоження та розгладження зморшок** — 790.00 UAH · [перейти](https://robeauty.me/hyaluronic-concentrate-cream?editionuid=704990764962)
 
 * **[Сироватка з 4 видами гіалуронової кислоти та пробіотиками + крем](https://robeauty.me/hyaluronic-concentrate-max-effect)**: Цей комплекс забезпечує глибоке зволоження, бореться з сухістю, дрібними зморшками та втратою пружності.
- [ASYNTAI_RT_PRODUCT:{"name":"Сироватка з 4 видами гіалуронової кислоти та пробіотиками + крем","price":"1 480 ₴","description":"сироватка з 4 видами гіалуронової кислоти та пробіотиками + КРЕМ Від 296 ₴/міс при оплаті частинами Сухості та зневодненості шкіри обличчя Дрібних мімічних зморшках і лініях Втраті пружності та еластичності Тьмяності та сірому відтінку шкіри Потребі в інтенсивному зволоженні","image_url":"https://static.tildacdn.com/stor3634-3133-4061-9334-353961306665/97988368.jpg","button_text":"Детальніше","button_link":"https://robeauty.me/hyaluronic-concentrate-max-effect"}]
+ 
+> 🛍 **Сироватка з 4 видами гіалуронової кислоти та пробіотиками + крем** — 1 480 ₴ · [перейти](https://robeauty.me/hyaluronic-concentrate-max-effect)
 
 Ці продукти допоможуть відновити водний баланс шкіри, зробити її м'якшою та більш еластичною.
 
@@ -138,13 +144,16 @@ RoBeauty — це український бренд з власним вироб
 Для жирної шкіри з розширеними порами я можу порекомендувати такі продукти:
 
 * **[SOS сироватка + крем з ніацинамідом (проблемна шкіра)](https://robeauty.me/niacinamide-and-galactomyces-max-effect?editionuid=914538270982)**: Цей набір спеціально розроблений для проблемної шкіри, допомагає зменшити запалення, контролювати жирність та покращити текстуру шкіри, що може сприяти зменшенню видимості пор.
- [ASYNTAI_RT_PRODUCT:{"name":"SOS сироватка + крем з ніацинамідом (проблемна шкіра)","price":"1,180.00 UAH","description":"Набір Проблема:: Акне та вугри. Зона нанесення:: Обличчя.","image_link": "https://static.tildacdn.com/stor3833-3435-4737-a438-656263396463/46384527.jpg", "button_text":"Детальніше", "button_link":"https://robeauty.me/niacinamide-and-galactomyces-max-effect?editionuid=914538270982", "image_url": "https://static.tildacdn.com/stor3833-3435-4737-a438-656263396463/46384527.jpg"}]
+ 
+> 🛍 **SOS сироватка + крем з ніацинамідом (проблемна шкіра)** — 1 180.00 UAH · [перейти](https://robeauty.me/niacinamide-and-galactomyces-max-effect?editionuid=914538270982)
 
 * **[Крем від прищів і постакне. Niacinamide 4% + VITAMINE FERMENT 40%](https://robeauty.me/niacinamide-and-galactomyces-cream?editionuid=265458519502)**: Цей крем містить ніацинамід, який відомий своїми властивостями нормалізувати вироблення себуму та звужувати пори. Він також допомагає боротися з акне та постакне.
- [ASYNTAI_RT_PRODUCT:{"name":"Крем від прищів і постакне. Niacinamide 4% + VITAMINE FERMENT 40%","price":"790.00 UAH","description":"50 ml Проблема:: Акне та вугри. Зона нанесення:: Обличчя.","image_link": "https://static.tildacdn.com/stor6162-3166-4632-b038-333038386163/46153249.jpg", "button_text":"Детальніше", "button_link":"https://robeauty.me/niacinamide-and-galactomyces-cream?editionuid=265458519502", "image_url": "https://static.tildacdn.com/stor6162-3166-4632-b038-333038386163/46153249.jpg"}]
+ 
+> 🛍 **Крем від прищів і постакне. Niacinamide 4% + VITAMINE FERMENT 40%** — 790.00 UAH · [перейти](https://robeauty.me/niacinamide-and-galactomyces-cream?editionuid=265458519502)
 
 * **[Відновлюючий крем для ліпідного бар’єру з центелою і керамідами](https://robeauty.me/ceramide-complex-plus-cream?editionuid=426245546652)**: Хоча цей крем призначений для відновлення ліпідного бар'єру, він також може бути корисним для жирної шкіри, оскільки допомагає збалансувати шкіру, не перевантажуючи її.
- [ASYNTAI_RT_PRODUCT:{"name":"Відновлюючий крем для ліпідного бар’єру з центелою і керамідами","price":"790.00 UAH","description":"50 ml Проблема:: Розширені пори. Зона нанесення:: Обличчя.","image_link": "https://static.tildacdn.com/stor3835-6365-4931-b564-653836626161/28016329.jpg", "button_text":"Детальніше", "button_link":"https://robeauty.me/ceramide-complex-plus-cream?editionuid=426245546652", "image_url": "https://static.tildacdn.com/stor3835-6365-4931-b564-653836626161/28016329.jpg"}]
+ 
+> 🛍 **Відновлюючий крем для ліпідного бар’єру з центелою і керамідами** — 790.00 UAH · [перейти](https://robeauty.me/ceramide-complex-plus-cream?editionuid=426245546652)
 
 Ці засоби допоможуть контролювати жирність, звузити пори та покращити загальний стан вашої шкіри.
 
@@ -166,13 +175,16 @@ RoBeauty — це український бренд з власним вироб
 Для чутливої шкіри, яка часто червоніє, я б порекомендувала засоби, що мають заспокійливу та відновлюючу дію. Ось кілька варіантів:
 
 * **[Відновлювальний milky-тонер для об'я](https://robeauty.me/milky-toner?editionuid=841166203262)**: Цей тонер має ніжну формулу, яка відновлює ліпідний бар'єр, підтримує здоровий мікробіом та глибоко зволожує. Він чудово підходить для шкіри, схильної до почервоніння та подразнень.
- [ASYNTAI_RT_PRODUCT:{"name":"Відновлювальний milky-тонер для обличчя","price":"690.00 UAH","description":"100 ml Проблема:: Чутлива шкіра. Зона нанесення:: Обличчя.","image_link": "https://static.tildacdn.com/stor6462-3634-4431-b562-326639343735/25234302.jpg", "button_text":"Детальніше", "button_link":"https://robeauty.me/milky-toner?editionuid=841166203262", "image_url": "https://static.tildacdn.com/stor6462-3634-4431-b562-326639343735/25234302.jpg"}]
+ 
+> 🛍 **Відновлювальний milky-тонер для обличчя** — 690.00 UAH · [перейти](https://robeauty.me/milky-toner?editionuid=841166203262)
 
 * **[Заспокійливий тонік для обличчя](https://robeauty.me/soothing_tonic)**: Цей тонік містить пантенол, який допомагає зменшити запалення та прискорити загоєння. Він чудово заспокоює шкіру та знімає подразнення.
- [ASYNTAI_RT_PRODUCT:{"name":"Заспокійливий тонік для обличчя","price":"539.00 UAH","description":"Завдяки пантенолу у складі тонік допомагає зменшити наслідки акне, прискорити загоєння ран та мікротріщин.","image_link": "https://static.tildacdn.com/stor6665-6133-4064-b632-386365353435/92671080.jpg", "button_text":"Детальніше", "button_link":"https://robeauty.me/soothing_tonic", "image_url": "https://static.tildacdn.com/stor6665-6133-4064-b632-386365353435/92671080.jpg"}]
+ 
+> 🛍 **Заспокійливий тонік для обличчя** — 539.00 UAH · [перейти](https://robeauty.me/soothing_tonic)
 
 * **[BEAUTYBOX «Підготовка до макіяжу»](https://robeauty.me/beautybox-preparation-for-makeup?editionuid=224240567102)**: Цей набір містить засоби, які допоможуть підготувати чутливу шкіру до макіяжу, заспокоїти її та зменшити почервоніння.
- [ASYNTAI_RT_PRODUCT:{"name":"BEAUTYBOX «Підготовка до макіяжу»","price":"1,690.00 UAH","description":"Набір Проблема:: Чутлива шкіра. Зона нанесення:: Обличчя.","image_link": "https://static.tildacdn.com/stor3132-6666-4939-a436-306531393935/21857723.jpg", "button_text":"Детальніше", "button_link":"https://robeauty.me/beautybox-preparation-for-makeup?editionuid=224240567102", "image_url": "https://static.tildacdn.com/stor3132-6666-4939-a436-306531393935/21857723.jpg"}]
+ 
+> 🛍 **BEAUTYBOX «Підготовка до макіяжу»** — 1 690.00 UAH · [перейти](https://robeauty.me/beautybox-preparation-for-makeup?editionuid=224240567102)
 
 Ці засоби допоможуть заспокоїти шкіру, зменшити почервоніння та відновити її захисний бар'єр.
 
@@ -198,13 +210,16 @@ RoBeauty — це український бренд з власним вироб
 Для комбінованої шкіри, яка має як жирні ділянки (Т-зона), так і сухі (щоки), потрібен збалансований підхід. Ось кілька рекомендацій:
 
 * **[Тонік з AHA/BHA/PHA кислотами](https://robeauty.me/acid-tonic?editionuid=940246165832)**: Цей тонік допоможе регулювати виділення себуму в Т-зоні, очищати пори та відлущувати ороговілі клітини, водночас не пересушуючи шкіру. Ми маємо різні інтенсивності цього тоніка (Light, Medium, Hard), тож можна обрати найоптимальнішу.
- [ASYNTAI_RT_PRODUCT:{"name":"Тонік з AHA/BHA/PHA кислотами","price":"870.00 UAH","description":"100 ml Інтенсивність: Light. Зона нанесення:: Обличчя.","image_link": "https://static.tildacdn.com/stor6162-3035-4136-b132-326162346436/45372562.jpg", "button_text":"Детальніше", "button_link":"https://robeauty.me/acid-tonic?editionuid=940246165832", "image_url": "https://static.tildacdn.com/stor6162-3035-4136-b132-326162346436/45372562.jpg"}]
+ 
+> 🛍 **Тонік з AHA/BHA/PHA кислотами** — 870.00 UAH · [перейти](https://robeauty.me/acid-tonic?editionuid=940246165832)
 
 * **[Відновлюючий крем для ліпідного бар’єру з центелою і керамідами](https://robeauty.me/ceramide-complex-plus-cream?editionuid=426245546652)**: Цей крем чудово підійде для сухих щік, оскільки він інтенсивно зволожує, зміцнює захисний бар'єр шкіри та заспокоює. Його можна наносити локально на сухі ділянки.
- [ASYNTAI_RT_PRODUCT:{"name":"Відновлюючий крем для ліпідного бар’єру з центелою і керамідами","price":"790.00 UAH","description":"50 ml Проблема:: Розширені пори. Зона нанесення:: Обличчя.","image_link": "https://static.tildacdn.com/stor3835-6365-4931-b564-653836626161/28016329.jpg", "button_text":"Детальніше", "button_link":"https://robeauty.me/ceramide-complex-plus-cream?editionuid=426245546652", "image_url": "https://static.tildacdn.com/stor3835-6365-4931-b564-653836626161/28016329.jpg"}]
+ 
+> 🛍 **Відновлюючий крем для ліпідного бар’єру з центелою і керамідами** — 790.00 UAH · [перейти](https://robeauty.me/ceramide-complex-plus-cream?editionuid=426245546652)
 
 * **[SOS сироватка + крем з ніацинамідом (проблемна шкіра)](https://robeauty.me/niacinamide-and-galactomyces-max-effect?editionuid=914538270982)**: Ніацинамід у складі цього набору допоможе нормалізувати роботу сальних залоз у Т-зоні, зменшити запалення та звузити пори. Крем з цього набору можна використовувати локально на жирні ділянки.
- [ASYNTAI_RT_PRODUCT:{"name":"SOS сироватка + крем з ніацинамідом (проблемна шкіра)","price":"1,180.00 UAH","description":"Набір Проблема:: Акне та вугри. Зона нанесення:: Обличчя.","image_link": "https://static.tildacdn.com/stor3833-3435-4737-a438-656263396463/46384527.jpg", "button_text":"Детальніше", "button_link":"https://robeauty.me/niacinamide-and-galactomyces-max-effect?editionuid=914538270982", "image_url": "https://static.tildacdn.com/stor3833-3435-4737-a438-656263396463/46384527.jpg"}]
+ 
+> 🛍 **SOS сироватка + крем з ніацинамідом (проблемна шкіра)** — 1 180.00 UAH · [перейти](https://robeauty.me/niacinamide-and-galactomyces-max-effect?editionuid=914538270982)
 
 Ви можете використовувати ці засоби комплексно, наприклад, тонік на все обличчя, а крем для відновлення бар'єру - тільки на щоки, а крем з ніацинамідом - на Т-зону.
 
@@ -225,13 +240,16 @@ RoBeauty — це український бренд з власним вироб
 Для боротьби з пігментними плямами я можу порекомендувати такі продукти:
 
 * **[Сироватка + крем з мікроголками для боротьби з першими ознаками старіння](https://robeauty.me/anti-pigmentation-care-serum-and-cream-with-vitamin-c?editionuid=463110989282)**: Цей набір містить компоненти, які допомагають освітлити пігментні плями, покращити тон шкіри та стимулювати вироблення колагену.
- [ASYNTAI_RT_PRODUCT:{"name":"Сироватка + крем з мікроголками для боротьби з першими ознаками старіння","price":"1 650 ₴","description":"Набір Проблема:: Вікові зміни. Зона нанесення:: Обличчя.","image_url":"https://static.tildacdn.com/stor3966-3934-4261-b835-396434326431/39971087.png","button_text":"Детальніше","button_link":"https://robeauty.me/anti-pigmentation-care-serum-and-cream-with-vitamin-c?editionuid=463110989282"}]
+ 
+> 🛍 **Сироватка + крем з мікроголками для боротьби з першими ознаками старіння** — 1 650 ₴ · [перейти](https://robeauty.me/anti-pigmentation-care-serum-and-cream-with-vitamin-c?editionuid=463110989282)
 
 * **[Сироватка для глибокого зволоження та розгладження зморшок](https://robeauty.me/hyaluronic-concentrate-serums-new2024?editionuid=723268353112)**: Хоча ця сироватка в першу чергу спрямована на зволоження, вона також може допомогти покращити загальний тон шкіри та зменшити видимість пігментації завдяки гіалуроновій кислоті.
- [ASYNTAI_RT_PRODUCT:{"name":"Сироватка для глибокого зволоження та розгладження зморшок","price":"1,050.00 UAH","description":"30 ml Проблема:: Пігментація. Зона нанесення:: Обличчя.","image_link": "https://static.tildacdn.com/stor6561-6334-4530-b630-373961313964/66412199.jpg", "button_text":"Детальніше", "button_link":"https://robeauty.me/hyaluronic-concentrate-serums-new2024?editionuid=723268353112", "image_url": "https://static.tildacdn.com/stor6561-6334-4530-b630-373961313964/66412199.jpg"}]
+ 
+> 🛍 **Сироватка для глибокого зволоження та розгладження зморшок** — 1 050.00 UAH · [перейти](https://robeauty.me/hyaluronic-concentrate-serums-new2024?editionuid=723268353112)
 
 * **[Професійний пілінг для обличчя | AHA+BHA](https://robeauty.me/bloody-peeling?editionuid=914538270982)**: Цей пілінг допомагає відлущити верхній шар шкіри, що сприяє зменшенню пігментації та вирівнюванню тону.
- [ASYNTAI_RT_PRODUCT:{"name":"Професійний пілінг для обличчя | AHA+BHA","price":"690.00 UAH","description":"30 ml Проблема:: Очищення. Зона нанесення:: Обличчя.","image_link": "https://static.tildacdn.com/stor6137-3830-4633-a136-343835343666/56635446.jpg", "button_text":"Детальніше", "button_link":"https://robeauty.me/bloody-peeling?editionuid=914538270982", "image_url": "https://static.tildacdn.com/stor6137-3830-4633-a136-343835343666/56635446.jpg"}]
+ 
+> 🛍 **Професійний пілінг для обличчя | AHA+BHA** — 690.00 UAH · [перейти](https://robeauty.me/bloody-peeling?editionuid=914538270982)
 
 Ці продукти допоможуть зменшити видимість пігментних плям та вирівняти тон шкіри.
 
@@ -253,13 +271,16 @@ RoBeauty — це український бренд з власним вироб
 Для боротьби зі слідами після акне я можу порекомендувати наступні засоби:
 
 * **[SOS сироватка + крем з ніацинамідом (проблемна шкіра)](https://robeauty.me/niacinamide-and-galactomyces-max-effect?editionuid=914538270982)**: Цей набір чудово підійде для вирішення цієї проблеми. Ніацинамід відомий своєю здатністю зменшувати запалення, контролювати вироблення себуму та покращувати текстуру шкіри, що допомагає позбутися слідів від акне та постакне.
- [ASYNTAI_RT_PRODUCT:{"name":"SOS сироватка + крем з ніацинамідом (проблемна шкіра)","price":"1,180.00 UAH","description":"Набір Проблема:: Акне та вугри. Зона нанесення:: Обличчя.","image_link": "https://static.tildacdn.com/stor3833-3435-4737-a438-656263396463/46384527.jpg", "button_text":"Детальніше", "button_link":"https://robeauty.me/niacinamide-and-galactomyces-max-effect?editionuid=914538270982", "image_url": "https://static.tildacdn.com/stor3833-3435-4737-a438-656263396463/46384527.jpg"}]
+ 
+> 🛍 **SOS сироватка + крем з ніацинамідом (проблемна шкіра)** — 1 180.00 UAH · [перейти](https://robeauty.me/niacinamide-and-galactomyces-max-effect?editionuid=914538270982)
 
 * **[Крем від прищів і постакне. Niacinamide 4% + VITAMINE FERMENT 40%](https://robeauty.me/niacinamide-and-galactomyces-cream?editionuid=265458519502)**: Цей крем, завдяки високій концентрації ніацинаміду та вітамінів, ефективно бореться з постакне, освітлює плями та вирівнює тон шкіри.
- [ASYNTAI_RT_PRODUCT:{"name":"Крем від прищів і постакне. Niacinamide 4% + VITAMINE FERMENT 40%","price":"790.00 UAH","description":"50 ml Проблема:: Акне та вугри. Зона нанесення:: Обличчя.","image_link": "https://static.tildacdn.com/stor6162-3166-4632-b038-333038386163/46153249.jpg", "button_text":"Детальніше", "button_link":"https://robeauty.me/niacinamide-and-galactomyces-cream?editionuid=265458519502", "image_url": "https://static.tildacdn.com/stor6162-3166-4632-b038-333038386163/46153249.jpg"}]
+ 
+> 🛍 **Крем від прищів і постакне. Niacinamide 4% + VITAMINE FERMENT 40%** — 790.00 UAH · [перейти](https://robeauty.me/niacinamide-and-galactomyces-cream?editionuid=265458519502)
 
 * **[Професійний пілінг для обличчя | AHA+BHA](https://robeauty.me/bloody-peeling?editionuid=914538270982)**: Кислотний пілінг допоможе відлущити верхній шар шкіри, що сприятиме оновленню клітин та зменшенню видимості пост-акне.
- [ASYNTAI_RT_PRODUCT:{"name":"Професійний пілінг для обличчя | AHA+BHA","price":"690.00 UAH","description":"30 ml Проблема:: Очищення. Зона нанесення:: Обличчя.","image_link": "https://static.tildacdn.com/stor6137-3830-4633-a136-343835343666/56635446.jpg", "button_text":"Детальніше", "button_link":"https://robeauty.me/bloody-peeling?editionuid=914538270982", "image_url": "https://static.tildacdn.com/stor6137-3830-4633-a136-343835343666/56635446.jpg"}]
+ 
+> 🛍 **Професійний пілінг для обличчя | AHA+BHA** — 690.00 UAH · [перейти](https://robeauty.me/bloody-peeling?editionuid=914538270982)
 
 Ці засоби допоможуть вирівняти тон шкіри, зменшити пігментацію та покращити загальний вигляд шкіри після акне.
 
@@ -282,13 +303,16 @@ RoBeauty — це український бренд з власним вироб
 Для боротьби зі зморшками навколо очей я б радила почати з комплексного підходу, який включає зволоження, живлення та стимуляцію регенерації шкіри. Ось кілька продуктів, які можуть бути ефективними:
 
 * **[Сироватка замінник ботоксу під очі — ARGIRELINE®](https://robeauty.me/botox-fast-result-eye-serum?editionuid=436812235274)**: Ця сироватка містить пептид ARGIRELINE®, який допомагає розслабити м'язи обличчя, зменшуючи глибину мімічних зморшок. Вона підходить для тонкої шкіри навколо очей і дає ефект без ін'єкцій.
- [ASYNTAI_RT_PRODUCT:{"name":"Сироватка замінник ботоксу під очі — ARGIRELINE®","price":"1,190.00 UAH","description":"20 g Проблема:: Вікові зміни. Зона нанесення:: Очі.","image_link": "https://static.tildacdn.com/stor3934-6262-4461-b430-313038356533/a66ec21e9fbad6a90e6593a40aaa05e9.jpg", "button_text":"Детальніше", "button_link":"https://robeauty.me/botox-fast-result-eye-serum?editionuid=436812235274", "image_url": "https://static.tildacdn.com/stor3934-6262-4461-b430-313038356533/a66ec21e9fbad6a90e6593a40aaa05e9.jpg"}]
+ 
+> 🛍 **Сироватка замінник ботоксу під очі — ARGIRELINE®** — 1 190.00 UAH · [перейти](https://robeauty.me/botox-fast-result-eye-serum?editionuid=436812235274)
 
 * **[Крем замінник ботоксу під очі — ARGIRELINE®](https://robeauty.me/botox-fast-result-eye-cream?editionuid=725809781604)**: Цей крем доповнює дію сироватки, працюючи з причиною мімічних заломів та підтримуючи дермальну структуру шкіри навколо очей.
- [ASYNTAI_RT_PRODUCT:{"name":"Крем замінник ботоксу під очі — ARGIRELINE®","price":"1,590.00 UAH","description":"35 g Проблема:: Вікові зміни. Зона нанесення:: Очі.","image_link": "https://static.tildacdn.com/stor3934-6262-4461-b430-313038356533/a66ec21e9fbad6a90e6593a40aaa05e9.jpg", "button_text":"Детальніше", "button_link":"https://robeauty.me/botox-fast-result-eye-cream?editionuid=725809781604", "image_url": "https://static.tildacdn.com/stor3934-6262-4461-b430-313038356533/a66ec21e9fbad6a90e6593a40aaa05e9.jpg"}]
+ 
+> 🛍 **Крем замінник ботоксу під очі — ARGIRELINE®** — 1 590.00 UAH · [перейти](https://robeauty.me/botox-fast-result-eye-cream?editionuid=725809781604)
 
 * **[Набір замінник ботоксу під очі — ARGIRELINE®](https://robeauty.me/botox-fast-result-eye-max-effect?editionuid=312222321994)**: Якщо Ви хочете отримати максимальний ефект, цей набір, що містить сироватку та крем, буде чудовим вибором. Він забезпечує швидкий старт та довгостроковий результат у боротьбі зі зморшками навколо очей.
- [ASYNTAI_RT_PRODUCT:{"name":"Набір замінник ботоксу під очі — ARGIRELINE®","price":"2,780.00 UAH","description":"Набір Проблема:: Вікові зміни. Зона нанесення:: Очі.","image_link": "https://static.tildacdn.com/stor3934-6262-4461-b430-313038356533/a66ec21e9fbad6a90e6593a40aaa05e9.jpg", "button_text":"Детальніше", "button_link":"https://robeauty.me/botox-fast-result-eye-max-effect?editionuid=312222321994", "image_url": "https://static.tildacdn.com/stor3934-6262-4461-b430-313038356533/a66ec21e9fbad6a90e6593a40aaa05e9.jpg"}]
+ 
+> 🛍 **Набір замінник ботоксу під очі — ARGIRELINE®** — 2 780.00 UAH · [перейти](https://robeauty.me/botox-fast-result-eye-max-effect?editionuid=312222321994)
 
 Ці продукти допоможуть зменшити глибину зморшок, підвищити пружність шкіри та надати погляду більш свіжого вигляду.
 
@@ -313,13 +337,16 @@ RoBeauty — це український бренд з власним вироб
 Для темних кіл та набряків під очима у нас є кілька ефективних засобів:
 
 * **[Дерматологічний крем проти темних кіл та набряків під очима](https://robeauty.me/dark-circle-and-depuffing-eye-cream?editionuid=106984730402)**: Цей крем має інноваційну формулу з пептидами Haloxyl і Eyeliss, яка допомагає усунути темний пігмент, зміцнити капіляри та покращити мікроциркуляцію, зменшуючи набряки вже з першого нанесення. Його ціна – 1 590 ₴.
- [ASYNTAI_RT_PRODUCT:{"name":"Дерматологічний крем проти темних кіл та набряків під очима","price":"1,590.00 UAH","description":"35 g Проблема:: Вікові зміни. Зона нанесення:: Очі.","image_link": "https://static.tildacdn.com/stor5617-1765-4532-b265-356432666339/56171765.jpg", "button_text":"Детальніше", "button_link":"https://robeauty.me/dark-circle-and-depuffing-eye-cream?editionuid=106984730402", "image_url": "https://static.tildacdn.com/stor5617-1765-4532-b265-356432666339/56171765.jpg"}]
+ 
+> 🛍 **Дерматологічний крем проти темних кіл та набряків під очима** — 1 590.00 UAH · [перейти](https://robeauty.me/dark-circle-and-depuffing-eye-cream?editionuid=106984730402)
 
 * **[Сироватка проти темних кіл та набряків під очима](https://robeauty.me/dark-circle-and-depuffing-eye-serum?editionuid=489785459652)**: Ця сироватка також спрямована на боротьбу з темними колами та набряками, зміцнюючи капіляри та покращуючи мікроциркуляцію. Її ціна – 1 590 ₴.
- [ASYNTAI_RT_PRODUCT:{"name":"Сироватка проти темних кіл та набряків під очима","price":"1,590.00 UAH","description":"20 g Проблема:: Вікові зміни. Зона нанесення:: Очі.","image_link": "https://static.tildacdn.com/stor8618-3553-4065-b237-313133333532/86183553.jpg", "button_text":"Детальніше", "button_link":"https://robeauty.me/dark-circle-and-depuffing-eye-serum?editionuid=489785459652", "image_url": "https://static.tildacdn.com/stor8618-3553-4065-b237-313133333532/86183553.jpg"}]
+ 
+> 🛍 **Сироватка проти темних кіл та набряків під очима** — 1 590.00 UAH · [перейти](https://robeauty.me/dark-circle-and-depuffing-eye-serum?editionuid=489785459652)
 
 * **[Набір: Дерматологічні крем і сироватка проти темних кіл та набряків під очима](https://robeauty.me/dark-circle-and-depuffing-eye-max-effect?editionuid=182890729782)**: Це інтенсивний комплекс, який включає і крем, і сироватку. Він забезпечує потужну дію для усунення темного пігменту, зміцнення капілярів та зменшення набряків. Ціна набору – 2 540 ₴.
- [ASYNTAI_RT_PRODUCT:{"name":"Набір: Дерматологічні крем і сироватка проти темних кіл та набряків під очима","price":"2,540.00 UAH","description":"Набір Проблема:: Вікові зміни. Зона нанесення:: Очі.","image_link": "https://static.tildacdn.com/stor4929-5814-4539-b832-646165353566/49295814.jpg", "button_text":"Детальніше", "button_link":"https://robeauty.me/dark-circle-and-depuffing-eye-max-effect?editionuid=182890729782", "image_url": "https://static.tildacdn.com/stor4929-5814-4539-b832-646165353566/49295814.jpg"}]
+ 
+> 🛍 **Набір: Дерматологічні крем і сироватка проти темних кіл та набряків під очима** — 2 540.00 UAH · [перейти](https://robeauty.me/dark-circle-and-depuffing-eye-max-effect?editionuid=182890729782)
 
 Ці засоби допоможуть зробити шкіру під очима більш свіжою та відпочилою.
 
@@ -344,13 +371,16 @@ RoBeauty — це український бренд з власним вироб
 Для шкіри, яка втратила пружність та овал обличчя "поплив", я б радила звернути увагу на засоби з ліфтинг-ефектом та ті, що стимулюють вироблення колагену. Ось декілька варіантів:
 
 * **[Триступеневий підтягувальний комплекс для обличчя та шиї](https://robeauty.me/three-step-face-and-neck-lifting-complex)**: Цей комплекс розроблений спеціально для підтяжки шкіри обличчя та шиї. Він працює у трьох напрямках: сироватка з ARGIRELINE® для розгладження зморшок, крем для зміцнення шкіри та ліфтинг-крем для шиї та підборіддя.
- [ASYNTAI_RT_PRODUCT:{"name":"Триступеневий підтягувальний комплекс для обличчя та шиї","price":"2,760.00 UAH","description":"Набір Проблема:: Вікові зміни. Зона нанесення:: Обличчя, Шия.","image_link": "https://static.tildacdn.com/stor6632-6465-4065-a435-643330343139/24856589.jpg", "button_text":"Детальніше", "button_link":"https://robeauty.me/three-step-face-and-neck-lifting-complex", "image_url": "https://static.tildacdn.com/stor6632-6465-4065-a435-643330343139/24856589.jpg"}]
+ 
+> 🛍 **Триступеневий підтягувальний комплекс для обличчя та шиї** — 2 760.00 UAH · [перейти](https://robeauty.me/three-step-face-and-neck-lifting-complex)
 
 * **[Turbolift Cream - для зняття набряків та відновлення тонусу шкіри](https://robeauty.me/turbolift_cream?editionuid=457399131532)**: Цей крем миттєво освіжає, повертає пружність та знімає ознаки втоми. Він чудово підходить для шкіри, яка втратила тонус і пружність, надаючи ефект "освіжити і підтягнути — тут і зараз". Його ціна – 590 ₴.
- [ASYNTAI_RT_PRODUCT:{"name":"Turbolift Cream - для зняття набряків та відновлення тонусу шкіри","price":"590.00 UAH","description":"100 ml Проблема:: Вікові зміни. Зона нанесення:: Тіло.","image_link": "https://static.tildacdn.com/stor3539-6635-4639-a638-336135343931/75058074.jpg", "button_text":"Детальніше", "button_link":"https://robeauty.me/turbolift_cream?editionuid=457399131532", "image_url": "https://static.tildacdn.com/stor3539-6635-4639-a638-336135343931/75058074.jpg"}]
+ 
+> 🛍 **Turbolift Cream - для зняття набряків та відновлення тонусу шкіри** — 590.00 UAH · [перейти](https://robeauty.me/turbolift_cream?editionuid=457399131532)
 
 * **[Age Reset Kit: Повний цикл догляду за шкірою](https://robeauty.me/age-reset-kit)**: Цей набір забезпечує комплексний anti-age догляд. Він містить засоби, що активують синтез колагену, запускають регенерацію шкіри, розгладжують зморшки та вирівнюють тон. Також до набору входить ліфтинг-крем для шиї та декольте, що особливо важливо для підтримання чіткого контуру. Його ціна – 2 150 ₴.
- [ASYNTAI_RT_PRODUCT:{"name":"Age Reset Kit: Повний цикл догляду за шкірою","price":"2,150.00 UAH","description":"Набір забезпечує повний цикл Anti-Age догляду","image_link": "https://static.tildacdn.com/stor6561-3635-4634-a365-353537326133/75058074.jpg", "button_text":"Детальніше", "button_link":"https://robeauty.me/age-reset-kit", "image_url": "https://static.tildacdn.com/stor6561-3635-4634-a365-353537326133/75058074.jpg"}]
+ 
+> 🛍 **Age Reset Kit: Повний цикл догляду за шкірою** — 2 150.00 UAH · [перейти](https://robeauty.me/age-reset-kit)
 
 Ці продукти допоможуть підвищити пружність шкіри, підтягнути овал обличчя та зробити шкіру більш молодою та свіжою.
 
@@ -376,13 +406,16 @@ RoBeauty — це український бренд з власним вироб
 Після зими шкіра часто потребує відновлення та сяйва. Для тьмяної та сірої шкіри обличчя я можу порекомендувати наступні засоби:
 
 * **[Кислотний пілінг для сяйва шкіри обличчя](https://robeauty.me/bloody-peeling?editionuid=914538270982)**: Цей пілінг допоможе м'яко відлущити ороговілі клітини, що накопичилися за зиму, відкриваючи свіжу, сяючу шкіру під ними. Він також сприяє вирівнюванню тону та покращенню текстури шкіри.
- [ASYNTAI_RT_PRODUCT:{"name":"Кислотний пілінг для сяйва шкіри обличчя","price":"690.00 UAH","description":"30 ml Проблема:: Очищення. Зона нанесення:: Обличчя.","image_link": "https://static.tildacdn.com/stor6137-3830-4633-a136-343835343666/56635446.jpg", "button_text":"Детальніше", "button_link":"https://robeauty.me/bloody-peeling?editionuid=914538270982", "image_url": "https://static.tildacdn.com/stor6137-3830-4633-a136-343835343666/56635446.jpg"}]
+ 
+> 🛍 **Кислотний пілінг для сяйва шкіри обличчя** — 690.00 UAH · [перейти](https://robeauty.me/bloody-peeling?editionuid=914538270982)
 
 * **[Сироватка + крем з ліпосомальним вітаміном С](https://robeauty.me/anti-pigmentation-care-serum-and-cream-with-vitamin-c?editionuid=463110989282)**: Вітамін С є потужним антиоксидантом, який допомагає освітлити шкіру, надати їй сяйва та захистити від вільних радикалів. Цей набір забезпечить комплексний догляд для відновлення здорового кольору обличчя.
- [ASYNTAI_RT_PRODUCT:{"name":"Сироватка + крем з ліпосомальним вітаміном С","price":"1 650 ₴","description":"Набір Проблема:: Вікові зміни. Зона нанесення:: Обличчя.","image_url":"https://static.tildacdn.com/stor3966-3934-4261-b835-396434326431/39971087.png","button_text":"Детальніше","button_link":"https://robeauty.me/anti-pigmentation-care-serum-and-cream-with-vitamin-c?editionuid=463110989282"}]
+ 
+> 🛍 **Сироватка + крем з ліпосомальним вітаміном С** — 1 650 ₴ · [перейти](https://robeauty.me/anti-pigmentation-care-serum-and-cream-with-vitamin-c?editionuid=463110989282)
 
 * **[Комплект Дня і Ночі «Енергія та Відновлення»](https://robeauty.me/complect-energy-and-recovery)**: Цей набір містить засоби, які допоможуть зволожити шкіру, покращити її тон та надати енергії. Він містить кислотний пілінг для сяйва та сироватку з гіалуроновою кислотою і пробіотиками, що сприяє відновленню шкіри.
- [ASYNTAI_RT_PRODUCT:{"name":"Комплект Дня і Ночі «Енергія та Відновлення»","price":"1 690 ₴","description":"Зволоження із 1 використання. Рівний тон із 5 дня використання.","image_url":"https://static.tildacdn.com/stor3038-3835-4038-9438-636634393834/75058074.jpg","button_text":"Детальніше","button_link":"https://robeauty.me/complect-energy-and-recovery"}]
+ 
+> 🛍 **Комплект Дня і Ночі «Енергія та Відновлення»** — 1 690 ₴ · [перейти](https://robeauty.me/complect-energy-and-recovery)
 
 Ці продукти допоможуть повернути Вашій шкірі здоровий колір, сяйво та свіжість.
 
@@ -407,18 +440,24 @@ RoBeauty — це український бренд з власним вироб
 Для боротьби з целюлітом у нас є кілька ефективних засобів, які спрямовані на розігрів, покращення мікроциркуляції та вирівнювання рельєфу шкіри:
 
 * **[Антицелюлітний крем для проблемних зон](https://robeauty.me/sportcream?editionuid=649814181142)**: Цей крем має дві інтенсивності дії: Medium та Strong. Він активує мікроциркуляцію, розігріває тканини, сприяє дренажу та зменшенню набряків, а також стимулює ліполіз. Ціна – 950.00 UAH.
- [ASYNTAI_RT_PRODUCT:{"name":"Антицелюлітний крем для проблемних зон","price":"950.00 UAH","description":"100 ml Інтенсивність: Strong. Проблема:: Целюліт. Зона нанесення:: Тіло.","image_link": "https://static.tildacdn.com/stor3765-3866-4964-b037-393266393936/84735325.png", "button_text":"Детальніше", "button_link":"https://robeauty.me/sportcream?editionuid=649814181142", "image_url": "https://static.tildacdn.com/stor3765-3866-4964-b037-393266393936/84735325.png"}]
+ 
+> 🛍 **Антицелюлітний крем для проблемних зон** — 950.00 UAH · [перейти](https://robeauty.me/sportcream?editionuid=649814181142)
 
 * **[Антицелюлітна масажна олія](https://robeauty.me/oilhot?editionuid=542221407911)**: Ця олія ідеально підходить для масажу. Вона прогріває глибокі шари шкіри, допомагаючи боротися з целюлітом, забезпечує шкіру вітамінами та робить її гладкою. Доступна у двох об'ємах: 250 ml за 520.00 UAH та 100 ml за 320.00 UAH.
- [ASYNTAI_RT_PRODUCT:{"name":"Антицелюлітна масажна олія","price":"520.00 UAH","description":"Ідеально підходить для домашнього та професійного використання. Прогріває глибокі шари шкіри, допомагаючи боротися із целюлітом. Забезпечує шкіру вітамінами і робить її гладкою та насиченою. Олія має легку текстуру, не створює важкого відчуття на тілі, інтенсивно, але дбайливо прогріває глибокі шари шкіри, викликаючи каскад нейросигналів та стійке відчуття тепла у проблемних зонах. Не викликає роздратування. Вага:: 250. Проблема:: Целюліт. Зона нанесення:: Тіло.","image_link": "https://static.tildacdn.com/stor6536-6534-4536-b131-303933616531/13787554.jpg", "button_text":"Детальніше", "button_link":"https://robeauty.me/oilhot?editionuid=542221407911", "image_url": "https://static.tildacdn.com/stor6536-6534-4536-b131-303933616531/13787554.jpg"}]
- [ASYNTAI_RT_PRODUCT:{"name":"Антицелюлітна масажна олія","price":"320.00 UAH","description":"Ідеально підходить для домашнього та професійного використання. Прогріває глибокі шари шкіри, допомагаючи боротися із целюлітом. Забезпечує шкіру вітамінами і робить її гладкою та насиченою. Олія має легку текстуру, не створює важкого відчуття на тілі, інтенсивно, але дбайливо прогріває глибокі шари шкіри, викликаючи каскад нейросигналів та стійке відчуття тепла у проблемних зонах. Не викликає роздратування. Вага:: 100. Проблема:: Целюліт. Зона нанесення:: Тіло.","image_link": "https://static.tildacdn.com/stor6536-6534-4536-b131-303933616531/13787554.jpg", "button_text":"Детальніше", "button_link":"https://robeauty.me/oilhot?editionuid=125411414841", "image_url": "https://static.tildacdn.com/stor6536-6534-4536-b131-303933616531/13787554.jpg"}]
+ 
+> 🛍 **Антицелюлітна масажна олія** — 520.00 UAH · [перейти](https://robeauty.me/oilhot?editionuid=542221407911)
+ 
+> 🛍 **Антицелюлітна масажна олія** — 320.00 UAH · [перейти](https://robeauty.me/oilhot?editionuid=125411414841)
 
 * **[Ментоловий ліфтинг-скраб](https://robeauty.me/turbolift_cold_scrub?editionuid=841166203262)**: Цей скраб готує шкіру до подальшого догляду, відлущує ороговілі клітини та покращує мікроциркуляцію, що сприяє зменшенню проявів целюліту. Доступний у об'ємах 250 ml за 490.00 UAH та 500 ml за 690.00 UAH.
- [ASYNTAI_RT_PRODUCT:{"name":"Ментоловий ліфтинг-скраб","price":"490.00 UAH","description":"250/500 ml Вага:: 250. Проблема:: Целюліт. Зона нанесення:: Тіло.","image_link": "https://static.tildacdn.com/stor3665-3730-4139-b463-363534656636/63714093.png", "button_text":"Детальніше", "button_link":"https://robeauty.me/turbolift_cold_scrub?editionuid=841166203262", "image_url": "https://static.tildacdn.com/stor3665-3730-4139-b463-363534656636/63714093.png"}]
- [ASYNTAI_RT_PRODUCT:{"name":"Ментоловий ліфтинг-скраб","price":"690.00 UAH","description":"250/500 ml Вага:: 500. Проблема:: Целюліт. Зона нанесення:: Тіло.","image_link": "https://static.tildacdn.com/stor3636-6533-4334-b633-333663633063/80170605.png", "button_text":"Детальніше", "button_link":"https://robeauty.me/turbolift_cold_scrub?editionuid=516450418172", "image_url": "https://static.tildacdn.com/stor3636-6533-4334-b633-333663633063/80170605.png"}]
+ 
+> 🛍 **Ментоловий ліфтинг-скраб** — 490.00 UAH · [перейти](https://robeauty.me/turbolift_cold_scrub?editionuid=841166203262)
+ 
+> 🛍 **Ментоловий ліфтинг-скраб** — 690.00 UAH · [перейти](https://robeauty.me/turbolift_cold_scrub?editionuid=516450418172)
 
 * **[BEAUTYBOX «Антицелюлітний»](https://robeauty.me/beautybox-anti-cellulite?editionuid=357979175422)**: Це комплексний набір, який включає скраб, крем та масажну олію. Він забезпечує комплексний догляд для боротьби з целюлітом, сприяючи розігріваючому ефекту, покращенню обміну речовин та виведенню токсинів. Ціна – 1 790 ₴ (зі знижкою з 2 260 ₴).
- [ASYNTAI_RT_PRODUCT:{"name":"BEAUTYBOX «Антицелюлітний»","price":"1,790.00 UAH","description":"Набір Проблема:: Целюліт. Зона нанесення:: Тіло.","image_link": "https://static.tildacdn.com/stor3063-3834-4962-b166-643061633032/63303475.jpg", "button_text":"Детальніше", "button_link":"https://robeauty.me/beautybox-anti-cellulite?editionuid=357979175422", "image_url": "https://static.tildacdn.com/stor3063-3834-4962-b166-643061633032/63303475.jpg"}]
+ 
+> 🛍 **BEAUTYBOX «Антицелюлітний»** — 1 790.00 UAH · [перейти](https://robeauty.me/beautybox-anti-cellulite?editionuid=357979175422)
 
 Ці засоби допоможуть зменшити прояви целюліту, зробити шкіру більш гладкою та підтягнутою.
 
@@ -446,11 +485,14 @@ RoBeauty — це український бренд з власним вироб
 Ось декілька продуктів з ретинолом:
 
 * **[Нічна ANTI-AGE сироватка з мікроголками та ретинолом](https://robeauty.me/night-retinol-serum?editionuid=783059467422)**: Це сироватка, яка стимулює оновлення клітин, бореться зі зморшками та вирівнює текстуру шкіри. Мікроголки (спікули) допомагають активним компонентам проникати глибше.
- [ASYNTAI_RT_PRODUCT:{"name":"Нічна ANTI-AGE сироватка з мікроголками та ретинолом","price":"890.00 UAH","description":"30 ml Проблема:: Вікові зміни. Зона нанесення:: Обличчя.","image_link": "https://static.tildacdn.com/stor3863-3738-4338-b533-663431316462/92633826.jpg", "button_text":"Детальніше", "button_link":"https://robeauty.me/night-retinol-serum?editionuid=783059467422", "image_url": "https://static.tildacdn.com/stor3863-3738-4338-b533-663431316462/92633826.jpg"}]
+ 
+> 🛍 **Нічна ANTI-AGE сироватка з мікроголками та ретинолом** — 890.00 UAH · [перейти](https://robeauty.me/night-retinol-serum?editionuid=783059467422)
 * **[Нічний ANTI-AGE крем з мікроголками та ретинолом](https://robeauty.me/night-retinol-cream?editionuid=223275033932)**: Цей крем заспокоює, зволожує та посилює дію сироватки, додатково стимулюючи розгладження зморшок та покращуючи еластичність шкіри.
- [ASYNTAI_RT_PRODUCT:{"name":"Нічний ANTI-AGE крем з мікроголками та ретинолом","price":"890.00 UAH","description":"50 ml Проблема:: Вікові зміни. Зона нанесення:: Обличчя.","image_link": "https://static.tildacdn.com/stor3863-3738-4338-b533-663431316462/92633826.jpg", "button_text":"Детальніше", "button_link":"https://robeauty.me/night-retinol-cream?editionuid=223275033932", "image_url": "https://static.tildacdn.com/stor3863-3738-4338-b533-663431316462/92633826.jpg"}]
+ 
+> 🛍 **Нічний ANTI-AGE крем з мікроголками та ретинолом** — 890.00 UAH · [перейти](https://robeauty.me/night-retinol-cream?editionuid=223275033932)
 * **[Нічний догляд: Сироватка та Крем з ретинолом](https://robeauty.me/night-care-serum-and-cream-with-retinol?editionuid=0)**: Цей комплексний набір містить як сироватку, так і крем з ретинолом, що забезпечує потужний ефект відновлення та омолодження під час сну.
- [ASYNTAI_RT_PRODUCT:{"name":"Нічний догляд: Сироватка та Крем з ретинолом","price":"1 390 ₴","description":"Сироватка Night Retinol — стимулює оновлення клітин, бореться зі зморшками та вирівнює текстуру шкіри. Крем Night Retinol — заспокоює, зволожує та утримує ефект сироватки, додатково стимулює розгладження зморшок та покращує еластичність шкіри.","image_link": "https://static.tildacdn.com/stor6337-6663-4266-b431-373233393237/70270783.jpg", "button_text":"Детальніше", "button_link":"https://robeauty.me/night-care-serum-and-cream-with-retinol?editionuid=0", "image_url": "https://static.tildacdn.com/stor6337-6663-4266-b431-373233393237/70270783.jpg"}]
+ 
+> 🛍 **Нічний догляд: Сироватка та Крем з ретинолом** — 1 390 ₴ · [перейти](https://robeauty.me/night-care-serum-and-cream-with-retinol?editionuid=0)
 
 **Як вводити ретинол:**
 
@@ -548,9 +590,12 @@ ARGIRELINE® (Аргірелін) — це унікальний пептид, я
 
 Чи хотіли б Ви дізнатися більше про конкретні продукти з ARGIRELINE®?
 
-[ASYNTAI_RT_PRODUCT:{"name": "Сироватка-замінник ботоксу ARGIRELINE®", "price": "690.00 UAH", "image_url": "https://static.tildacdn.com/stor6533-6137-4538-b562-306531633664/129de86641f9db383121b199bd33fbe6.jpg", "description": "30 ml Проблема:: Вікові зміни. Зона нанесення:: Обличчя.", "button_link": "https://robeauty.me/fast-result-serum-new2024?editionuid=991012571252"}]
-[ASYNTAI_RT_PRODUCT:{"name": "Сироватка замінник ботоксу під очі — ARGIRELINE®", "price": "1,190.00 UAH", "image_url": "https://static.tildacdn.com/stor6334-3631-4831-b136-323039303737/bbcb976c88baef6708e464957a4d7e34.jpg", "description": "20 g Проблема:: Вікові зміни. Зона нанесення:: Очі.", "button_link": "https://robeauty.me/botox-fast-result-eye-serum?editionuid=436812235274"}]
-[ASYNTAI_RT_PRODUCT:{"name": "Крем замінник ботоксу під очі — ARGIRELINE®", "price": "1,590.00 UAH", "image_url": "https://static.tildacdn.com/stor3934-6262-4461-b430-313038356533/a66ec21e9fbad6a90e6593a40aaa05e9.jpg", "description": "35 g Проблема:: Вікові зміни. Зона нанесення:: Очі.", "button_link": "https://robeauty.me/botox-fast-result-eye-cream?editionuid=725809781604"}] 
+
+> 🛍 **Сироватка-замінник ботоксу ARGIRELINE®** — 690.00 UAH · [перейти](https://robeauty.me/fast-result-serum-new2024?editionuid=991012571252)
+
+> 🛍 **Сироватка замінник ботоксу під очі — ARGIRELINE®** — 1 190.00 UAH · [перейти](https://robeauty.me/botox-fast-result-eye-serum?editionuid=436812235274)
+
+> 🛍 **Крем замінник ботоксу під очі — ARGIRELINE®** — 1 590.00 UAH · [перейти](https://robeauty.me/botox-fast-result-eye-cream?editionuid=725809781604) 
 
 > A більш коротка і менш ризикована, тоді як B детальніше пояснює, але робить сильні медичні обіцянки про дію як у ботоксу.
 
@@ -636,8 +681,10 @@ ARGIRELINE® (Аргірелін) — це унікальний пептид, я
 
 Чи хотіли б Ви дізнатися більше про конкретні продукти або поради щодо їх комбінування?
 
-[ASYNTAI_RT_PRODUCT:{"name": "Сироватка + крем з мікроголками для боротьби з першими ознаками старіння", "price": "1,650.00 UAH", "image_url": "https://static.tildacdn.com/stor3966-3934-4261-b835-396434326431/39971087.png", "description": "Набір Проблема:: Вікові зміни. Зона нанесення:: Обличчя.", "button_link": "https://robeauty.me/anti-pigmentation-care-serum-and-cream-with-vitamin-c?editionuid=463110989282"}]
-[ASYNTAI_RT_PRODUCT:{"name": "Нічна сироватка з мікроголками та ретинолом", "price": "890.00 UAH", "image_url": "https://static.tildacdn.com/stor3031-6433-4266-b235-353538353831/47523229.jpg", "description": "30 ml Проблема:: Вікові зміни. Зона нанесення:: Обличчя.", "button_link": "https://robeauty.me/night-retinol-serum?editionuid=783059467422"}] 
+
+> 🛍 **Сироватка + крем з мікроголками для боротьби з першими ознаками старіння** — 1 650.00 UAH · [перейти](https://robeauty.me/anti-pigmentation-care-serum-and-cream-with-vitamin-c?editionuid=463110989282)
+
+> 🛍 **Нічна сироватка з мікроголками та ретинолом** — 890.00 UAH · [перейти](https://robeauty.me/night-retinol-serum?editionuid=783059467422) 
 
 > A дає більш розгорнуту, але місцями сумнівну косметологічну аргументацію; B коротша й практичніша, але теж містить неперевірене твердження про заміну вітаміну C ніацинамідом.
 
@@ -675,8 +722,10 @@ ARGIRELINE® (Аргірелін) — це унікальний пептид, я
 
 Чи хотіли б Ви уточнити, як найкраще поєднувати ці продукти у вашому догляді?
 
-[ASYNTAI_RT_PRODUCT:{"name": "Тонік з AHA/BHA/PHA кислотами", "price": "870.00 UAH", "image_url": "https://static.tildacdn.com/stor6162-3035-4136-b132-326162346436/45372562.jpg", "description": "100 ml Інтенсивність: Light. Зона нанесення:: Обличчя.", "button_link": "https://robeauty.me/acid-tonic?editionuid=940246165832"}]
-[ASYNTAI_RT_PRODUCT:{"name": "SOS сироватка + крем з ніацинамідом (проблемна шкіра)", "price": "1,180.00 UAH", "image_url": "https://static.tildacdn.com/stor3833-3435-4737-a438-656263396463/46384527.jpg", "description": "Набір Проблема:: Акне та вугри. Зона нанесення:: Обличчя.", "button_link": "https://robeauty.me/niacinamide-and-galactomyces-max-effect?editionuid=914538270982"}] 
+
+> 🛍 **Тонік з AHA/BHA/PHA кислотами** — 870.00 UAH · [перейти](https://robeauty.me/acid-tonic?editionuid=940246165832)
+
+> 🛍 **SOS сироватка + крем з ніацинамідом (проблемна шкіра)** — 1 180.00 UAH · [перейти](https://robeauty.me/niacinamide-and-galactomyces-max-effect?editionuid=914538270982) 
 
 > A дає коротку безпечну загальну пораду з товарами, а B теж продає, але містить сумнівне/неточне пояснення про pH і вітамін C та більш ризиковані медичні твердження.
 
@@ -763,9 +812,12 @@ ARGIRELINE® (Аргірелін) — це унікальний пептид, я
 
 Чи хотіли б Ви уточнити якийсь крок або дізнатися про конкретні продукти, які найкраще підійдуть для вашої шкіри?
 
-[ASYNTAI_RT_PRODUCT:{"name":"Відновлювальний milky-тонер для обличчя","price":"690.00 UAH","description":"100 ml Проблема:: Чутлива шкіра. Зона нанесення:: Обличчя.","image_link": "https://static.tildacdn.com/stor6462-3634-4431-b562-326639343735/25234302.jpg", "button_text":"Детальніше", "button_link":"https://robeauty.me/milky-toner?editionuid=841166203262", "image_url": "https://static.tildacdn.com/stor6462-3634-4431-b562-326639343735/25234302.jpg"}]
-[ASYNTAI_RT_PRODUCT:{"name":"Hyaluronic Concentrate Serum","price":"1,050.00 UAH","description":"30 ml Проблема:: Вікові зміни. Пігментація. Зона нанесення:: Обличчя.","image_link": "https://static.tildacdn.com/stor6561-6334-4530-b630-373961313964/66412199.jpg", "button_text":"Детальніше", "button_link":"https://robeauty.me/hyaluronic-concentrate-serums-new2024?editionuid=723268353112", "image_url": "https://static.tildacdn.com/stor6561-6334-4530-b630-373961313964/66412199.jpg"}]
-[ASYNTAI_RT_PRODUCT:{"name":"Крем для глибокого зволоження та розгладження зморшок","price":"790.00 UAH","description":"50 ml Проблема:: Вікові зміни. Зона нанесення:: Обличчя.","image_link": "https://static.tildacdn.com/stor3537-3633-4263-b635-306566663163/10880090.jpg", "button_text":"Детальніше", "button_link":"https://robeauty.me/hyaluronic-concentrate-cream?editionuid=704990764962", "image_url": "https://static.tildacdn.com/stor3537-3633-4263-b635-306566663163/10880090.jpg"}] 
+
+> 🛍 **Відновлювальний milky-тонер для обличчя** — 690.00 UAH · [перейти](https://robeauty.me/milky-toner?editionuid=841166203262)
+
+> 🛍 **Hyaluronic Concentrate Serum** — 1 050.00 UAH · [перейти](https://robeauty.me/hyaluronic-concentrate-serums-new2024?editionuid=723268353112)
+
+> 🛍 **Крем для глибокого зволоження та розгладження зморшок** — 790.00 UAH · [перейти](https://robeauty.me/hyaluronic-concentrate-cream?editionuid=704990764962) 
 
 > A краще продає конкретні товари з цінами, а B дає повнішу загальну рутину, але містить сумнівні/неперевірені посилання та більш медикалізовані твердження.
 
@@ -818,17 +870,27 @@ ARGIRELINE® (Аргірелін) — це унікальний пептид, я
 
 Чи хотіли б Ви уточнити, який тип шкіри у вас (суха, жирна, комбінована, чутлива), щоб я могла дати більш точні рекомендації щодо вибору сироватки та крему?
 
-[ASYNTAI_RT_PRODUCT:{"name": "PureGlow Foam Cleanser", "price": "490.00 UAH", "image_url": "https://static.tildacdn.com/stor6563-3332-4230-b132-636238646537/61378080.jpg", "description": "100 ml Проблема:: Акне та вугри. Зона нанесення:: Обличчя.", "button_link": "https://robeauty.me/pureglow-foam-cleanser?editionuid=101228637238"}]
-[ASYNTAI_RT_PRODUCT:{"name":"Відновлювальний milky-тонер для обличчя","price":"690.00 UAH","description":"100 ml Проблема:: Чутлива шкіра. Зона нанесення:: Обличчя.","image_link": "https://static.tildacdn.com/stor6462-3634-4431-b562-326639343735/25234302.jpg", "button_text":"Детальніше", "button_link":"https://robeauty.me/milky-toner?editionuid=841166203262", "image_url": "https://static.tildacdn.com/stor6462-3634-4431-b562-326639343735/25234302.jpg"}]
-[ASYNTAI_RT_PRODUCT:{"name":"Сироватка-замінник ботоксу ARGIRELINE®", "price": "690.00 UAH", "image_url": "https://static.tildacdn.com/stor6533-6137-4538-b538-643038356533/129de86641f9db383121b199bd33fbe6.jpg", "description": "30 ml Проблема:: Вікові зміни. Зона нанесення:: Обличчя.", "button_link": "https://robeauty.me/fast-result-serum-new2024?editionuid=991012571252"}]
-[ASYNTAI_RT_PRODUCT:{"name": "Сироватка з мікроголками для боротьби з першими ознаками старіння", "price": "890.00 UAH", "image_url": "https://static.tildacdn.com/tild6665-6565-4365-a134-383562373439/11435647.jpg", "description": "30 ml Проблема:: Вікові зміни. Зона нанесення:: Обличчя.", "button_link": "https://robeauty.me/liposomal-vitamin-c-serum?editionuid=125582560152"}]
-[ASYNTAI_RT_PRODUCT:{"name": "Нічний ANTI-AGE крем з мікроголками та ретинолом", "price": "890.00 UAH", "image_url": "https://static.tildacdn.com/stor3863-3738-4338-b533-663431316462/92633826.jpg", "description": "50 ml Проблема:: Вікові зміни. Зона нанесення:: Обличчя.", "button_link": "https://robeauty.me/night-retinol-cream?editionuid=223275033932"}]
-[ASYNTAI_RT_PRODUCT:{"name":"Крем для глибокого зволоження та розгладження зморшок","price":"790.00 UAH","description":"50 ml Проблема:: Вікові зміни. Зона нанесення:: Обличчя.","image_link": "https://static.tildacdn.com/stor3537-3633-4263-b635-306566663163/10880090.jpg", "button_text":"Детальніше", "button_link":"https://robeauty.me/hyaluronic-concentrate-cream?editionuid=704990764962", "image_url": "https://static.tildacdn.com/stor3537-3633-4263-b635-306566663163/10880090.jpg"}]
-[ASYNTAI_RT_PRODUCT:{"name": "Сироватка замінник ботоксу під очі — ARGIRELINE®", "price": "1,190.00 UAH", "image_url": "https://static.tildacdn.com/stor6334-3631-4831-b136-323039303737/bbcb976c88baef6708e464957a4d7e34.jpg", "description": "20 g Проблема:: Вікові зміни. Зона нанесення:: Очі.", "button_link": "https://robeauty.me/botox-fast-result-eye-serum?editionuid=436812235274"}]
-[ASYNTAI_RT_PRODUCT:{"name": "Крем замінник ботоксу під очі — ARGIRELINE®", "price": "1,590.00 UAH", "image_url": "https://static.tildacdn.com/stor3934-6262-4461-b430-313038356533/a66ec21e9fbad6a90e6593a40aaa05e9.jpg", "description": "35 g Проблема:: Вікові зміни. Зона нанесення:: Очі.", "button_link": "https://robeauty.me/botox-fast-result-eye-cream?editionuid=725809781604"}]
-[ASYNTAI_RT_PRODUCT:{"name":"Дерматологічний крем проти темних кіл та набряків під очима","price":"1,590.00 UAH","description":"35 g Проблема:: Вікові зміни. Зона нанесення:: Очі.","image_link": "https://static.tildacdn.com/stor5617-1765-4532-b265-356432666339/56171765.jpg", "button_text":"Детальніше", "button_link":"https://robeauty.me/dark-circle-and-depuffing-eye-cream?editionuid=106984730402", "image_url": "https://static.tildacdn.com/stor5617-1765-4532-b265-356432666339/56171765.jpg"}]
 
-[ASYNTAI_RT_PRODUCT:{"name": "Сироватка + крем з мікроголками для боротьби з першими ознаками старіння", "price": "1,650.00 UAH", "image_url": "https://static.tildacdn.com/stor3966-3934-4261-b835-396434326431/39971087.png", "description": "Набір Проблема:: Вікові зміни. Зона нанесення:: Обличчя.", "button_link": "https://robeauty.me/anti-pigmentation-care-serum-and-cream-with-vitamin-c?editionuid=463110989282"}] 
+> 🛍 **PureGlow Foam Cleanser** — 490.00 UAH · [перейти](https://robeauty.me/pureglow-foam-cleanser?editionuid=101228637238)
+
+> 🛍 **Відновлювальний milky-тонер для обличчя** — 690.00 UAH · [перейти](https://robeauty.me/milky-toner?editionuid=841166203262)
+
+> 🛍 **Сироватка-замінник ботоксу ARGIRELINE®** — 690.00 UAH · [перейти](https://robeauty.me/fast-result-serum-new2024?editionuid=991012571252)
+
+> 🛍 **Сироватка з мікроголками для боротьби з першими ознаками старіння** — 890.00 UAH · [перейти](https://robeauty.me/liposomal-vitamin-c-serum?editionuid=125582560152)
+
+> 🛍 **Нічний ANTI-AGE крем з мікроголками та ретинолом** — 890.00 UAH · [перейти](https://robeauty.me/night-retinol-cream?editionuid=223275033932)
+
+> 🛍 **Крем для глибокого зволоження та розгладження зморшок** — 790.00 UAH · [перейти](https://robeauty.me/hyaluronic-concentrate-cream?editionuid=704990764962)
+
+> 🛍 **Сироватка замінник ботоксу під очі — ARGIRELINE®** — 1 190.00 UAH · [перейти](https://robeauty.me/botox-fast-result-eye-serum?editionuid=436812235274)
+
+> 🛍 **Крем замінник ботоксу під очі — ARGIRELINE®** — 1 590.00 UAH · [перейти](https://robeauty.me/botox-fast-result-eye-cream?editionuid=725809781604)
+
+> 🛍 **Дерматологічний крем проти темних кіл та набряків під очима** — 1 590.00 UAH · [перейти](https://robeauty.me/dark-circle-and-depuffing-eye-cream?editionuid=106984730402)
+
+
+> 🛍 **Сироватка + крем з мікроголками для боротьби з першими ознаками старіння** — 1 650.00 UAH · [перейти](https://robeauty.me/anti-pigmentation-care-serum-and-cream-with-vitamin-c?editionuid=463110989282) 
 
 > A дає багато конкретних товарів, але місцями обривається й містить сумнівні/надмірні медичні обіцянки; B коротша, але чіткіше веде до покупки з цінами та наступним кроком.
 
@@ -863,7 +925,8 @@ ARGIRELINE® (Аргірелін) — це унікальний пептид, я
 
 Чи хотіли б Ви дізнатися більше про цей пілінг або про те, як його правильно використовувати?
 
-[ASYNTAI_RT_PRODUCT:{"name":"Професійний пілінг для обличчя | AHA+BHA","price":"690.00 UAH","description":"30 ml Проблема:: Очищення. Зона нанесення:: Обличчя.","image_link": "https://static.tildacdn.com/stor6137-3830-4633-a136-343835343666/56635446.jpg", "button_text":"Детальніше", "button_link":"https://robeauty.me/bloody-peeling?editionuid=914538270982", "image_url": "https://static.tildacdn.com/stor6137-3830-4633-a136-343835343666/56635446.jpg"}] 
+
+> 🛍 **Професійний пілінг для обличчя | AHA+BHA** — 690.00 UAH · [перейти](https://robeauty.me/bloody-peeling?editionuid=914538270982) 
 
 > A відповідає про пілінг для шкіри голови й містить менше сумнівних загальних порад, тоді як B дає ширшу, але частково змішану з обличчям і SPF-радою відповідь з одним конкретним товаром.
 
@@ -903,9 +966,12 @@ ARGIRELINE® (Аргірелін) — це унікальний пептид, я
 
 Чи хотіли б Ви дізнатися більше про якийсь конкретний SPF засіб?
 
-[ASYNTAI_RT_PRODUCT:{"name":"Антивіковий SPF-50","price":"950.00 UAH","description":"50 g Проблема:: Засмага. Зона нанесення:: Обличчя.","image_link": "https://static.tildacdn.com/stor3134-3139-4333-b565-346139656464/35990573.jpg", "button_text":"Детальніше", "button_link":"https://robeauty.me/spf50-v1?editionuid=346467527772", "image_url": "https://static.tildacdn.com/stor3134-3139-4333-b565-346139656464/35990573.jpg"}]
-[ASYNTAI_RT_PRODUCT:{"name":"Флюїд для тіла з ефектом шовку + SPF","price":"1,950.00 UAH","description":"250 ml Оберіть SPF:: SPF-50 Summer Elixir. Проблема:: Сяйво. Зона нанесення:: Тіло.","image_link": "https://static.tildacdn.com/stor3132-3036-4461-b862-663465643138/46d3ec6a4d74022050b7bcf5fb08f5da.jpg", "button_text":"Детальніше", "button_link":"https://robeauty.me/body-fluid-with-spf?editionuid=167610055232", "image_url": "https://static.tildacdn.com/stor3132-3036-4461-b862-663465643138/46d3ec6a4d74022050b7bcf5fb08f5da.jpg"}]
-[ASYNTAI_RT_PRODUCT:{"name":"SPF-50 крем + сироватка замінник ботоксу ARGIRELINE®","price":"1,380.00 UAH","description":"Набір Проблема:: Засмага. Зона нанесення:: Обличчя.","image_link": "https://static.tildacdn.com/stor3031-3435-4663-a134-373131353134/68049750.jpg", "button_text":"Детальніше", "button_link":"https://robeauty.me/anti-age-spf-botox-complex?editionuid=254734692132", "image_url": "https://static.tildacdn.com/stor3031-3435-4663-a134-373131353134/68049750.jpg"}] 
+
+> 🛍 **Антивіковий SPF-50** — 950.00 UAH · [перейти](https://robeauty.me/spf50-v1?editionuid=346467527772)
+
+> 🛍 **Флюїд для тіла з ефектом шовку + SPF** — 1 950.00 UAH · [перейти](https://robeauty.me/body-fluid-with-spf?editionuid=167610055232)
+
+> 🛍 **SPF-50 крем + сироватка замінник ботоксу ARGIRELINE®** — 1 380.00 UAH · [перейти](https://robeauty.me/anti-age-spf-botox-complex?editionuid=254734692132) 
 
 > Обидві відповіді конкретні й продають товар, але A більш розгорнута, а B коротша та ближча до запиту з цінами.
 
@@ -923,7 +989,8 @@ ARGIRELINE® (Аргірелін) — це унікальний пептид, я
 
 Ось посилання на цей продукт: [Крем замінник ботоксу під очі — ARGIRELINE®](https://robeauty.me/botox-fast-result-eye-cream?editionuid=725809781604)
 
-[ASYNTAI_RT_PRODUCT:{"name":"Крем замінник ботоксу під очі — ARGIRELINE®","price":"1,590.00 UAH","description":"35 g Проблема:: Вікові зміни. Зона нанесення:: Очі.","image_link": "https://static.tildacdn.com/stor3934-6262-4461-b430-313038356533/a66ec21e9fbad6a90e6593a40aaa05e9.jpg", "button_text":"Детальніше", "button_link":"https://robeauty.me/botox-fast-result-eye-cream?editionuid=725809781604", "image_url": "https://static.tildacdn.com/stor3934-6262-4461-b430-313038356533/a66ec21e9fbad6a90e6593a40aaa05e9.jpg"}] 
+
+> 🛍 **Крем замінник ботоксу під очі — ARGIRELINE®** — 1 590.00 UAH · [перейти](https://robeauty.me/botox-fast-result-eye-cream?editionuid=725809781604) 
 
 > Обидві відповіді дають ціну й об’єм, але A додає сумнівну медико-косметичну обіцянку, тоді як B лишається більш нейтральною та точнішою.
 
@@ -944,16 +1011,19 @@ ARGIRELINE® (Аргірелін) — це унікальний пептид, я
 Звісно, я можу запропонувати кілька чудових варіантів подарунків до 2000 грн:
 
 * **[ROBEAUTY GIFT (номінал 2000 грн)](https://robeauty.me/test-page/tproduct/1010414901-547530563562-robeauty-gift?editionuid=731848384832)**: Це подарунковий сертифікат на суму 2000 грн. Він дозволить одержувачу самостійно обрати будь-які продукти з нашого асортименту, що робить його універсальним та завжди бажаним подарунком.
- [ASYNTAI_RT_PRODUCT:{"name": "ROBEAUTY GIFT", "price": "2,000.00 UAH", "description": "Подарунок Номінал:: 2000.", "image_link": "https://static.tildacdn.com/stor6661-6435-4163-b338-306533636365/2e0e27398d9e1855db16c004a3737e88.jpg", "button_text": "Переглянути", "button_link": "https://robeauty.me/test-page/tproduct/1010414901-547530563562-robeauty-gift?editionuid=731848384832", "image_url": "https://static.tildacdn.com/stor6661-6435-4163-b338-306533636365/2e0e27398d9e1855db16c004a3737e88.jpg"}]
+ 
+> 🛍 **ROBEAUTY GIFT** — 2 000.00 UAH · [перейти](https://robeauty.me/test-page/tproduct/1010414901-547530563562-robeauty-gift?editionuid=731848384832)
 
 * **[BEAUTYBOX «Зволоження та сяйво»](https://robeauty.me/beautybox-moisturization-and-radiance?editionuid=903901889922)**: Цей набір коштує 1 950 ₴ (зі знижкою з 2 430 ₴) і чудово підійде для тих, хто хоче надати шкірі зволоження та сяйва. Він містить засоби, які допоможуть відновити водний баланс та надати шкірі здорового вигляду.
- [ASYNTAI_RT_PRODUCT:{"name": "BEAUTYBOX «Зволоження та сяйво»", "price": "1,950.00 UAH", "description": "Набір Проблема:: Зволоження та живлення. Зона нанесення:: Тіло.", "image_link": "https://static.tildacdn.com/stor6337-3236-4464-b736-376562316136/71383201.jpg", "button_text": "Переглянути", "button_link": "https://robeauty.me/beautybox-moisturization-and-radiance?editionuid=903901889922", "image_url": "https://static.tildacdn.com/stor6337-3236-4464-b736-376562316136/71383201.jpg"}]
+ 
+> 🛍 **BEAUTYBOX «Зволоження та сяйво»** — 1 950.00 UAH · [перейти](https://robeauty.me/beautybox-moisturization-and-radiance?editionuid=903901889922)
 
 * **[BEAUTYBOX «Антицелюлітний»](https://robeauty.me/beautybox-anti-cellulite?editionuid=357979175422)**: Також у межах бюджету (1 790 ₴ зі знижкою з 2 260 ₴) цей набір стане чудовим подарунком для тих, хто бажає покращити стан шкіри тіла, боротися з целюлітом та зробити шкіру більш гладкою.
 
 Чи хотіли б Ви дізнатися більше про ці варіанти, чи, можливо, Вас цікавлять інші категорії подарунків?
 
-[ASYNTAI_RT_PRODUCT:{"name": "BEAUTYBOX «Антицелюлітний»", "price": "1,790.00 UAH", "image_url": "https://static.tildacdn.com/stor3063-3834-4962-b166-643061633032/63303475.jpg", "description": "Набір Проблема:: Целюліт. Зона нанесення:: Тіло.", "button_link": "https://robeauty.me/beautybox-anti-cellulite?editionuid=357979175422"}] 
+
+> 🛍 **BEAUTYBOX «Антицелюлітний»** — 1 790.00 UAH · [перейти](https://robeauty.me/beautybox-anti-cellulite?editionuid=357979175422) 
 
 > A дає більше конкретних товарів із посиланнями, а B коротший і більш узагальнений, але обидві відповіді добре ведуть до покупки.
 
@@ -1025,13 +1095,16 @@ ARGIRELINE® (Аргірелін) — це унікальний пептид, я
 Для шкіри з розацеа важливо підбирати засоби, які заспокоюють, зменшують запалення та зміцнюють шкірний бар'єр. Ось кілька продуктів, які можуть підійти:
 
 * **[Відновлювальний milky-тонер](https://robeauty.me/milky-toner?editionuid=841166203262)**: Цей тонер має ніжну формулу, яка допомагає відновити ліпідний бар'єр шкіри, зволожити її та заспокоїти. Він чудово підходить для чутливої та схильної до почервоніння шкіри.
- [ASYNTAI_RT_PRODUCT:{"name":"Відновлювальний milky-тонер для обличчя","price":"690.00 UAH","description":"100 ml Проблема:: Чутлива шкіра. Зона нанесення:: Обличчя.","image_link": "https://static.tildacdn.com/stor6462-3634-4431-b562-326639343735/25234302.jpg", "button_text":"Детальніше", "button_link":"https://robeauty.me/milky-toner?editionuid=841166203262", "image_url": "https://static.tildacdn.com/stor6462-3634-4431-b562-326639343735/25234302.jpg"}]
+ 
+> 🛍 **Відновлювальний milky-тонер для обличчя** — 690.00 UAH · [перейти](https://robeauty.me/milky-toner?editionuid=841166203262)
 
 * **[Заспокійливий тонік для обличчя](https://robeauty.me/soothing_tonic)**: Цей тонік містить пантенол, який відомий своїми заспокійливими та регенеруючими властивостями. Він допомагає зменшити почервоніння та дискомфорт.
- [ASYNTAI_RT_PRODUCT:{"name":"Заспокійливий тонік для обличчя","price":"539.00 UAH","description":"Завдяки пантенолу у складі тонік допомагає зменшити наслідки акне, прискорити загоєння ран та мікротріщин.","image_link": "https://static.tildacdn.com/stor6665-6133-4064-b632-386365353435/92671080.jpg", "button_text":"Детальніше", "button_link":"https://robeauty.me/soothing_tonic", "image_url": "https://static.tildacdn.com/stor6665-6133-4064-b632-386365353435/92671080.jpg"}]
+ 
+> 🛍 **Заспокійливий тонік для обличчя** — 539.00 UAH · [перейти](https://robeauty.me/soothing_tonic)
 
 * **[SOS сироватка + крем з ніацинамідом (проблемна шкіра)](https://robeauty.me/niacinamide-and-galactomyces-max-effect?editionuid=914538270982)**: Ніацинамід має протизапальні властивості, допомагає зміцнити шкірний бар'єр та зменшити почервоніння, що може бути корисним при розацеа.
- [ASYNTAI_RT_PRODUCT:{"name":"SOS сироватка + крем з ніацинамідом (проблемна шкіра)","price":"1,180.00 UAH","description":"Набір Проблема:: Акне та вугри. Зона нанесення:: Обличчя.","image_link": "https://static.tildacdn.com/stor3833-3435-4737-a438-656263396463/46384527.jpg", "button_text":"Детальніше", "button_link":"https://robeauty.me/niacinamide-and-galactomyces-max-effect?editionuid=914538270982", "image_url": "https://static.tildacdn.com/stor3833-3435-4737-a438-656263396463/46384527.jpg"}]
+ 
+> 🛍 **SOS сироватка + крем з ніацинамідом (проблемна шкіра)** — 1 180.00 UAH · [перейти](https://robeauty.me/niacinamide-and-galactomyces-max-effect?editionuid=914538270982)
 
 **Важливо пам'ятати при розацеа:**
 
