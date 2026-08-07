@@ -8,7 +8,11 @@
 const escapeHtml = (s: string) =>
   s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
 
-export function renderMarkdown(src: string): string {
+export function renderMarkdown(src: string | null | undefined): string {
+  // Порожнє значення — не помилка: у звернень і підсумків розмов текст
+  // буває відсутній. Без цієї перевірки виняток знімав ВСЮ сторінку —
+  // адмінка показувала чорний екран замість списку.
+  if (!src) return ''
   const lines = escapeHtml(src).split('\n')
   const out: string[] = []
   let inList = false
