@@ -290,8 +290,8 @@
     }
   },
   "home": {
-    "title": "Konsultant, który zna cały katalog i odpowiada za każdą radę",
-    "lede": "Dobór pielęgnacji do typu skóry i problemu, karty produktów z cenami i składem, linki do strony każdego środka. Gdy danych brak — mówi wprost i wzywa doradcę.",
+    "title": "Dobiera pielęgnację i prowadzi do zakupu — całą dobę",
+    "lede": "Pyta o typ cery i problem, podaje konkretne produkty z ceną i pojemnością, pokazuje, kiedy zestaw wychodzi taniej niż osobno. Nie wie — mówi wprost i wzywa doradcę.",
     "cta": "Kliknij przycisk w prawym dolnym rogu i sprawdź",
     "points": {
       "sources": {

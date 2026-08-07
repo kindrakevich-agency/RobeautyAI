@@ -81,8 +81,11 @@ export default function Home() {
               </span>
             </div>
 
-            <h1 className="mt-6 font-display text-[clamp(1.9rem,5.2vw,3.1rem)] leading-[1.06]
-                           font-bold tracking-[-0.01em] text-ink-950 uppercase text-balance
+            {/* Без капслока: він лишався від попереднього напрямку з
+                геометричним шрифтом. Inter у великому кеглі читається краще
+                звичайним регістром. */}
+            <h1 className="mt-6 font-display text-[clamp(2rem,4.6vw,3.05rem)] leading-[1.12]
+                           font-bold tracking-[-0.022em] text-balance text-ink-950
                            dark:text-cream-50">
               {t('home.title')}
             </h1>
