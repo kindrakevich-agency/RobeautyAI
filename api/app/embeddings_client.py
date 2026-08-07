@@ -13,11 +13,23 @@ from . import config
 
 
 def embed(texts: list[str], batch: int = 24,
-          progress: bool = False) -> list[list[float]]:
+          progress: bool = False, throttle: bool = False) -> list[list[float]]:
     """progress=True друкує хід — індексація каталогу довга, і без цього
-    неможливо відрізнити повільний прогон від зависання."""
+    неможливо відрізнити повільний прогон від зависання.
+
+    throttle=True — для фонових робіт. Заміряно: індексація вантажить той
+    самий TEI, до якого на кожен запит ходить чат, і відповіді сповільнюються
+    з 2.5 до 60 секунд. Тіньова таблиця цього не лікує — вона прибирає лок,
+    а не конкуренцію за модель. Тому фоновий прогон бере менші пачки й
+    робить паузу між ними, лишаючи сервісу вільні вікна для живих запитів.
+    Індексація стає довшою — це свідомий обмін на те, щоб клієнт не чекав.
+    """
+    import os
     import sys
     import time
+    if throttle:
+        batch = min(batch, int(os.environ.get("INDEX_BATCH", "8")))
+    pause = float(os.environ.get("INDEX_PAUSE_S", "1.5")) if throttle else 0.0
     out: list[list[float]] = []
     t0 = time.monotonic()
     with httpx.Client(timeout=180) as client:
@@ -27,6 +39,8 @@ def embed(texts: list[str], batch: int = 24,
                             json={"inputs": part, "truncate": True})
             r.raise_for_status()
             out.extend(r.json())
+            if pause:
+                time.sleep(pause)
             if progress:
                 done = min(i + batch, len(texts))
                 print(f"    ембедінги {done}/{len(texts)} "
