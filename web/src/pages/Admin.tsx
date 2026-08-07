@@ -6,7 +6,7 @@ import { Link, NavLink, Route, Routes, useNavigate, useParams } from 'react-rout
 import { AUTH_FAILED, api, clearAdminCreds, hasAdminCreds, setAdminCreds } from '../api'
 import {
   Badge, Button, Card, Empty, Input, Mono, PageHead, SectionTitle, type SortState,
-  Stat, Status, Table, Tr, applySort,
+  Stat, Status, Table, Tr, applySort, Modal,
 } from '../ui'
 import Shell from '../Shell'
 
@@ -951,6 +951,106 @@ function QuestionsPage() {
 
 /* ---------- відправлення: черга дня + розбір месенджера ---------- */
 
+
+/* ---------- попередній перегляд накладної ---------- */
+
+/**
+ * Експрес-накладна так, як вона виглядає надрукованою: номер, штрихкод,
+ * відправник, отримувач, вага, післяплата. Дані — рівно ті, що підуть у
+ * InternetDocument.save, тож це не картинка «для краси», а превʼю виклику.
+ *
+ * Водяний знак ДЕМО стоїть навмисно й помітно: документ не є накладною,
+ * поки його не створив кабінет НП. Видавати макет за справжній документ —
+ * рівно те, за що ми критикуємо чужі демо.
+ */
+function TtnPreview({ x, ttn, onClose }: { x: any; ttn: string; onClose: () => void }) {
+  const { t } = useTranslation()
+  const mp = x.payload?.methodProperties || {}
+  // Штрих-код: смуги детерміновано з цифр номера. Це візуалізація, не
+  // Code-128 — справжній код друкує кабінет НП.
+  const digits = (ttn.match(/\d/g) || []).join('')
+  const bars: { w: number; g: number }[] = []
+  for (const ch of digits) {
+    const d = Number(ch)
+    bars.push({ w: 1 + (d % 3), g: 1 + (d % 2) })
+  }
+  return (
+    <Modal open onClose={onClose} title={t('ttn.title')} wide>
+      <div className="relative overflow-hidden rounded border border-ink-300 bg-white p-5
+                      text-ink-950 dark:border-ink-600">
+        {/* водяний знак */}
+        <div aria-hidden className="pointer-events-none absolute inset-0 grid place-items-center">
+          <span className="rotate-[-18deg] text-[64px] font-black tracking-[0.3em]
+                           text-crit-500/15 select-none">ДЕМО</span>
+        </div>
+
+        <div className="flex items-start justify-between gap-4 border-b-2 border-ink-950 pb-3">
+          <div>
+            <div className="text-[11px] font-bold tracking-display uppercase">
+              {t('ttn.doc')}
+            </div>
+            <div className="mt-1 font-mono text-xl font-bold tabular-nums">{ttn}</div>
+          </div>
+          <div className="text-right text-[11px] leading-relaxed">
+            <div className="font-bold">{t('ttn.carrier')}</div>
+            <div>{new Date().toLocaleDateString('uk-UA')}</div>
+          </div>
+        </div>
+
+        <svg className="mt-3 h-12 w-full" preserveAspectRatio="none"
+             viewBox={`0 0 ${bars.reduce((a, b) => a + b.w + b.g, 0)} 10`} aria-hidden>
+          {(() => {
+            let xx = 0
+            return bars.map((b, i) => {
+              const r = <rect key={i} x={xx} y="0" width={b.w} height="10" fill="#191A1B" />
+              xx += b.w + b.g
+              return r
+            })
+          })()}
+        </svg>
+        <div className="mt-1 text-center font-mono text-[11px] tracking-[0.35em]">{digits}</div>
+
+        <div className="mt-4 grid gap-4 sm:grid-cols-2">
+          <div className="rounded border border-ink-200 p-3">
+            <div className="text-[10px] font-bold tracking-display text-ink-500 uppercase">
+              {t('ttn.sender')}
+            </div>
+            <div className="mt-1 text-sm font-semibold">ROBEAUTY</div>
+            <div className="text-[12px]">м. Київ, {t('ttn.senderWh')}</div>
+          </div>
+          <div className="rounded border border-ink-200 p-3">
+            <div className="text-[10px] font-bold tracking-display text-ink-500 uppercase">
+              {t('ttn.recipient')}
+            </div>
+            <div className="mt-1 text-sm font-semibold">{mp.RecipientName || x.customer}</div>
+            <div className="text-[12px]">{x.city}, {x.warehouse}</div>
+            <div className="font-mono text-[12px]">{mp.RecipientsPhone}</div>
+          </div>
+        </div>
+
+        <div className="mt-4 grid grid-cols-2 gap-px overflow-hidden rounded border
+                        border-ink-200 bg-ink-200 text-center sm:grid-cols-4">
+          {[
+            [t('ttn.weight'), `${mp.Weight} ${t('dispatch.kg')}`],
+            [t('ttn.seats'), mp.SeatsAmount],
+            [t('ttn.cost'), `${mp.Cost} грн`],
+            [t('ttn.cod'), x.payment === 'cod' ? `${mp.Cost} грн` : '—'],
+          ].map(([k, v]) => (
+            <div key={String(k)} className="bg-white px-2 py-2.5">
+              <div className="text-[9px] font-bold tracking-display text-ink-500 uppercase">{k}</div>
+              <div className="mt-0.5 text-sm font-bold tabular-nums">{v}</div>
+            </div>
+          ))}
+        </div>
+
+        <p className="mt-4 text-[10px] leading-relaxed text-ink-500">
+          {t('ttn.note')}
+        </p>
+      </div>
+    </Modal>
+  )
+}
+
 function DispatchPage() {
   const { t } = useTranslation()
   const [d, setD] = useState<any>(null)
@@ -960,6 +1060,7 @@ function DispatchPage() {
   const [raw, setRaw] = useState(t('dispatch.sample'))
   const [parsed, setParsed] = useState<any>(null)
   const [parsing, setParsing] = useState(false)
+  const [preview, setPreview] = useState<any>(null)
 
   const load = () => api.admin.get('/api/admin/dispatch').then(setD).catch((e) => setErr(String(e.message)))
   useEffect(() => { void load() }, [])
@@ -1004,11 +1105,17 @@ function DispatchPage() {
 
             <div className="mt-3 flex flex-wrap items-center gap-2">
               {made[x.order_id] ? (
-                <Badge tone="good">{t('dispatch.created')}: {made[x.order_id]}</Badge>
+                <>
+                  <Badge tone="good">{t('dispatch.created')}: {made[x.order_id]}</Badge>
+                  <Button variant="ghost" onClick={() => setPreview(x)}>
+                    {t('ttn.open')}
+                  </Button>
+                </>
               ) : (
                 <Button onClick={async () => {
                   const r = await api.admin.post<any>(`/api/admin/dispatch/${x.order_id}/create`, {})
                   setMade((m) => ({ ...m, [x.order_id]: r.ttn }))
+                  setPreview(x)
                 }}>{t('dispatch.create')}</Button>
               )}
               <Button variant="ghost"
@@ -1125,6 +1232,11 @@ function DispatchPage() {
         )}
         {parsed?.error && <p className="mt-3 text-sm text-crit-500 dark:text-crit-300">{parsed.error}</p>}
       </Card>
+
+      {preview && made[preview.order_id] && (
+        <TtnPreview x={preview} ttn={made[preview.order_id]}
+                    onClose={() => setPreview(null)} />
+      )}
     </>
   )
 }

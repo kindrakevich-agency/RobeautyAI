@@ -518,5 +518,19 @@
     "notFound": "nie znaleziono w katalogu",
     "total": "Razem",
     "replyDraft": "Gotowa odpowiedź dla klienta"
+  },
+  "ttn": {
+    "title": "List przewozowy",
+    "doc": "List przewozowy ekspresowy",
+    "carrier": "Przewoźnik: Nowa Poczta",
+    "sender": "Nadawca",
+    "senderWh": "oddział nr 142",
+    "recipient": "Odbiorca",
+    "weight": "Waga",
+    "seats": "Miejsc",
+    "cost": "Wartość deklarowana",
+    "cod": "Pobranie",
+    "open": "Pokaż list",
+    "note": "Makieta demonstracyjna: pokazuje, jakie dane trafią do panelu Nowej Poczty. Prawdziwy dokument tworzy wywołanie InternetDocument.save z kluczem konta."
   }
 }
