@@ -173,7 +173,7 @@ def main() -> None:
             metas.append(("page", pages[0].id, "uk"))
 
         print(f"чанків до індексації: {len(texts)}", file=sys.stderr)
-        vectors = embeddings_client.embed(texts)
+        vectors = embeddings_client.embed(texts, progress=True)
 
         for (ref_type, ref_id, lang), text_, vec in zip(metas, texts, vectors):
             s.add(Chunk(ref_type=ref_type, ref_id=ref_id, lang=lang,
